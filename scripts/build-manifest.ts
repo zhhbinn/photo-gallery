@@ -371,10 +371,16 @@ async function buildManifest(): Promise<void> {
 
     console.info(`S3 中找到 ${imageObjects.length} 张照片`)
 
+    // 创建 S3 中存在的图片 key 集合，用于检测已删除的图片
+    const s3ImageKeys = new Set(
+      imageObjects.map((obj) => obj.Key).filter(Boolean),
+    )
+
     const manifest: PhotoManifestItem[] = []
     let processedCount = 0
     let skippedCount = 0
     let newCount = 0
+    let deletedCount = 0
 
     for (const [index, obj] of imageObjects.entries()) {
       const key = obj.Key
@@ -474,6 +480,33 @@ async function buildManifest(): Promise<void> {
       await new Promise((resolve) => setTimeout(resolve, 100))
     }
 
+    // 检测并处理已删除的图片
+    if (!isForceMode && existingManifest.length > 0) {
+      console.info('检查已删除的图片...')
+
+      for (const existingItem of existingManifest) {
+        // 如果现有 manifest 中的图片在 S3 中不存在了
+        if (!s3ImageKeys.has(existingItem.s3Key)) {
+          console.info(`检测到已删除的图片: ${existingItem.s3Key}`)
+          deletedCount++
+
+          // 删除对应的缩略图文件
+          try {
+            const thumbnailPath = path.join(
+              __dirname,
+              '../public/thumbnails',
+              `${existingItem.id}.webp`,
+            )
+            await fs.unlink(thumbnailPath)
+            console.info(`已删除缩略图: ${existingItem.id}.webp`)
+          } catch (error) {
+            // 缩略图可能已经不存在，忽略错误
+            console.warn(`删除缩略图失败 ${existingItem.id}.webp:`, error)
+          }
+        }
+      }
+    }
+
     // 按日期排序（最新的在前）
     manifest.sort(
       (a, b) =>
@@ -493,6 +526,7 @@ async function buildManifest(): Promise<void> {
     console.info(`   - 新增照片: ${newCount}`)
     console.info(`   - 处理照片: ${processedCount}`)
     console.info(`   - 跳过照片: ${skippedCount}`)
+    console.info(`   - 删除照片: ${deletedCount}`)
     console.info(`📁 Manifest 保存至: ${manifestPath}`)
   } catch (error) {
     console.error('构建 manifest 失败:', error)
