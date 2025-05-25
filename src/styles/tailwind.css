@@ -114,15 +114,6 @@ html body {
   outline: 0 !important;
 }
 
-* {
-  tab-size: 2;
-  @apply border-border;
-
-  &:hover {
-    scrollbar-color: auto;
-  }
-}
-
 @font-face {
   font-family: 'Geist Sans';
   src: url('../assets/fonts/GeistVF.woff2') format('woff2');

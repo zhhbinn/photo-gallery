@@ -2,13 +2,15 @@ import clsx from 'clsx'
 import { useAtom, useAtomValue } from 'jotai'
 import { Masonry } from 'masonic'
 import { m } from 'motion/react'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { Blurhash } from 'react-blurhash'
 import { useInView } from 'react-intersection-observer'
 
 import { gallerySettingAtom } from '~/atoms/app'
+import { PhotoViewer } from '~/components/photo-viewer'
 import { Button } from '~/components/ui/button'
 import { photoLoader } from '~/data/photos'
+import { usePhotoViewer } from '~/hooks/usePhotoViewer'
 import {
   CarbonIsoOutline,
   MaterialSymbolsShutterSpeed,
@@ -24,42 +26,69 @@ class MasonryHeaderItem {
   static default = new MasonryHeaderItem()
 }
 
+type MasonryItemType = PhotoManifest | MasonryHeaderItem
+
 export const MasonryRoot = () => {
   const { sortOrder } = useAtomValue(gallerySettingAtom)
   const masonryItems = useMemo(() => {
-    return [
-      MasonryHeaderItem.default,
-      ...data.sort((a, b) => {
-        const aComparedDate =
-          (a.exif.Photo?.DateTimeOriginal as unknown as string) ||
-          a.lastModified
-        const bComparedDate =
-          (b.exif.Photo?.DateTimeOriginal as unknown as string) ||
-          b.lastModified
-        if (sortOrder === 'asc') {
-          return aComparedDate.localeCompare(bComparedDate)
-        }
-        return bComparedDate.localeCompare(aComparedDate)
-      }),
-    ]
+    const sortedPhotos = data.sort((a, b) => {
+      const aComparedDate =
+        (a.exif.Photo?.DateTimeOriginal as unknown as string) || a.lastModified
+      const bComparedDate =
+        (b.exif.Photo?.DateTimeOriginal as unknown as string) || b.lastModified
+      if (sortOrder === 'asc') {
+        return aComparedDate.localeCompare(bComparedDate)
+      }
+      return bComparedDate.localeCompare(aComparedDate)
+    })
+
+    return [MasonryHeaderItem.default, ...sortedPhotos] as MasonryItemType[]
   }, [sortOrder])
 
+  // 获取纯图片数据（不包含 header）
+  const photos = useMemo(() => {
+    return masonryItems.filter(
+      (item): item is PhotoManifest => !(item instanceof MasonryHeaderItem),
+    )
+  }, [masonryItems])
+
+  const photoViewer = usePhotoViewer(photos)
+
   return (
-    <Masonry
-      key={sortOrder}
-      items={masonryItems}
-      render={MasonryItem}
-      columnWidth={300}
-      columnGutter={16}
-      rowGutter={16}
-      itemHeightEstimate={400}
-      itemKey={(data, _index) => {
-        if (data instanceof MasonryHeaderItem) {
-          return 'header'
-        }
-        return (data as PhotoManifest).id
-      }}
-    />
+    <>
+      <Masonry<MasonryItemType>
+        key={sortOrder}
+        items={masonryItems}
+        render={useCallback(
+          (props) => (
+            <MasonryItem
+              {...props}
+              onPhotoClick={photoViewer.openViewer}
+              photos={photos}
+            />
+          ),
+          [photoViewer.openViewer, photos],
+        )}
+        columnWidth={300}
+        columnGutter={16}
+        rowGutter={16}
+        itemHeightEstimate={400}
+        itemKey={(data, _index) => {
+          if (data instanceof MasonryHeaderItem) {
+            return 'header'
+          }
+          return (data as PhotoManifest).id
+        }}
+      />
+
+      <PhotoViewer
+        photos={photos}
+        currentIndex={photoViewer.currentIndex}
+        isOpen={photoViewer.isOpen}
+        onClose={photoViewer.closeViewer}
+        onIndexChange={photoViewer.goToIndex}
+      />
+    </>
   )
 }
 
@@ -67,15 +96,27 @@ export const MasonryItem = ({
   data,
   width,
   index,
+  onPhotoClick,
+  photos,
 }: {
-  data: PhotoManifest | MasonryHeaderItem
+  data: MasonryItemType
   width: number
   index: number
+  onPhotoClick: (index: number, element?: HTMLElement) => void
+  photos: PhotoManifest[]
 }) => {
   if (data instanceof MasonryHeaderItem) {
     return <MasonryHeaderMasonryItem width={width} />
   } else {
-    return <PhotoMasonryItem data={data} width={width} index={index} />
+    return (
+      <PhotoMasonryItem
+        data={data as PhotoManifest}
+        width={width}
+        index={index}
+        onPhotoClick={onPhotoClick}
+        photos={photos}
+      />
+    )
   }
 }
 
@@ -83,13 +124,18 @@ const PhotoMasonryItem = ({
   data,
   width,
   index,
+  onPhotoClick,
+  photos,
 }: {
   data: PhotoManifest
   width: number
   index: number
+  onPhotoClick: (index: number, element?: HTMLElement) => void
+  photos: PhotoManifest[]
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
+  const imageRef = useRef<HTMLImageElement>(null)
 
   const { ref, inView } = useInView({
     threshold: 0.1,
@@ -102,6 +148,14 @@ const PhotoMasonryItem = ({
 
   const handleImageError = () => {
     setImageError(true)
+  }
+
+  const handleClick = () => {
+    // 找到当前图片在 photos 数组中的索引
+    const photoIndex = photos.findIndex((photo) => photo.id === data.id)
+    if (photoIndex !== -1 && imageRef.current) {
+      onPhotoClick(photoIndex, imageRef.current)
+    }
   }
 
   // 计算基于宽度的高度
@@ -148,7 +202,7 @@ const PhotoMasonryItem = ({
   return (
     <m.div
       ref={ref}
-      className="relative w-full overflow-hidden rounded-lg bg-fill-quaternary group"
+      className="relative w-full overflow-hidden rounded-lg bg-fill-quaternary group cursor-pointer"
       style={{
         width,
         height: calculatedHeight,
@@ -164,6 +218,7 @@ const PhotoMasonryItem = ({
         },
       }}
       viewport={{ once: true, amount: 0.1 }}
+      onClick={handleClick}
     >
       {/* Blurhash 占位符 */}
       {data.blurhash && !imageLoaded && !imageError && (
@@ -181,6 +236,7 @@ const PhotoMasonryItem = ({
       {/* 懒加载图片 */}
       {inView && !imageError && (
         <m.img
+          ref={imageRef}
           src={data.thumbnailUrl}
           alt={data.title}
           className={clsxm(
@@ -207,7 +263,7 @@ const PhotoMasonryItem = ({
 
       {/* 图片信息和 EXIF 覆盖层 */}
       {imageLoaded && (
-        <>
+        <div className="pointer-events-none">
           {/* 渐变背景 - 独立的层 */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
@@ -255,7 +311,7 @@ const PhotoMasonryItem = ({
               )}
             </div>
           </div>
-        </>
+        </div>
       )}
     </m.div>
   )
