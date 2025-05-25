@@ -1,5 +1,5 @@
 import { useGesture } from '@use-gesture/react'
-import { m, useAnimationControls } from 'motion/react'
+import { AnimatePresence, m, useAnimationControls } from 'motion/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Blurhash } from 'react-blurhash'
 
@@ -355,17 +355,25 @@ export const ProgressiveImage = ({
       />
 
       {/* 加载指示器 */}
-      {!highResLoaded && !error && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-          <div className="text-center text-white">
-            <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-2" />
-            <p className="text-sm">Loading high resolution...</p>
-            <p className="text-xs text-white/70 mt-1">
-              {Math.round(loadingProgress)}%
-            </p>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {!highResLoaded && !error && (
+          <m.div
+            className="absolute inset-0 flex items-center justify-center bg-black/20 z-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={Spring.presets.snappy}
+          >
+            <div className="text-center text-white">
+              <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-2" />
+              <p className="text-sm">Loading high resolution...</p>
+              <p className="text-xs text-white/70 mt-1">
+                {Math.round(loadingProgress)}%
+              </p>
+            </div>
+          </m.div>
+        )}
+      </AnimatePresence>
 
       {/* 缩放提示 */}
       {enableZoom && transform.scale <= 1 && (

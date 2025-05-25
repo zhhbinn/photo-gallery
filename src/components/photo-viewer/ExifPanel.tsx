@@ -222,7 +222,23 @@ export const ExifPanel: FC<{
                 <div className="space-y-1 text-sm">
                   <Row label="纬度" value={formattedExifData.gps.latitude} />
                   <Row label="经度" value={formattedExifData.gps.longitude} />
-                  <Row label="海拔" value={formattedExifData.gps.altitude} />
+                  {formattedExifData.gps.altitude && (
+                    <Row
+                      label="海拔"
+                      value={`${formattedExifData.gps.altitude}m`}
+                    />
+                  )}
+                  <div className="mt-2 text-right">
+                    <a
+                      href={`https://uri.amap.com/marker?position=${formattedExifData.gps.longitude},${formattedExifData.gps.latitude}&name=拍摄位置`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-blue hover:text-blue-300 transition-colors text-xs underline"
+                    >
+                      在高德地图中查看
+                      <i className="i-mingcute-external-link-line" />
+                    </a>
+                  </div>
                 </div>
               </div>
             )}
@@ -282,18 +298,26 @@ export const ExifPanel: FC<{
             )}
 
             {formattedExifData.dateTime && (
-              <div>
-                <h4 className="text-sm font-medium text-white/80 mb-2">
-                  拍摄时间
-                </h4>
+              <h4 className="text-sm flex items-center gap-2 justify-between font-medium text-white/80 mb-2">
+                拍摄时间{' '}
                 <div className="text-sm text-white/80">
                   {typeof formattedExifData.dateTime === 'string'
-                    ? new Date(formattedExifData.dateTime).toLocaleString()
+                    ? new Date(formattedExifData.dateTime).toLocaleString(
+                        'zh-CN',
+                        {
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          second: '2-digit',
+                        },
+                      )
                     : formattedExifData.dateTime instanceof Date
-                      ? formattedExifData.dateTime.toLocaleString()
+                      ? String(formattedExifData.dateTime)
                       : String(formattedExifData.dateTime)}
                 </div>
-              </div>
+              </h4>
             )}
           </Fragment>
         )}
