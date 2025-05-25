@@ -33,34 +33,48 @@ export const ExifPanel: FC<{
         <div>
           <h4 className="text-sm font-medium text-white/80 mb-2">基本信息</h4>
           <div className="space-y-1 text-sm">
-            <div className="flex justify-between">
-              <span className="text-white/60">文件名</span>
-              <span>{currentPhoto.title}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-white/60">尺寸</span>
-              <span>
-                {currentPhoto.width} × {currentPhoto.height}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-white/60">文件大小</span>
-              <span>{(currentPhoto.size / 1024 / 1024).toFixed(1)}MB</span>
-            </div>
+            <Row label="文件名" value={currentPhoto.title} />
+            <Row
+              label="尺寸"
+              value={`${currentPhoto.width} × ${currentPhoto.height}`}
+            />
+            <Row
+              label="文件大小"
+              value={`${(currentPhoto.size / 1024 / 1024).toFixed(1)}MB`}
+            />
             {formattedExifData?.megaPixels && (
-              <div className="flex justify-between">
-                <span className="text-white/60">像素</span>
-                <span>
-                  {Math.floor(Number.parseFloat(formattedExifData.megaPixels))}
-                  MP
-                </span>
-              </div>
+              <Row
+                label="像素"
+                value={`${Math.floor(
+                  Number.parseFloat(formattedExifData.megaPixels),
+                )} MP`}
+              />
             )}
             {formattedExifData?.colorSpace && (
-              <div className="flex justify-between">
-                <span className="text-white/60">色彩空间</span>
-                <span>{formattedExifData.colorSpace}</span>
-              </div>
+              <Row label="色彩空间" value={formattedExifData.colorSpace} />
+            )}
+
+            {formattedExifData?.dateTime && (
+              <Row
+                label="拍摄时间"
+                value={
+                  typeof formattedExifData.dateTime === 'string'
+                    ? new Date(formattedExifData.dateTime).toLocaleString(
+                        'zh-CN',
+                        {
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          second: '2-digit',
+                        },
+                      )
+                    : formattedExifData.dateTime instanceof Date
+                      ? String(formattedExifData.dateTime)
+                      : String(formattedExifData.dateTime)
+                }
+              />
             )}
           </div>
         </div>
@@ -350,29 +364,6 @@ export const ExifPanel: FC<{
                   )}
                 </div>
               </div>
-            )}
-
-            {formattedExifData.dateTime && (
-              <h4 className="text-sm flex items-center gap-2 justify-between font-medium text-white/80 mb-2">
-                拍摄时间{' '}
-                <div className="text-sm text-white/80">
-                  {typeof formattedExifData.dateTime === 'string'
-                    ? new Date(formattedExifData.dateTime).toLocaleString(
-                        'zh-CN',
-                        {
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                          second: '2-digit',
-                        },
-                      )
-                    : formattedExifData.dateTime instanceof Date
-                      ? String(formattedExifData.dateTime)
-                      : String(formattedExifData.dateTime)}
-                </div>
-              </h4>
             )}
           </Fragment>
         )}
