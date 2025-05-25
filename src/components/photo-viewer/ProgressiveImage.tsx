@@ -23,15 +23,14 @@ export const ProgressiveImage = ({
   thumbnailSrc,
   blurhash,
   alt,
-  width,
-  height,
+
   className,
   onLoad,
   onError,
   onProgress,
 }: ProgressiveImageProps) => {
   const [blobSrc, setBlobSrc] = useState<string | null>(null)
-  const [thumbnailLoaded, setThumbnailLoaded] = useState(false)
+
   const [highResLoaded, setHighResLoaded] = useState(false)
   const [error, setError] = useState(false)
   const [loadingProgress, setLoadingProgress] = useState(0)
@@ -42,7 +41,7 @@ export const ProgressiveImage = ({
   useEffect(() => {
     setHighResLoaded(false)
     setBlobSrc(null)
-    setThumbnailLoaded(false)
+
     setError(false)
     setLoadingProgress(0)
   }, [src, thumbnailAnimateController])
@@ -93,7 +92,6 @@ export const ProgressiveImage = ({
   ])
 
   const handleThumbnailLoad = useCallback(() => {
-    setThumbnailLoaded(true)
     thumbnailAnimateController.start({
       opacity: 1,
     })
@@ -106,7 +104,6 @@ export const ProgressiveImage = ({
 
   // 重置状态当 src 改变时
   useEffect(() => {
-    setThumbnailLoaded(false)
     setHighResLoaded(false)
     setError(false)
     setLoadingProgress(0)
@@ -130,16 +127,15 @@ export const ProgressiveImage = ({
 
   return (
     <div className={clsxm('relative overflow-hidden', className)}>
-      {/* Blurhash 背景 */}
-      {blurhash && !thumbnailLoaded && !highResLoaded && (
+      {blurhash && (
         <Blurhash
           hash={blurhash}
-          width={width || 400}
-          height={height || 300}
+          width="100%"
+          height="100%"
           resolutionX={32}
           resolutionY={32}
           punch={1}
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 w-full h-full object-contain"
         />
       )}
 
@@ -158,8 +154,6 @@ export const ProgressiveImage = ({
           onLoad={handleThumbnailLoad}
         />
       )}
-
-      {/* 高清图片 */}
 
       <img
         ref={highResRef}

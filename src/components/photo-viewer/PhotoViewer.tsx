@@ -1,13 +1,12 @@
 import './PhotoViewer.css'
 
 import { AnimatePresence, m } from 'motion/react'
-import type { FC } from 'react'
 import { useCallback, useEffect, useRef } from 'react'
 
-import { clsxm } from '~/lib/cn'
 import type { PhotoManifest } from '~/types/photo'
 
 import { ExifPanel } from './ExifPanel'
+import { GalleryThumbnail } from './GalleryThumbnail'
 import { ProgressiveImage } from './ProgressiveImage'
 
 interface PhotoViewerProps {
@@ -193,45 +192,5 @@ export const PhotoViewer = ({
         </div>
       )}
     </AnimatePresence>
-  )
-}
-
-const GalleryThumbnail: FC<{
-  currentIndex: number
-  photos: PhotoManifest[]
-  onIndexChange: (index: number) => void
-}> = ({ currentIndex, photos, onIndexChange }) => {
-  return (
-    <m.div
-      className="z-10 shrink-0 backdrop-blur-3xl bg-material-medium"
-      initial={{ opacity: 0, y: 100 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 100 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="bg-material-medium backdrop-blur-[70px]">
-        <div className="flex gap-3 overflow-x-auto p-4 scrollbar-hide">
-          {photos.map((photo, index) => (
-            <button
-              type="button"
-              key={photo.id}
-              className={clsxm(
-                'flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden ring-2 transition-all contain-intrinsic-size',
-                index === currentIndex
-                  ? 'ring-accent scale-110'
-                  : 'ring-transparent hover:ring-accent',
-              )}
-              onClick={() => onIndexChange(index)}
-            >
-              <img
-                src={photo.thumbnailUrl}
-                alt={photo.title}
-                className="w-full h-full object-cover"
-              />
-            </button>
-          ))}
-        </div>
-      </div>
-    </m.div>
   )
 }
