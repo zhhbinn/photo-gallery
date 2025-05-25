@@ -120,8 +120,8 @@ export const PhotoViewer = ({
           />
 
           <div className="size-full flex flex-row">
-            <div className="flex-1 flex-col flex min-w-0">
-              <div className="flex flex-1 min-w-0 relative group">
+            <div className="flex-1 flex-col flex min-w-0 min-h-0">
+              <div className="flex flex-1 min-w-0 relative group min-h-0">
                 {/* Buttons */}
 
                 <m.div
@@ -171,15 +171,17 @@ export const PhotoViewer = ({
                   ref={imageContainerRef}
                   className="relative w-full h-full flex items-center justify-center"
                 >
-                  <ProgressiveImage
-                    src={currentPhoto.originalUrl}
-                    thumbnailSrc={currentPhoto.thumbnailUrl}
-                    blurhash={currentPhoto.blurhash}
-                    alt={currentPhoto.title}
-                    width={imageSize.width}
-                    height={imageSize.height}
-                    className="w-full h-full object-contain"
-                  />
+                  <AnimatePresence>
+                    <ProgressiveImage
+                      src={currentPhoto.originalUrl}
+                      thumbnailSrc={currentPhoto.thumbnailUrl}
+                      blurhash={currentPhoto.blurhash}
+                      alt={currentPhoto.title}
+                      width={imageSize.width}
+                      height={imageSize.height}
+                      className="w-full h-full object-contain"
+                    />
+                  </AnimatePresence>
                 </m.div>
               </div>
 

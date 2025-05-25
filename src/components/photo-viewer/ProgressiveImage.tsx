@@ -40,36 +40,48 @@ export const ProgressiveImage = ({
   const highResRef = useRef<HTMLImageElement>(null)
   const thumbnailAnimateController = useAnimationControls()
   useEffect(() => {
+    setHighResLoaded(false)
+    setBlobSrc(null)
+    setThumbnailLoaded(false)
+    setError(false)
+    setLoadingProgress(0)
+  }, [src, thumbnailAnimateController])
+  useEffect(() => {
     if (highResLoaded || error) return
 
-    setLoadingProgress(0)
-    const xhr = new XMLHttpRequest()
-    xhr.open('GET', src)
-    xhr.responseType = 'blob'
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        const blob = xhr.response
-        const url = URL.createObjectURL(blob)
-        setBlobSrc(url)
-        setHighResLoaded(true)
-      }
-    }
+    let upperXHR: XMLHttpRequest | null = null
 
-    xhr.onprogress = (e) => {
-      if (e.lengthComputable) {
-        const progress = (e.loaded / e.total) * 100
-        setLoadingProgress(progress)
-        onProgress?.(progress)
+    const delayToLoadTimer = setTimeout(() => {
+      const xhr = new XMLHttpRequest()
+      xhr.open('GET', src)
+      xhr.responseType = 'blob'
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          const blob = xhr.response
+          const url = URL.createObjectURL(blob)
+          setBlobSrc(url)
+          setHighResLoaded(true)
+        }
       }
-    }
-    xhr.onerror = () => {
-      setError(true)
-      onError?.()
-    }
-    xhr.send()
 
+      xhr.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const progress = (e.loaded / e.total) * 100
+          setLoadingProgress(progress)
+          onProgress?.(progress)
+        }
+      }
+      xhr.onerror = () => {
+        setError(true)
+        onError?.()
+      }
+      xhr.send()
+
+      upperXHR = xhr
+    }, 300)
     return () => {
-      xhr.abort()
+      clearTimeout(delayToLoadTimer)
+      upperXHR?.abort()
     }
   }, [
     highResLoaded,
@@ -138,11 +150,10 @@ export const ProgressiveImage = ({
           initial={{ opacity: 0 }}
           exit={{ opacity: 0 }}
           src={thumbnailSrc}
+          key={thumbnailSrc}
           alt={alt}
           transition={Spring.presets.smooth}
-          className={
-            'absolute inset-0 w-full h-full object-contain transition-opacity duration-300'
-          }
+          className={'absolute inset-0 w-full h-full object-contain'}
           animate={thumbnailAnimateController}
           onLoad={handleThumbnailLoad}
         />
@@ -155,7 +166,7 @@ export const ProgressiveImage = ({
         src={blobSrc || undefined}
         alt={alt}
         className={clsxm(
-          'absolute inset-0 w-full h-full object-contain transition-opacity duration-300',
+          'absolute inset-0 w-full h-full object-contain',
           highResLoaded ? 'opacity-100' : 'opacity-0',
         )}
         onLoad={onLoad}
