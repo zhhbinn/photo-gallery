@@ -1,7 +1,6 @@
 import { m } from 'motion/react'
 import { useRef, useState } from 'react'
 import { Blurhash } from 'react-blurhash'
-import { useInView } from 'react-intersection-observer'
 
 import {
   CarbonIsoOutline,
@@ -15,7 +14,7 @@ import type { PhotoManifest } from '~/types/photo'
 export const PhotoMasonryItem = ({
   data,
   width,
-  index,
+  index: _,
   onPhotoClick,
   photos,
 }: {
@@ -28,11 +27,6 @@ export const PhotoMasonryItem = ({
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
   const imageRef = useRef<HTMLImageElement>(null)
-
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  })
 
   const handleImageLoad = () => {
     setImageLoaded(true)
@@ -57,9 +51,6 @@ export const PhotoMasonryItem = ({
 
   // 计算基于宽度的高度
   const calculatedHeight = width / data.aspectRatio
-
-  // 根据 index 计算延迟，模拟行级动画
-  const animationDelay = Math.floor(index / 3) * 0.1 // 假设每行3个item，每行延迟0.1秒
 
   // 格式化 EXIF 数据
   const formatExifData = () => {
@@ -98,23 +89,11 @@ export const PhotoMasonryItem = ({
 
   return (
     <m.div
-      ref={ref}
       className="relative w-full overflow-hidden rounded-lg bg-fill-quaternary group cursor-pointer"
       style={{
         width,
         height: calculatedHeight,
       }}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-        transition: {
-          duration: 0.6,
-          delay: animationDelay,
-          ease: [0.25, 0.46, 0.45, 0.94], // easeOutQuart
-        },
-      }}
-      viewport={{ once: true, amount: 0.1 }}
       onClick={handleClick}
     >
       {/* Blurhash 占位符 */}
@@ -130,8 +109,7 @@ export const PhotoMasonryItem = ({
         />
       )}
 
-      {/* 懒加载图片 */}
-      {inView && !imageError && (
+      {!imageError && (
         <m.img
           ref={imageRef}
           src={data.thumbnailUrl}
@@ -145,6 +123,7 @@ export const PhotoMasonryItem = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: imageLoaded ? 1 : 0 }}
           transition={{ duration: 0.5 }}
+          loading="lazy"
         />
       )}
 
