@@ -92,6 +92,36 @@ export const PhotoViewer = ({
     }
   }, [currentIndex, photos.length, onIndexChange])
 
+  // 键盘导航
+  useEffect(() => {
+    if (!isOpen) return
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      switch (event.key) {
+        case 'ArrowLeft': {
+          event.preventDefault()
+          handlePrevious()
+          break
+        }
+        case 'ArrowRight': {
+          event.preventDefault()
+          handleNext()
+          break
+        }
+        case 'Escape': {
+          event.preventDefault()
+          onClose()
+          break
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen, handlePrevious, handleNext, onClose])
+
   const imageSize = getImageDisplaySize()
 
   if (!currentPhoto) return null
