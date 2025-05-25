@@ -8,7 +8,7 @@
     "url": "https://github.com/innei/photo-gallery-site"
   },
   "scripts": {
-    "build": "npm run build:manifest && tsc && vite build",
+    "build": "vite build",
     "build:manifest": "tsx scripts/build-manifest.ts",
     "dev": "vite",
     "format": "prettier --write \"src/**/*.ts\" ",
