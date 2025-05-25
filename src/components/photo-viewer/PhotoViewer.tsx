@@ -128,7 +128,7 @@ export const PhotoViewer = ({
                     {/* 关闭按钮 */}
                     <button
                       type="button"
-                      className="absolute right-0 top-0 hover:bg-fill-quaternary-light duration-200 size-8 flex items-center justify-center rounded-full text-white bg-material-ultra-thick backdrop-blur-2xl"
+                      className="absolute right-0 top-0 hover:bg-black/40 duration-200 size-8 flex items-center justify-center rounded-full text-white bg-material-ultra-thick backdrop-blur-2xl"
                       onClick={onClose}
                     >
                       <i className="i-mingcute-close-line" />

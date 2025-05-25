@@ -1,5 +1,265 @@
 [
   {
+    "id": "DSCF3007",
+    "title": "DSCF3007",
+    "description": "",
+    "dateTaken": "2025-05-25T14:06:35.336Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://s3-private.innei.in/images/DSCF3007.jpg",
+    "thumbnailUrl": "/thumbnails/DSCF3007.webp",
+    "blurhash": "U5AAzItl?wkVTI_300%MjY9F-;M{00%MxvoK",
+    "width": 4914,
+    "height": 7371,
+    "aspectRatio": 0.6666666666666666,
+    "s3Key": "DSCF3007.jpg",
+    "lastModified": "2025-05-25T13:51:52.845Z",
+    "size": 26967292,
+    "exif": {
+      "bigEndian": false,
+      "Image": {
+        "Make": "FUJIFILM",
+        "Model": "X-T5",
+        "XResolution": 300,
+        "YResolution": 300,
+        "ResolutionUnit": 2,
+        "Software": "Capture One Macintosh",
+        "Copyright": "                                                                                                                                                                                                                                                               ",
+        "ExifTag": 436,
+        "GPSTag": 1148
+      },
+      "Thumbnail": {
+        "Compression": 6,
+        "JPEGInterchangeFormat": 1454,
+        "JPEGInterchangeFormatLength": 3454
+      },
+      "Photo": {
+        "ExposureTime": 0.016666666666666666,
+        "FNumber": 5,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 640,
+        "SensitivityType": 1,
+        "ExifVersion": {
+          "type": "Buffer",
+          "data": [
+            48,
+            50,
+            51,
+            48
+          ]
+        },
+        "DateTimeOriginal": "2025-05-16T17:24:46.000Z",
+        "DateTimeDigitized": "2025-05-16T17:24:46.000Z",
+        "OffsetTimeOriginal": "+08:00",
+        "ShutterSpeedValue": 5.906891,
+        "ApertureValue": 4.643856,
+        "BrightnessValue": 4.51,
+        "ExposureBiasValue": 0.33,
+        "MaxApertureValue": 4,
+        "MeteringMode": 5,
+        "LightSource": 0,
+        "Flash": 0,
+        "FocalLength": 94.3,
+        "PixelXDimension": 4914,
+        "PixelYDimension": 7371,
+        "FocalPlaneXResolution": 1879,
+        "FocalPlaneYResolution": 1879,
+        "FocalPlaneResolutionUnit": 3,
+        "SensingMethod": 2,
+        "FileSource": {
+          "type": "Buffer",
+          "data": [
+            3
+          ]
+        },
+        "SceneType": {
+          "type": "Buffer",
+          "data": [
+            1
+          ]
+        },
+        "CustomRendered": 0,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "FocalLengthIn35mmFilm": 141,
+        "SceneCaptureType": 0,
+        "Sharpness": 0,
+        "SubjectDistanceRange": 0,
+        "BodySerialNumber": "5AA05818",
+        "LensSpecification": [
+          94.3,
+          94.3,
+          4,
+          4
+        ],
+        "LensMake": "FUJIFILM",
+        "LensModel": "Fujifilm Fujinon XF70-300mmF4-5.6 R LM OIS WR",
+        "LensSerialNumber": "5AC03773"
+      },
+      "GPSInfo": {
+        "GPSVersionID": [
+          2,
+          3,
+          0,
+          0
+        ],
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          30,
+          16.05255,
+          0
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          120,
+          5.66645,
+          0
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 6,
+        "GPSTimeStamp": [
+          9,
+          24,
+          44
+        ],
+        "GPSSpeedRef": "K",
+        "GPSSpeed": 0,
+        "GPSMapDatum": "WGS-84",
+        "GPSDateStamp": "2025:05:16"
+      }
+    }
+  },
+  {
+    "id": "DSCF3002",
+    "title": "DSCF3002",
+    "description": "",
+    "dateTaken": "2025-05-25T14:06:34.319Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://s3-private.innei.in/images/DSCF3002.jpg",
+    "thumbnailUrl": "/thumbnails/DSCF3002.webp",
+    "blurhash": "UBH^YT~X00IT0cD~wNo#00bv,cnPrtxv=}aK",
+    "width": 7430,
+    "height": 4953,
+    "aspectRatio": 1.5001009489198465,
+    "s3Key": "DSCF3002.jpg",
+    "lastModified": "2025-05-25T13:51:52.799Z",
+    "size": 24761131,
+    "exif": {
+      "bigEndian": false,
+      "Image": {
+        "Make": "FUJIFILM",
+        "Model": "X-T5",
+        "XResolution": 300,
+        "YResolution": 300,
+        "ResolutionUnit": 2,
+        "Software": "Capture One Macintosh",
+        "Copyright": "                                                                                                                                                                                                                                                               ",
+        "ExifTag": 436,
+        "GPSTag": 1148
+      },
+      "Thumbnail": {
+        "Compression": 6,
+        "JPEGInterchangeFormat": 1454,
+        "JPEGInterchangeFormatLength": 2646
+      },
+      "Photo": {
+        "ExposureTime": 0.0125,
+        "FNumber": 5.6,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 640,
+        "SensitivityType": 1,
+        "ExifVersion": {
+          "type": "Buffer",
+          "data": [
+            48,
+            50,
+            51,
+            48
+          ]
+        },
+        "DateTimeOriginal": "2025-05-16T17:19:42.000Z",
+        "DateTimeDigitized": "2025-05-16T17:19:42.000Z",
+        "OffsetTimeOriginal": "+08:00",
+        "ShutterSpeedValue": 6.321928,
+        "ApertureValue": 4.970854,
+        "BrightnessValue": 5.2,
+        "ExposureBiasValue": 1.67,
+        "MaxApertureValue": 4,
+        "MeteringMode": 2,
+        "LightSource": 0,
+        "Flash": 0,
+        "FocalLength": 222.5,
+        "PixelXDimension": 7430,
+        "PixelYDimension": 4953,
+        "FocalPlaneXResolution": 1879,
+        "FocalPlaneYResolution": 1879,
+        "FocalPlaneResolutionUnit": 3,
+        "SensingMethod": 2,
+        "FileSource": {
+          "type": "Buffer",
+          "data": [
+            3
+          ]
+        },
+        "SceneType": {
+          "type": "Buffer",
+          "data": [
+            1
+          ]
+        },
+        "CustomRendered": 0,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "FocalLengthIn35mmFilm": 334,
+        "SceneCaptureType": 0,
+        "Sharpness": 0,
+        "SubjectDistanceRange": 0,
+        "BodySerialNumber": "5AA05818",
+        "LensSpecification": [
+          222.5,
+          222.5,
+          4,
+          4
+        ],
+        "LensMake": "FUJIFILM",
+        "LensModel": "Fujifilm Fujinon XF70-300mmF4-5.6 R LM OIS WR",
+        "LensSerialNumber": "5AC03773"
+      },
+      "GPSInfo": {
+        "GPSVersionID": [
+          2,
+          3,
+          0,
+          0
+        ],
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          30,
+          16.0716167,
+          0
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          120,
+          5.69845,
+          0
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 7,
+        "GPSTimeStamp": [
+          9,
+          19,
+          39
+        ],
+        "GPSSpeedRef": "K",
+        "GPSSpeed": 0,
+        "GPSMapDatum": "WGS-84",
+        "GPSDateStamp": "2025:05:16"
+      }
+    }
+  },
+  {
     "id": "DSCF3179",
     "title": "DSCF3179",
     "description": "",

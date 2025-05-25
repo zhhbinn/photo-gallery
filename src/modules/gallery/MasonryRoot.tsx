@@ -157,7 +157,7 @@ const MasonryHeaderMasonryItem = ({ width }: { width: number }) => {
             <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
-                className="rounded-full px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition-all duration-200 border border-gray-300 dark:border-gray-600"
+                className="rounded-full px-4 py-2 bg-fill"
                 onClick={toggleSortOrder}
               >
                 <i
