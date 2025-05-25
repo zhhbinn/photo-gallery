@@ -81,7 +81,7 @@ export async function generateFavicons() {
   try {
     // 生成 ICO 文件（包含多个尺寸）
     const icoSizes = [16, 32, 48]
-    const icoBuffers = []
+    const icoBuffers: Buffer[] = []
 
     for (const size of icoSizes) {
       const svgContent = createFaviconSVG(size)

@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import sharp from 'sharp'
 
 import { buildTimePhotoLoader } from './photo-loader.js'
+import { renderSVGText, wrapSVGText } from './svg-text-renderer.js'
 
 // 获取最新的照片
 async function getLatestPhotos(count = 4) {
@@ -205,18 +206,40 @@ export async function generateOGImage(options: OGImageOptions) {
         .png()
         .toBuffer()
 
-      // 创建文字层
+      // 创建文字层 - 使用 SVG 路径绘制 Helvetica 风格字体
+      const wrappedTitle = wrapSVGText(title, width - 120, {
+        fontSize: 48,
+        fontWeight: 'bold',
+      })
+      const wrappedDescription = wrapSVGText(description, width - 120, {
+        fontSize: 24,
+      })
+      const footerText = `Latest Photos • Generated on ${new Date().toLocaleDateString()}`
+
+      const titleSVG = renderSVGText(wrappedTitle, 60, 72, {
+        fontSize: 48,
+        fontWeight: 'bold',
+        color: 'white',
+        letterSpacing: 2,
+      })
+
+      const descriptionSVG = renderSVGText(wrappedDescription, 60, 146, {
+        fontSize: 24,
+        color: 'rgba(255,255,255,0.9)',
+        letterSpacing: 1,
+      })
+
+      const footerSVG = renderSVGText(footerText, 60, 556, {
+        fontSize: 18,
+        color: 'rgba(255,255,255,0.7)',
+        letterSpacing: 0.5,
+      })
+
       const textSvg = `
         <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-          <text x="60" y="120" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="white">
-            ${title}
-          </text>
-          <text x="60" y="170" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.9)">
-            ${description}
-          </text>
-          <text x="60" y="580" font-family="Arial, sans-serif" font-size="18" fill="rgba(255,255,255,0.7)">
-            Latest Photos • Generated on ${new Date().toLocaleDateString()}
-          </text>
+          ${titleSVG}
+          ${descriptionSVG}
+          ${footerSVG}
         </svg>
       `
 
@@ -275,7 +298,40 @@ export async function generateOGImage(options: OGImageOptions) {
       // 合成最终图像
       finalImage = canvas.composite(composite)
     } else {
-      // 不包含照片的简单版本 - 黑色主题
+      // 不包含照片的简单版本 - 黑色主题，使用 SVG 路径绘制字体
+      const simpleWrappedTitle = wrapSVGText(title, width - 120, {
+        fontSize: 72,
+        fontWeight: 'bold',
+      })
+      const simpleWrappedDescription = wrapSVGText(description, width - 120, {
+        fontSize: 32,
+      })
+      const simpleFooterText = `Generated on ${new Date().toLocaleDateString()}`
+
+      const simpleTitleSVG = renderSVGText(simpleWrappedTitle, 60, 152, {
+        fontSize: 72,
+        fontWeight: 'bold',
+        color: 'white',
+        letterSpacing: 3,
+      })
+
+      const simpleDescriptionSVG = renderSVGText(
+        simpleWrappedDescription,
+        60,
+        256,
+        {
+          fontSize: 32,
+          color: 'rgba(255,255,255,0.9)',
+          letterSpacing: 1.5,
+        },
+      )
+
+      const simpleFooterSVG = renderSVGText(simpleFooterText, 60, 526, {
+        fontSize: 24,
+        color: 'rgba(255,255,255,0.7)',
+        letterSpacing: 1,
+      })
+
       const svgContent = `
         <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -297,17 +353,9 @@ export async function generateOGImage(options: OGImageOptions) {
           <rect width="100%" height="100%" fill="url(#accent)"/>
           <rect width="100%" height="100%" fill="url(#grid)" />
           
-          <text x="60" y="200" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="white">
-            ${title}
-          </text>
-          
-          <text x="60" y="280" font-family="Arial, sans-serif" font-size="32" fill="rgba(255,255,255,0.9)">
-            ${description}
-          </text>
-          
-          <text x="60" y="550" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.7)">
-            Generated on ${new Date().toLocaleDateString()}
-          </text>
+          ${simpleTitleSVG}
+          ${simpleDescriptionSVG}
+          ${simpleFooterSVG}
           
           <circle cx="1000" cy="150" r="80" fill="rgba(255,255,255,0.03)"/>
           <circle cx="1050" cy="200" r="40" fill="rgba(255,255,255,0.02)"/>
