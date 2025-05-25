@@ -193,7 +193,7 @@ export async function generateOGImage(options: OGImageOptions) {
               <stop offset="100%" style="stop-color:#000000;stop-opacity:0" />
             </radialGradient>
             <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
+              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#bg)"/>
