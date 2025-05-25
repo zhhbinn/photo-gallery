@@ -24,6 +24,7 @@ declare global {
   } & {}
 
   const APP_NAME: string
+  const BUILT_DATE: string
 }
 
 export {}
