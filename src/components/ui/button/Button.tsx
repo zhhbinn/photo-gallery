@@ -45,7 +45,7 @@ const buttonVariants = tv({
         'shadow-none',
         'border-transparent',
         'text-gray-900 dark:text-gray-50',
-        'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800/80',
+        'bg-transparent dark:hover:bg-fill-tertiary',
         'disabled:text-gray-400',
         'disabled:dark:text-gray-600',
       ],

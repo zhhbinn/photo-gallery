@@ -1,7 +1,13 @@
-import { Gallery } from './pages/Gallery'
+import { Outlet } from 'react-router'
+
+import { RootProviders } from './providers/root-providers'
 
 function App() {
-  return <Gallery />
+  return (
+    <RootProviders>
+      <Outlet />
+    </RootProviders>
+  )
 }
 
 export default App

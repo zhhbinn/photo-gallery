@@ -92,6 +92,9 @@ importers:
       zod:
         specifier: 3.25.28
         version: 3.25.28
+      zustand:
+        specifier: 5.0.5
+        version: 5.0.5(@types/react@19.1.5)(immer@10.1.1)(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))
     devDependencies:
       '@egoist/tailwindcss-icons':
         specifier: 1.9.0
@@ -126,9 +129,6 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^4.5.0
         version: 4.5.0(vite@6.3.5(@types/node@22.15.21)(jiti@2.4.2)(lightningcss@1.30.1)(tsx@4.19.4)(yaml@2.8.0))
-      autoprefixer:
-        specifier: 10.4.21
-        version: 10.4.21(postcss@8.5.3)
       code-inspector-plugin:
         specifier: 0.20.10
         version: 0.20.10
@@ -171,6 +171,9 @@ importers:
       tailwindcss-animated:
         specifier: 2.0.0
         version: 2.0.0(tailwindcss@4.1.7)
+      tailwindcss-uikit-colors:
+        specifier: 1.0.0-alpha.0
+        version: 1.0.0-alpha.0
       typescript:
         specifier: 5.8.3
         version: 5.8.3
@@ -1915,6 +1918,9 @@ packages:
     resolution: {integrity: sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==}
     engines: {node: '>=12'}
 
+  apple-uikit-colors@0.6.2:
+    resolution: {integrity: sha512-sv0b92krbTZGNt4AJQLAPioUvuEI/wW2cLqGuEBWl3KpU2JK/odOftx8+dGSC5jGWhdB5qnwBqF96X2FA8FUQA==}
+
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
@@ -1970,13 +1976,6 @@ packages:
     resolution: {integrity: sha512-xalvvRcynT9BEKCq05SinOkaoINtmkqWk8qHQMh/R6ZA962we3W+zv1I4Qx6Ac3CcegSbGoJgCcYM59ZABhBNQ==}
     engines: {node: '>= 10'}
     hasBin: true
-
-  autoprefixer@10.4.21:
-    resolution: {integrity: sha512-O+A6LWV5LDHSJD3LjHYoNi4VLsj/Whi7k6zG12xTYaU4cQ8oxQGckXNX8cRHK5yOZ/ppVHe0ZBXGzSV9jXdVbQ==}
-    engines: {node: ^10 || ^12 || >=14}
-    hasBin: true
-    peerDependencies:
-      postcss: ^8.1.0
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -2612,9 +2611,6 @@ packages:
   flatted@3.3.3:
     resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
 
-  fraction.js@4.3.7:
-    resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
-
   framer-motion@12.12.2:
     resolution: {integrity: sha512-qCszZCiGWkilL40E3VuhIJJC/CS3SIBl2IHyGK8FU30nOUhTmhBNWPrNFyozAWH/bXxwzi19vJHIGVdALF0LCg==}
     peerDependencies:
@@ -3173,10 +3169,6 @@ packages:
 
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
-    engines: {node: '>=0.10.0'}
-
-  normalize-range@0.1.2:
-    resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
     engines: {node: '>=0.10.0'}
 
   npm-run-path@6.0.0:
@@ -3749,6 +3741,9 @@ packages:
     peerDependencies:
       tailwindcss: '>=3.1.0 || >=4.0.0'
 
+  tailwindcss-uikit-colors@1.0.0-alpha.0:
+    resolution: {integrity: sha512-mzu9n4P2SDfNHwa9/wp7ZHw0gWL1MPVgXXS3OJQ78caqmELiXUMiPjDnWBNZO6e7/tQSFoCxUYIc1SZ0wlu5cw==}
+
   tailwindcss@4.1.7:
     resolution: {integrity: sha512-kr1o/ErIdNhTz8uzAYL7TpaUuzKIE6QPQ4qmSdxnoX/lo+5wmUHQA6h3L5yIqEImSRnAAURDirLu/BgiXGPAhg==}
 
@@ -4056,6 +4051,24 @@ packages:
 
   zod@3.25.28:
     resolution: {integrity: sha512-/nt/67WYKnr5by3YS7LroZJbtcCBurDKKPBPWWzaxvVCGuG/NOsiKkrjoOhI8mJ+SQUXEbUzeB3S+6XDUEEj7Q==}
+
+  zustand@5.0.5:
+    resolution: {integrity: sha512-mILtRfKW9xM47hqxGIxCv12gXusoY/xTSHBYApXozR0HmQv299whhBeeAcRy+KrPPybzosvJBCOmVjq6x12fCg==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=18.0.0'
+      immer: '>=9.0.6'
+      react: '>=18.0.0'
+      use-sync-external-store: '>=1.2.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+      use-sync-external-store:
+        optional: true
 
 snapshots:
 
@@ -6249,6 +6262,8 @@ snapshots:
 
   ansi-styles@6.2.1: {}
 
+  apple-uikit-colors@0.6.2: {}
+
   argparse@2.0.1: {}
 
   arktype@2.1.20:
@@ -6288,16 +6303,6 @@ snapshots:
       autocorrect-node-linux-x64-gnu: 2.11.1
       autocorrect-node-linux-x64-musl: 2.11.1
       autocorrect-node-win32-x64-msvc: 2.11.1
-
-  autoprefixer@10.4.21(postcss@8.5.3):
-    dependencies:
-      browserslist: 4.24.5
-      caniuse-lite: 1.0.30001718
-      fraction.js: 4.3.7
-      normalize-range: 0.1.2
-      picocolors: 1.1.1
-      postcss: 8.5.3
-      postcss-value-parser: 4.2.0
 
   balanced-match@1.0.2: {}
 
@@ -7080,8 +7085,6 @@ snapshots:
 
   flatted@3.3.3: {}
 
-  fraction.js@4.3.7: {}
-
   framer-motion@12.12.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       motion-dom: 12.12.1
@@ -7573,8 +7576,6 @@ snapshots:
 
   normalize-path@3.0.0:
     optional: true
-
-  normalize-range@0.1.2: {}
 
   npm-run-path@6.0.0:
     dependencies:
@@ -8166,6 +8167,10 @@ snapshots:
     dependencies:
       tailwindcss: 4.1.7
 
+  tailwindcss-uikit-colors@1.0.0-alpha.0:
+    dependencies:
+      apple-uikit-colors: 0.6.2
+
   tailwindcss@4.1.7: {}
 
   tapable@2.2.2: {}
@@ -8433,3 +8438,10 @@ snapshots:
       zod: 3.25.28
 
   zod@3.25.28: {}
+
+  zustand@5.0.5(@types/react@19.1.5)(immer@10.1.1)(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0)):
+    optionalDependencies:
+      '@types/react': 19.1.5
+      immer: 10.1.1
+      react: 19.1.0
+      use-sync-external-store: 1.5.0(react@19.1.0)

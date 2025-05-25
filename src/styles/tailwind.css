@@ -5,25 +5,7 @@
 @plugin 'tailwind-scrollbar';
 @plugin 'tailwindcss-animated';
 
-@plugin "daisyui/theme" {
-  name: 'light';
-  default: true;
-  color-scheme: light;
-  --color-primary: #33a6b8;
-  --color-secondary: #a8d8b9;
-  --color-accent: #33a6b8;
-  --color-accent-content: #fafafa;
-  --color-neutral: #c7c7cc;
-  --color-base-100: #fff;
-  --color-base-content: #000;
-  --color-info: #007aff;
-  --color-success: #34c759;
-  --color-warning: #ff9500;
-  --color-error: #ff3b30;
-  --rounded-btn: 1.9rem;
-  --tab-border: 2px;
-  --tab-radius: 0.5rem;
-}
+@import 'tailwindcss-uikit-colors/v4/macos.css';
 
 @plugin "daisyui/theme" {
   name: 'dark';
@@ -45,11 +27,6 @@
 }
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
-
-[data-theme='light'] {
-  --radius: 0.5rem;
-  --border: 20 5.9% 90%;
-}
 
 [data-theme='dark'] {
   --radius: 0.5rem;

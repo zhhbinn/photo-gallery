@@ -1,8 +1,4 @@
-import { useSyncThemeark } from '~/hooks/common'
-
-const useUISettingSync = () => {
-  useSyncThemeark()
-}
+const useUISettingSync = () => {}
 
 export const SettingSync = () => {
   useUISettingSync()

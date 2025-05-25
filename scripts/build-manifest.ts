@@ -165,11 +165,11 @@ async function generateThumbnail(
     }
 
     await sharp(imageBuffer)
-      .resize(400, 400, {
+      .resize(600, 600, {
         fit: 'inside',
         withoutEnlargement: true,
       })
-      .webp({ quality: 80 })
+      .webp({ quality: 100 })
       .toFile(thumbnailPath)
 
     return thumbnailUrl
@@ -316,9 +316,10 @@ function extractPhotoInfo(key: string): PhotoInfo {
 function generateS3Url(key: string): string {
   const bucketName = env.S3_BUCKET_NAME
 
-  // 如果没有自定义端点，使用标准 AWS S3 URL
-  if (!env.S3_ENDPOINT) {
-    return `https://${bucketName}.s3.${env.S3_REGION}.amazonaws.com/${key}`
+  // 如果设置了自定义域名，直接使用自定义域名
+  if (env.S3_CUSTOM_DOMAIN) {
+    const customDomain = env.S3_CUSTOM_DOMAIN.replace(/\/$/, '') // 移除末尾的斜杠
+    return `${customDomain}/${bucketName}/${key}`
   }
 
   // 如果使用自定义端点，构建相应的 URL
@@ -326,7 +327,7 @@ function generateS3Url(key: string): string {
 
   // 检查是否是标准 AWS S3 端点
   if (endpoint.includes('amazonaws.com')) {
-    return `https://${bucketName}.s3.${env.S3_REGION}.amazonaws.com/${key}`
+    return `https://${bucketName}.s3.${env.S3_REGION}.amazonaws.com/${bucketName}/${key}`
   }
 
   // 对于自定义端点（如 MinIO 等）
@@ -339,6 +340,7 @@ async function buildManifest(): Promise<void> {
   try {
     console.info('开始从 S3 获取照片列表...')
     console.info(`使用端点: ${env.S3_ENDPOINT || '默认 AWS S3'}`)
+    console.info(`自定义域名: ${env.S3_CUSTOM_DOMAIN || '未设置'}`)
     console.info(`存储桶: ${env.S3_BUCKET_NAME}`)
     console.info(`前缀: ${env.S3_PREFIX || '无前缀'}`)
 
@@ -429,7 +431,7 @@ async function buildManifest(): Promise<void> {
       }
 
       // 如果是增量更新且已有 EXIF 数据，可以复用
-      let exifData: ExifData | null = null
+      let exifData: Exif | null = null
       if (!isForceMode && existingItem?.exif) {
         exifData = existingItem.exif
         console.info(`复用现有 EXIF 数据: ${photoId}`)

@@ -11,6 +11,7 @@ export const env = createEnv({
     S3_ENDPOINT: z.string().default('https://s3.us-east-1.amazonaws.com'),
     S3_BUCKET_NAME: z.string().min(1),
     S3_PREFIX: z.string().default(''),
+    S3_CUSTOM_DOMAIN: z.string().default(''),
   },
   runtimeEnv: process.env,
   isServer: typeof window === 'undefined',
