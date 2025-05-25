@@ -46,6 +46,15 @@ export const ExifPanel: FC<{
               <span className="text-white/60">文件大小</span>
               <span>{(currentPhoto.size / 1024 / 1024).toFixed(1)}MB</span>
             </div>
+            {formattedExifData?.megaPixels && (
+              <div className="flex justify-between">
+                <span className="text-white/60">像素</span>
+                <span>
+                  {Math.floor(Number.parseFloat(formattedExifData.megaPixels))}
+                  MP
+                </span>
+              </div>
+            )}
             {formattedExifData?.colorSpace && (
               <div className="flex justify-between">
                 <span className="text-white/60">色彩空间</span>
@@ -111,6 +120,15 @@ export const ExifPanel: FC<{
                     <span className="text-xs">ISO {formattedExifData.iso}</span>
                   </div>
                 )}
+
+                {formattedExifData.exposureBias && (
+                  <div className="flex items-center gap-2 bg-white/10 rounded-md px-2 py-1">
+                    <span className="text-white/70 text-sm">±</span>
+                    <span className="text-xs">
+                      {formattedExifData.exposureBias}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -118,6 +136,7 @@ export const ExifPanel: FC<{
             {(formattedExifData.exposureMode ||
               formattedExifData.meteringMode ||
               formattedExifData.whiteBalance ||
+              formattedExifData.lightSource ||
               formattedExifData.flash) && (
               <div>
                 <h4 className="text-sm font-medium text-white/80 mb-2">
@@ -144,6 +163,9 @@ export const ExifPanel: FC<{
                   )}
                   {formattedExifData.flash && (
                     <Row label="闪光灯" value={formattedExifData.flash} />
+                  )}
+                  {formattedExifData.lightSource && (
+                    <Row label="光源" value={formattedExifData.lightSource} />
                   )}
                 </div>
               </div>
@@ -201,6 +223,60 @@ export const ExifPanel: FC<{
                   <Row label="纬度" value={formattedExifData.gps.latitude} />
                   <Row label="经度" value={formattedExifData.gps.longitude} />
                   <Row label="海拔" value={formattedExifData.gps.altitude} />
+                </div>
+              </div>
+            )}
+
+            {/* 新增：技术参数 */}
+            {(formattedExifData.brightnessValue ||
+              formattedExifData.shutterSpeedValue ||
+              formattedExifData.apertureValue ||
+              formattedExifData.sensingMethod ||
+              formattedExifData.customRendered ||
+              formattedExifData.focalPlaneXResolution ||
+              formattedExifData.focalPlaneYResolution) && (
+              <div>
+                <h4 className="text-sm font-medium text-white/80 mb-2">
+                  技术参数
+                </h4>
+                <div className="space-y-1 text-sm">
+                  {formattedExifData.brightnessValue && (
+                    <Row
+                      label="亮度值"
+                      value={formattedExifData.brightnessValue}
+                    />
+                  )}
+                  {formattedExifData.shutterSpeedValue && (
+                    <Row
+                      label="快门速度值"
+                      value={formattedExifData.shutterSpeedValue}
+                    />
+                  )}
+                  {formattedExifData.apertureValue && (
+                    <Row
+                      label="光圈值"
+                      value={formattedExifData.apertureValue}
+                    />
+                  )}
+                  {formattedExifData.sensingMethod && (
+                    <Row
+                      label="感光方法"
+                      value={formattedExifData.sensingMethod}
+                    />
+                  )}
+                  {formattedExifData.customRendered && (
+                    <Row
+                      label="图像处理"
+                      value={formattedExifData.customRendered}
+                    />
+                  )}
+                  {(formattedExifData.focalPlaneXResolution ||
+                    formattedExifData.focalPlaneYResolution) && (
+                    <Row
+                      label="焦平面分辨率"
+                      value={`${formattedExifData.focalPlaneXResolution || 'N/A'} × ${formattedExifData.focalPlaneYResolution || 'N/A'}${formattedExifData.focalPlaneResolutionUnit ? ` (${formattedExifData.focalPlaneResolutionUnit})` : ''}`}
+                    />
+                  )}
                 </div>
               </div>
             )}
@@ -334,6 +410,112 @@ const formatExifData = (exif: Exif | null) => {
   // 数字变焦
   const digitalZoom = photo.DigitalZoomRatio || null
 
+  // 曝光补偿
+  const exposureBias = photo.ExposureBiasValue
+    ? `${photo.ExposureBiasValue > 0 ? '+' : ''}${photo.ExposureBiasValue.toFixed(1)} EV`
+    : null
+
+  // 亮度值
+  const brightnessValue = photo.BrightnessValue
+    ? `${photo.BrightnessValue.toFixed(1)} EV`
+    : null
+
+  // 快门速度值
+  const shutterSpeedValue = photo.ShutterSpeedValue
+    ? `${photo.ShutterSpeedValue.toFixed(1)} EV`
+    : null
+
+  // 光圈值
+  const apertureValue = photo.ApertureValue
+    ? `${photo.ApertureValue.toFixed(1)} EV`
+    : null
+
+  // 光源类型
+  const lightSourceMap: Record<number, string> = {
+    0: '自动',
+    1: '日光',
+    2: '荧光灯',
+    3: '钨丝灯',
+    4: '闪光灯',
+    9: '晴天',
+    10: '阴天',
+    11: '阴影',
+    12: '日光荧光灯 (D 5700 – 7100K)',
+    13: '日白荧光灯 (N 4600 – 5400K)',
+    14: '冷白荧光灯 (W 3900 – 4500K)',
+    15: '白荧光灯 (WW 3200 – 3700K)',
+    17: '标准光源 A',
+    18: '标准光源 B',
+    19: '标准光源 C',
+    20: 'D55',
+    21: 'D65',
+    22: 'D75',
+    23: 'D50',
+    24: 'ISO 钨丝灯',
+    255: '其他光源',
+  }
+  const lightSource =
+    photo.LightSource !== undefined
+      ? lightSourceMap[photo.LightSource] || `未知 (${photo.LightSource})`
+      : null
+
+  // 感光方法
+  const sensingMethodMap: Record<number, string> = {
+    1: '未定义',
+    2: '单芯片彩色区域传感器',
+    3: '双芯片彩色区域传感器',
+    4: '三芯片彩色区域传感器',
+    5: '彩色顺序区域传感器',
+    7: '三线传感器',
+    8: '彩色顺序线性传感器',
+  }
+  const sensingMethod =
+    photo.SensingMethod !== undefined
+      ? sensingMethodMap[photo.SensingMethod] || `未知 (${photo.SensingMethod})`
+      : null
+
+  // 自定义渲染
+  const customRenderedMap: Record<number, string> = {
+    0: '正常处理',
+    1: '自定义处理',
+  }
+  const customRendered =
+    photo.CustomRendered !== undefined
+      ? customRenderedMap[photo.CustomRendered] ||
+        `未知 (${photo.CustomRendered})`
+      : null
+
+  // 焦平面分辨率
+  const focalPlaneXResolution = photo.FocalPlaneXResolution
+    ? Math.round(photo.FocalPlaneXResolution)
+    : null
+  const focalPlaneYResolution = photo.FocalPlaneYResolution
+    ? Math.round(photo.FocalPlaneYResolution)
+    : null
+
+  // 焦平面分辨率单位
+  const focalPlaneResolutionUnitMap: Record<number, string> = {
+    1: '无单位',
+    2: '英寸',
+    3: '厘米',
+  }
+  const focalPlaneResolutionUnit =
+    photo.FocalPlaneResolutionUnit !== undefined
+      ? focalPlaneResolutionUnitMap[photo.FocalPlaneResolutionUnit] ||
+        `未知 (${photo.FocalPlaneResolutionUnit})`
+      : null
+
+  // 像素信息
+  const pixelXDimension = photo.PixelXDimension || null
+  const pixelYDimension = photo.PixelYDimension || null
+  const totalPixels =
+    pixelXDimension && pixelYDimension
+      ? pixelXDimension * pixelYDimension
+      : null
+  const megaPixels = totalPixels
+    ? `${(totalPixels / 1000000).toFixed(1)}MP`
+    : null
+
   // 色彩空间
   const colorSpaceMap: Record<number, string> = {
     1: 'sRGB',
@@ -383,6 +565,19 @@ const formatExifData = (exif: Exif | null) => {
     digitalZoom,
     colorSpace,
     gps: gpsInfo,
+    exposureBias,
+    brightnessValue,
+    shutterSpeedValue,
+    apertureValue,
+    lightSource,
+    sensingMethod,
+    customRendered,
+    focalPlaneXResolution,
+    focalPlaneYResolution,
+    focalPlaneResolutionUnit,
+    megaPixels,
+    pixelXDimension,
+    pixelYDimension,
   }
 }
 
