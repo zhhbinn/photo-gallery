@@ -1,19 +1,13 @@
 import './PhotoViewer.css'
 
-import type { Exif } from 'exif-reader'
 import { AnimatePresence, m } from 'motion/react'
 import type { FC } from 'react'
-import { Fragment, useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
-import {
-  CarbonIsoOutline,
-  MaterialSymbolsShutterSpeed,
-  StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens,
-  TablerAperture,
-} from '~/icons'
 import { clsxm } from '~/lib/cn'
 import type { PhotoManifest } from '~/types/photo'
 
+import { ExifPanel } from './ExifPanel'
 import { ProgressiveImage } from './ProgressiveImage'
 
 interface PhotoViewerProps {
@@ -240,160 +234,4 @@ const GalleryThumbnail: FC<{
       </div>
     </m.div>
   )
-}
-
-const ExifPanel: FC<{
-  currentPhoto: PhotoManifest
-  exifData: Exif | null
-}> = ({ currentPhoto, exifData }) => {
-  const formattedExifData = formatExifData(exifData)
-  return (
-    <m.div
-      className="w-80 bg-material-medium p-4 shrink-0 text-white overflow-y-auto z-10 backdrop-blur-3xl"
-      initial={{ opacity: 0, x: 100 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 100 }}
-      transition={{ duration: 0.3 }}
-    >
-      <h3 className="text-lg font-semibold mb-4">图片信息</h3>
-
-      <div className="space-y-4">
-        <div>
-          <h4 className="text-sm font-medium text-white/80 mb-2">基本信息</h4>
-          <div className="space-y-1 text-sm">
-            <div className="flex justify-between">
-              <span className="text-white/60">文件名</span>
-              <span>{currentPhoto.title}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-white/60">尺寸</span>
-              <span>
-                {currentPhoto.width} × {currentPhoto.height}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-white/60">文件大小</span>
-              <span>{(currentPhoto.size / 1024 / 1024).toFixed(1)}MB</span>
-            </div>
-          </div>
-        </div>
-
-        {formattedExifData && (
-          <Fragment>
-            {formattedExifData.camera && (
-              <div>
-                <h4 className="text-sm font-medium text-white/80 mb-2">
-                  设备信息
-                </h4>
-                <div className="text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-white/60">相机</span>
-                    <span>{formattedExifData.camera}</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div>
-              <h4 className="text-sm font-medium text-white/80 mb-2">
-                拍摄参数
-              </h4>
-              <div className="grid grid-cols-2 gap-3">
-                {formattedExifData.focalLength35mm && (
-                  <div className="flex items-center gap-2 bg-white/10 rounded-md px-2 py-1">
-                    <StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens className="text-white/70 text-sm" />
-                    <span className="text-xs">
-                      {formattedExifData.focalLength35mm}mm
-                    </span>
-                  </div>
-                )}
-
-                {formattedExifData.aperture && (
-                  <div className="flex items-center gap-2 bg-white/10 rounded-md px-2 py-1">
-                    <TablerAperture className="text-white/70 text-sm" />
-                    <span className="text-xs">
-                      {formattedExifData.aperture}
-                    </span>
-                  </div>
-                )}
-
-                {formattedExifData.shutterSpeed && (
-                  <div className="flex items-center gap-2 bg-white/10 rounded-md px-2 py-1">
-                    <MaterialSymbolsShutterSpeed className="text-white/70 text-sm" />
-                    <span className="text-xs">
-                      {formattedExifData.shutterSpeed}
-                    </span>
-                  </div>
-                )}
-
-                {formattedExifData.iso && (
-                  <div className="flex items-center gap-2 bg-white/10 rounded-md px-2 py-1">
-                    <CarbonIsoOutline className="text-white/70 text-sm" />
-                    <span className="text-xs">ISO {formattedExifData.iso}</span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {formattedExifData.dateTime && (
-              <div>
-                <h4 className="text-sm font-medium text-white/80 mb-2">
-                  拍摄时间
-                </h4>
-                <div className="text-sm text-white/80">
-                  {typeof formattedExifData.dateTime === 'string'
-                    ? new Date(formattedExifData.dateTime).toLocaleString()
-                    : formattedExifData.dateTime instanceof Date
-                      ? formattedExifData.dateTime.toLocaleString()
-                      : String(formattedExifData.dateTime)}
-                </div>
-              </div>
-            )}
-          </Fragment>
-        )}
-      </div>
-    </m.div>
-  )
-}
-
-const formatExifData = (exif: Exif | null) => {
-  if (!exif) return null
-
-  const photo = exif.Photo || {}
-  const image = exif.Image || {}
-
-  // 等效焦距 (35mm)
-  const focalLength35mm =
-    photo.FocalLengthIn35mmFilm ||
-    (photo.FocalLength ? Math.round(photo.FocalLength) : null)
-
-  // ISO
-  const iso = photo.ISOSpeedRatings || image.ISOSpeedRatings
-
-  // 快门速度
-  const exposureTime = photo.ExposureTime
-  const shutterSpeed = exposureTime
-    ? exposureTime >= 1
-      ? `${exposureTime}s`
-      : `1/${Math.round(1 / exposureTime)}`
-    : null
-
-  // 光圈
-  const aperture = photo.FNumber ? `f/${photo.FNumber}` : null
-
-  // 相机信息
-  const camera =
-    image.Make && image.Model ? `${image.Make} ${image.Model}` : null
-
-  // 拍摄时间
-  const dateTime = photo.DateTimeOriginal || photo.DateTime
-
-  return {
-    focalLength35mm,
-    iso,
-    shutterSpeed,
-    aperture,
-    camera,
-    dateTime,
-  }
 }
