@@ -7,6 +7,7 @@ import { Fragment } from 'react'
 
 import {
   CarbonIsoOutline,
+  MaterialSymbolsExposure,
   MaterialSymbolsShutterSpeed,
   StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens,
   TablerAperture,
@@ -123,7 +124,7 @@ export const ExifPanel: FC<{
 
                 {formattedExifData.exposureBias && (
                   <div className="flex items-center gap-2 bg-white/10 rounded-md px-2 py-1">
-                    <span className="text-white/70 text-sm">±</span>
+                    <MaterialSymbolsExposure className="text-white/70 text-sm" />
                     <span className="text-xs">
                       {formattedExifData.exposureBias}
                     </span>
@@ -159,6 +160,60 @@ export const ExifPanel: FC<{
                     <Row
                       label="白平衡"
                       value={formattedExifData.whiteBalance}
+                    />
+                  )}
+                  {formattedExifData.whiteBalanceBias && (
+                    <Row
+                      label="白平衡偏移"
+                      value={`${formattedExifData.whiteBalanceBias} Mired`}
+                    />
+                  )}
+                  {formattedExifData.wbShiftAB && (
+                    <Row
+                      label="白平衡偏移 (琥珀-蓝)"
+                      value={formattedExifData.wbShiftAB}
+                    />
+                  )}
+                  {formattedExifData.wbShiftGM && (
+                    <Row
+                      label="白平衡偏移 (绿-洋红)"
+                      value={formattedExifData.wbShiftGM}
+                    />
+                  )}
+                  {formattedExifData.whiteBalanceFineTune && (
+                    <Row
+                      label="白平衡微调"
+                      value={formattedExifData.whiteBalanceFineTune}
+                    />
+                  )}
+                  {formattedExifData.wbGRBLevels && (
+                    <Row
+                      label="白平衡 GRB 级别"
+                      value={
+                        Array.isArray(formattedExifData.wbGRBLevels)
+                          ? formattedExifData.wbGRBLevels.join(' ')
+                          : formattedExifData.wbGRBLevels
+                      }
+                    />
+                  )}
+                  {formattedExifData.wbGRBLevelsStandard && (
+                    <Row
+                      label="标准白平衡 GRB"
+                      value={
+                        Array.isArray(formattedExifData.wbGRBLevelsStandard)
+                          ? formattedExifData.wbGRBLevelsStandard.join(' ')
+                          : formattedExifData.wbGRBLevelsStandard
+                      }
+                    />
+                  )}
+                  {formattedExifData.wbGRBLevelsAuto && (
+                    <Row
+                      label="自动白平衡 GRB"
+                      value={
+                        Array.isArray(formattedExifData.wbGRBLevelsAuto)
+                          ? formattedExifData.wbGRBLevelsAuto.join(' ')
+                          : formattedExifData.wbGRBLevelsAuto
+                      }
                     />
                   )}
                   {formattedExifData.flash && (
@@ -483,6 +538,24 @@ const formatExifData = (exif: Exif | null) => {
       ? lightSourceMap[photo.LightSource] || `未知 (${photo.LightSource})`
       : null
 
+  // 白平衡偏移/微调相关字段
+  const whiteBalanceBias = (photo as any).WhiteBalanceBias || null
+  const wbShiftAB = (photo as any).WBShiftAB || null
+  const wbShiftGM = (photo as any).WBShiftGM || null
+  const whiteBalanceFineTune = (photo as any).WhiteBalanceFineTune || null
+
+  // 富士相机特有的白平衡字段
+  const wbGRBLevels =
+    (photo as any).WBGRBLevels || (photo as any)['WB GRB Levels'] || null
+  const wbGRBLevelsStandard =
+    (photo as any).WBGRBLevelsStandard ||
+    (photo as any)['WB GRB Levels Standard'] ||
+    null
+  const wbGRBLevelsAuto =
+    (photo as any).WBGRBLevelsAuto ||
+    (photo as any)['WB GRB Levels Auto'] ||
+    null
+
   // 感光方法
   const sensingMethodMap: Record<number, string> = {
     1: '未定义',
@@ -602,6 +675,13 @@ const formatExifData = (exif: Exif | null) => {
     megaPixels,
     pixelXDimension,
     pixelYDimension,
+    whiteBalanceBias,
+    wbShiftAB,
+    wbShiftGM,
+    whiteBalanceFineTune,
+    wbGRBLevels,
+    wbGRBLevelsStandard,
+    wbGRBLevelsAuto,
   }
 }
 
