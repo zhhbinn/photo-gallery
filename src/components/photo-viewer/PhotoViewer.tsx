@@ -4,7 +4,6 @@ import type { Exif } from 'exif-reader'
 import { AnimatePresence, m } from 'motion/react'
 import type { FC } from 'react'
 import { Fragment, useCallback, useEffect, useRef } from 'react'
-import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
 
 import {
   CarbonIsoOutline,
@@ -172,66 +171,15 @@ export const PhotoViewer = ({
                   ref={imageContainerRef}
                   className="relative w-full h-full flex items-center justify-center"
                 >
-                  <TransformWrapper
-                    initialScale={1}
-                    minScale={0.3}
-                    maxScale={5}
-                    doubleClick={{
-                      disabled: false,
-                      mode: 'toggle',
-                      step: 0.7,
-                      animationTime: 300,
-                    }}
-                    wheel={{
-                      step: 0.1,
-                    }}
-                    pinch={{
-                      step: 5,
-                    }}
-                    panning={{
-                      disabled: false,
-                      velocityDisabled: false,
-                    }}
-                    limitToBounds={false}
-                    centerOnInit={true}
-                    disablePadding={true}
-                    alignmentAnimation={{
-                      sizeX: 0,
-                      sizeY: 0,
-                      velocityAlignmentTime: 300,
-                    }}
-                    onInit={(ref) => {
-                      // 初始化时居中
-                      setTimeout(() => {
-                        ref.centerView(1, 0)
-                      }, 100)
-                    }}
-                  >
-                    <TransformComponent
-                      wrapperClass="!w-full !h-full"
-                      contentClass="!w-full !h-full flex items-center justify-center"
-                    >
-                      <div
-                        className="relative"
-                        style={{
-                          width: imageSize.width,
-                          height: imageSize.height,
-                          maxWidth: '90vw',
-                          maxHeight: '90vh',
-                        }}
-                      >
-                        <ProgressiveImage
-                          src={currentPhoto.originalUrl}
-                          thumbnailSrc={currentPhoto.thumbnailUrl}
-                          blurhash={currentPhoto.blurhash}
-                          alt={currentPhoto.title}
-                          width={imageSize.width}
-                          height={imageSize.height}
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
-                    </TransformComponent>
-                  </TransformWrapper>
+                  <ProgressiveImage
+                    src={currentPhoto.originalUrl}
+                    thumbnailSrc={currentPhoto.thumbnailUrl}
+                    blurhash={currentPhoto.blurhash}
+                    alt={currentPhoto.title}
+                    width={imageSize.width}
+                    height={imageSize.height}
+                    className="w-full h-full object-contain"
+                  />
                 </m.div>
               </div>
 

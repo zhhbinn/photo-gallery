@@ -1,8 +1,9 @@
-import { m } from 'motion/react'
+import { m, useAnimationControls } from 'motion/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Blurhash } from 'react-blurhash'
 
 import { clsxm } from '~/lib/cn'
+import { Spring } from '~/lib/spring'
 
 interface ProgressiveImageProps {
   src: string
@@ -29,39 +30,62 @@ export const ProgressiveImage = ({
   onError,
   onProgress,
 }: ProgressiveImageProps) => {
+  const [blobSrc, setBlobSrc] = useState<string | null>(null)
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false)
   const [highResLoaded, setHighResLoaded] = useState(false)
   const [error, setError] = useState(false)
   const [loadingProgress, setLoadingProgress] = useState(0)
-  const highResRef = useRef<HTMLImageElement>(null)
-  const thumbnailRef = useRef<HTMLImageElement>(null)
 
-  // 模拟加载进度
+  const thumbnailRef = useRef<HTMLImageElement>(null)
+  const highResRef = useRef<HTMLImageElement>(null)
+  const thumbnailAnimateController = useAnimationControls()
   useEffect(() => {
     if (highResLoaded || error) return
 
-    const interval = setInterval(() => {
-      setLoadingProgress((prev) => {
-        const newProgress = prev + Math.random() * 5
-        const clampedProgress = Math.min(newProgress, 85)
-        onProgress?.(clampedProgress)
-        return clampedProgress
-      })
-    }, 100)
+    setLoadingProgress(0)
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', src)
+    xhr.responseType = 'blob'
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        const blob = xhr.response
+        const url = URL.createObjectURL(blob)
+        setBlobSrc(url)
+        setHighResLoaded(true)
+      }
+    }
 
-    return () => clearInterval(interval)
-  }, [highResLoaded, error, onProgress])
+    xhr.onprogress = (e) => {
+      if (e.lengthComputable) {
+        const progress = (e.loaded / e.total) * 100
+        setLoadingProgress(progress)
+        onProgress?.(progress)
+      }
+    }
+    xhr.onerror = () => {
+      setError(true)
+      onError?.()
+    }
+    xhr.send()
+
+    return () => {
+      xhr.abort()
+    }
+  }, [
+    highResLoaded,
+    error,
+    onProgress,
+    src,
+    onError,
+    thumbnailAnimateController,
+  ])
 
   const handleThumbnailLoad = useCallback(() => {
     setThumbnailLoaded(true)
-  }, [])
-
-  const handleHighResLoad = useCallback(() => {
-    setHighResLoaded(true)
-    setLoadingProgress(100)
-    onProgress?.(100)
-    onLoad?.()
-  }, [onLoad, onProgress])
+    thumbnailAnimateController.start({
+      opacity: 1,
+    })
+  }, [thumbnailAnimateController])
 
   const handleError = useCallback(() => {
     setError(true)
@@ -111,28 +135,30 @@ export const ProgressiveImage = ({
       {thumbnailSrc && (
         <m.img
           ref={thumbnailRef}
+          initial={{ opacity: 0 }}
+          exit={{ opacity: 0 }}
           src={thumbnailSrc}
           alt={alt}
-          className={clsxm(
-            'absolute inset-0 w-full h-full object-contain transition-opacity duration-300',
-            thumbnailLoaded ? 'opacity-100' : 'opacity-0',
-          )}
+          transition={Spring.presets.smooth}
+          className={
+            'absolute inset-0 w-full h-full object-contain transition-opacity duration-300'
+          }
+          animate={thumbnailAnimateController}
           onLoad={handleThumbnailLoad}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: thumbnailLoaded && !highResLoaded ? 1 : 0 }}
         />
       )}
 
       {/* 高清图片 */}
+
       <img
         ref={highResRef}
-        src={src}
+        src={blobSrc || undefined}
         alt={alt}
         className={clsxm(
-          'w-full h-full object-contain transition-opacity duration-500',
+          'absolute inset-0 w-full h-full object-contain transition-opacity duration-300',
           highResLoaded ? 'opacity-100' : 'opacity-0',
         )}
-        onLoad={handleHighResLoad}
+        onLoad={onLoad}
         onError={handleError}
         draggable={false}
         loading="eager"
