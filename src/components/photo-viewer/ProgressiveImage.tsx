@@ -108,7 +108,7 @@ export const ProgressiveImage = ({
           className,
         )}
       >
-        <div className="text-center text-gray-500">
+        <div className="text-center text-text-secondary">
           <i className="i-mingcute-image-line text-4xl mb-2" />
           <p className="text-sm">Failed to load image</p>
         </div>

@@ -7,7 +7,17 @@ class PhotoLoader {
   private photoMap: Record<string, PhotoManifest> = {}
 
   constructor() {
-    this.photos = PhotosManifest as unknown as PhotoManifest[]
+    if (import.meta.env.DEV) {
+      this.photos = PhotosManifest.map((photo) => ({
+        ...photo,
+        originalUrl: photo.originalUrl.replace(
+          'https://s3-private.innei.in',
+          'http://10.0.0.33:18888',
+        ),
+      })) as unknown as PhotoManifest[]
+    } else {
+      this.photos = PhotosManifest as unknown as PhotoManifest[]
+    }
     this.photos.forEach((photo) => {
       this.photoMap[photo.id] = photo
     })

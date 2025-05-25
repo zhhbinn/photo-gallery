@@ -207,7 +207,7 @@ const GalleryThumbnail: FC<{
 }> = ({ currentIndex, photos, onIndexChange }) => {
   return (
     <m.div
-      className="absolute bottom-0 left-0 right-0 z-10 shrink-0 backdrop-blur-3xl bg-material-medium"
+      className="z-10 shrink-0 backdrop-blur-3xl bg-material-medium"
       initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 100 }}
@@ -354,7 +354,6 @@ const ExifPanel: FC<{
   )
 }
 
-// 格式化 EXIF 数据
 const formatExifData = (exif: Exif | null) => {
   if (!exif) return null
 
