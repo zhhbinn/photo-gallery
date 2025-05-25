@@ -19,6 +19,7 @@ export const ExifPanel: FC<{
   exifData: Exif | null
 }> = ({ currentPhoto, exifData }) => {
   const formattedExifData = formatExifData(exifData)
+
   return (
     <m.div
       className="w-80 bg-material-medium p-4 shrink-0 text-white overflow-y-auto z-10 backdrop-blur-3xl"
@@ -55,26 +56,7 @@ export const ExifPanel: FC<{
             )}
 
             {formattedExifData?.dateTime && (
-              <Row
-                label="拍摄时间"
-                value={
-                  typeof formattedExifData.dateTime === 'string'
-                    ? new Date(formattedExifData.dateTime).toLocaleString(
-                        'zh-CN',
-                        {
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                          second: '2-digit',
-                        },
-                      )
-                    : formattedExifData.dateTime instanceof Date
-                      ? String(formattedExifData.dateTime)
-                      : String(formattedExifData.dateTime)
-                }
-              />
+              <Row label="拍摄时间" value={formattedExifData.dateTime} />
             )}
           </div>
         </div>
@@ -417,8 +399,36 @@ const formatExifData = (exif: Exif | null) => {
   // 软件信息
   const software = image.Software || null
 
+  const offsetTimeOriginal = photo.OffsetTimeOriginal || photo.OffsetTime
   // 拍摄时间
-  const dateTime = photo.DateTimeOriginal || photo.DateTime
+  const dateTime: string | null = (() => {
+    const originalDateTimeStr =
+      (photo.DateTimeOriginal as unknown as string) ||
+      (photo.DateTime as unknown as string)
+
+    if (!originalDateTimeStr) return null
+
+    const date = new Date(originalDateTimeStr)
+
+    if (offsetTimeOriginal) {
+      // 解析时区偏移，例如 "+08:00" 或 "-05:00"
+      const offsetMatch = offsetTimeOriginal.match(/([+-])(\d{2}):(\d{2})/)
+      if (offsetMatch) {
+        const [, sign, hours, minutes] = offsetMatch
+        const offsetMinutes =
+          (Number.parseInt(hours) * 60 + Number.parseInt(minutes)) *
+          (sign === '+' ? 1 : -1)
+
+        // 减去偏移量，将本地时间转换为 UTC 时间
+        const utcTime = new Date(date.getTime() - offsetMinutes * 60 * 1000)
+        return formatDateTime(utcTime)
+      }
+
+      return formatDateTime(date)
+    }
+
+    return formatDateTime(date)
+  })()
 
   // 曝光模式
   const exposureModeMap: Record<number, string> = {
@@ -702,4 +712,15 @@ const Row: FC<{
       </span>
     </div>
   )
+}
+
+const datetimeFormatter = new Intl.DateTimeFormat('zh-CN', {
+  dateStyle: 'short',
+  timeStyle: 'medium',
+})
+
+const formatDateTime = (date: Date | null | undefined) => {
+  if (!date) return ''
+
+  return datetimeFormatter.format(date)
 }
