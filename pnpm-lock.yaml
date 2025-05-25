@@ -44,6 +44,9 @@ importers:
       es-toolkit:
         specifier: 1.38.0
         version: 1.38.0
+      exif-reader:
+        specifier: 2.0.2
+        version: 2.0.2
       immer:
         specifier: 10.1.1
         version: 10.1.1
@@ -111,6 +114,9 @@ importers:
       '@tailwindcss/vite':
         specifier: 4.1.7
         version: 4.1.7(vite@6.3.5(@types/node@22.15.21)(jiti@2.4.2)(lightningcss@1.30.1)(tsx@4.19.4)(yaml@2.8.0))
+      '@types/exif-reader':
+        specifier: 2.0.2
+        version: 2.0.2
       '@types/node':
         specifier: 22.15.21
         version: 22.15.21
@@ -1646,6 +1652,10 @@ packages:
   '@types/estree@1.0.7':
     resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
 
+  '@types/exif-reader@2.0.2':
+    resolution: {integrity: sha512-p6KWhw3nlLQ5Zhr/ZHP93IEY6LT4dldw1A5qB3Hw3Cw81bFVupoC4kkKYAXk+HfVQbT8+RJ1r8OS6w2xMT5Gww==}
+    deprecated: This is a stub types definition. exif-reader provides its own type definitions, so you do not need this installed.
+
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
@@ -2520,6 +2530,9 @@ packages:
 
   eventemitter3@5.0.1:
     resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
+
+  exif-reader@2.0.2:
+    resolution: {integrity: sha512-CVFqcwdwFe2GnbbW7/Q7sUhVP5Ilaw7fuXQc6ad3AbX20uGfHhXTpkF/hQHPrtOuys9elFVgsUkvwfhfvjDa1A==}
 
   exsolve@1.0.5:
     resolution: {integrity: sha512-pz5dvkYYKQ1AHVrgOzBKWeP4u4FRb3a6DNK2ucr0OoNwYIU4QWsJ+NM36LLzORT+z845MzKHHhpXiUF5nvQoJg==}
@@ -5959,6 +5972,10 @@ snapshots:
 
   '@types/estree@1.0.7': {}
 
+  '@types/exif-reader@2.0.2':
+    dependencies:
+      exif-reader: 2.0.2
+
   '@types/json-schema@7.0.15': {}
 
   '@types/node@22.15.21':
@@ -6990,6 +7007,8 @@ snapshots:
   ev-emitter@1.1.1: {}
 
   eventemitter3@5.0.1: {}
+
+  exif-reader@2.0.2: {}
 
   exsolve@1.0.5: {}
 

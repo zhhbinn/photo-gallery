@@ -3,7 +3,7 @@
     "id": "DSCF3157",
     "title": "DSCF3157",
     "description": "",
-    "dateTaken": "2025-05-24T17:11:05.541Z",
+    "dateTaken": "2025-05-25T05:11:50.471Z",
     "views": 0,
     "tags": [],
     "originalUrl": "http://10.0.0.33:18888/images/DSCF3157.jpg",
@@ -14,13 +14,94 @@
     "aspectRatio": 1.500100020004001,
     "s3Key": "DSCF3157.jpg",
     "lastModified": "2025-05-24T16:56:37.609Z",
-    "size": 23368832
+    "size": 23368832,
+    "exif": {
+      "bigEndian": false,
+      "Image": {
+        "Make": "FUJIFILM",
+        "Model": "X-T5",
+        "XResolution": 300,
+        "YResolution": 300,
+        "ResolutionUnit": 2,
+        "Software": "Capture One Macintosh",
+        "Copyright": "                                                                                                                                                                                                                                                               ",
+        "ExifTag": 424
+      },
+      "Thumbnail": {
+        "Compression": 6,
+        "JPEGInterchangeFormat": 1178,
+        "JPEGInterchangeFormatLength": 1460
+      },
+      "Photo": {
+        "ExposureTime": 0.0015625,
+        "FNumber": 5.6,
+        "ExposureProgram": 1,
+        "ISOSpeedRatings": 500,
+        "SensitivityType": 1,
+        "ExifVersion": {
+          "type": "Buffer",
+          "data": [
+            48,
+            50,
+            51,
+            48
+          ]
+        },
+        "DateTimeOriginal": "2025-05-24T16:06:19.000Z",
+        "DateTimeDigitized": "2025-05-24T16:06:19.000Z",
+        "OffsetTimeOriginal": "+08:00",
+        "ShutterSpeedValue": 9.321928,
+        "ApertureValue": 4.970854,
+        "BrightnessValue": 9.13,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 4,
+        "MeteringMode": 2,
+        "LightSource": 1,
+        "Flash": 0,
+        "FocalLength": 278.4,
+        "PixelXDimension": 7499,
+        "PixelYDimension": 4999,
+        "FocalPlaneXResolution": 1879,
+        "FocalPlaneYResolution": 1879,
+        "FocalPlaneResolutionUnit": 3,
+        "SensingMethod": 2,
+        "FileSource": {
+          "type": "Buffer",
+          "data": [
+            3
+          ]
+        },
+        "SceneType": {
+          "type": "Buffer",
+          "data": [
+            1
+          ]
+        },
+        "CustomRendered": 0,
+        "ExposureMode": 1,
+        "WhiteBalance": 1,
+        "FocalLengthIn35mmFilm": 418,
+        "SceneCaptureType": 0,
+        "Sharpness": 2,
+        "SubjectDistanceRange": 0,
+        "BodySerialNumber": "5AA05818",
+        "LensSpecification": [
+          278.4,
+          278.4,
+          4,
+          4
+        ],
+        "LensMake": "FUJIFILM",
+        "LensModel": "Fujifilm Fujinon XF70-300mmF4-5.6 R LM OIS WR",
+        "LensSerialNumber": "5AC03773"
+      }
+    }
   },
   {
     "id": "DSCF3138",
     "title": "DSCF3138",
     "description": "",
-    "dateTaken": "2025-05-24T17:11:04.774Z",
+    "dateTaken": "2025-05-25T05:11:49.523Z",
     "views": 0,
     "tags": [],
     "originalUrl": "http://10.0.0.33:18888/images/DSCF3138.jpg",
@@ -31,13 +112,94 @@
     "aspectRatio": 0.6666204602162462,
     "s3Key": "DSCF3138.jpg",
     "lastModified": "2025-05-24T16:56:37.705Z",
-    "size": 27438417
+    "size": 27438417,
+    "exif": {
+      "bigEndian": false,
+      "Image": {
+        "Make": "FUJIFILM",
+        "Model": "X-T5",
+        "XResolution": 300,
+        "YResolution": 300,
+        "ResolutionUnit": 2,
+        "Software": "Capture One Macintosh",
+        "Copyright": "                                                                                                                                                                                                                                                               ",
+        "ExifTag": 424
+      },
+      "Thumbnail": {
+        "Compression": 6,
+        "JPEGInterchangeFormat": 1158,
+        "JPEGInterchangeFormatLength": 2516
+      },
+      "Photo": {
+        "ExposureTime": 0.00015625,
+        "FNumber": 1.8,
+        "ExposureProgram": 1,
+        "ISOSpeedRatings": 500,
+        "SensitivityType": 1,
+        "ExifVersion": {
+          "type": "Buffer",
+          "data": [
+            48,
+            50,
+            51,
+            48
+          ]
+        },
+        "DateTimeOriginal": "2025-05-24T15:05:00.000Z",
+        "DateTimeDigitized": "2025-05-24T15:05:00.000Z",
+        "OffsetTimeOriginal": "+08:00",
+        "ShutterSpeedValue": 12.643856,
+        "ApertureValue": 1.695994,
+        "BrightnessValue": 9.16,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1,
+        "MeteringMode": 2,
+        "LightSource": 0,
+        "Flash": 0,
+        "FocalLength": 50,
+        "PixelXDimension": 4809,
+        "PixelYDimension": 7214,
+        "FocalPlaneXResolution": 1879,
+        "FocalPlaneYResolution": 1879,
+        "FocalPlaneResolutionUnit": 3,
+        "SensingMethod": 2,
+        "FileSource": {
+          "type": "Buffer",
+          "data": [
+            3
+          ]
+        },
+        "SceneType": {
+          "type": "Buffer",
+          "data": [
+            1
+          ]
+        },
+        "CustomRendered": 0,
+        "ExposureMode": 1,
+        "WhiteBalance": 1,
+        "FocalLengthIn35mmFilm": 75,
+        "SceneCaptureType": 0,
+        "Sharpness": 0,
+        "SubjectDistanceRange": 0,
+        "BodySerialNumber": "5AA05818",
+        "LensSpecification": [
+          50,
+          50,
+          1.4142135642135643,
+          1.4142135642135643
+        ],
+        "LensMake": "BS-Optics",
+        "LensModel": "BS-Optics FX 50mm F1.4 ",
+        "LensSerialNumber": "30400849"
+      }
+    }
   },
   {
     "id": "DSCF3136",
     "title": "DSCF3136",
     "description": "",
-    "dateTaken": "2025-05-24T17:11:03.906Z",
+    "dateTaken": "2025-05-25T05:11:48.404Z",
     "views": 0,
     "tags": [],
     "originalUrl": "http://10.0.0.33:18888/images/DSCF3136.jpg",
@@ -48,6 +210,87 @@
     "aspectRatio": 1.5,
     "s3Key": "DSCF3136.jpg",
     "lastModified": "2025-05-24T16:56:37.901Z",
-    "size": 34346465
+    "size": 34346465,
+    "exif": {
+      "bigEndian": false,
+      "Image": {
+        "Make": "FUJIFILM",
+        "Model": "X-T5",
+        "XResolution": 300,
+        "YResolution": 300,
+        "ResolutionUnit": 2,
+        "Software": "Capture One Macintosh",
+        "Copyright": "                                                                                                                                                                                                                                                               ",
+        "ExifTag": 424
+      },
+      "Thumbnail": {
+        "Compression": 6,
+        "JPEGInterchangeFormat": 1158,
+        "JPEGInterchangeFormatLength": 3081
+      },
+      "Photo": {
+        "ExposureTime": 0.00025,
+        "FNumber": 1.8,
+        "ExposureProgram": 1,
+        "ISOSpeedRatings": 400,
+        "SensitivityType": 1,
+        "ExifVersion": {
+          "type": "Buffer",
+          "data": [
+            48,
+            50,
+            51,
+            48
+          ]
+        },
+        "DateTimeOriginal": "2025-05-24T15:02:17.000Z",
+        "DateTimeDigitized": "2025-05-24T15:02:17.000Z",
+        "OffsetTimeOriginal": "+08:00",
+        "ShutterSpeedValue": 11.965784,
+        "ApertureValue": 1.695994,
+        "BrightnessValue": 8.24,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1,
+        "MeteringMode": 2,
+        "LightSource": 0,
+        "Flash": 0,
+        "FocalLength": 50,
+        "PixelXDimension": 7728,
+        "PixelYDimension": 5152,
+        "FocalPlaneXResolution": 1879,
+        "FocalPlaneYResolution": 1879,
+        "FocalPlaneResolutionUnit": 3,
+        "SensingMethod": 2,
+        "FileSource": {
+          "type": "Buffer",
+          "data": [
+            3
+          ]
+        },
+        "SceneType": {
+          "type": "Buffer",
+          "data": [
+            1
+          ]
+        },
+        "CustomRendered": 0,
+        "ExposureMode": 1,
+        "WhiteBalance": 1,
+        "FocalLengthIn35mmFilm": 75,
+        "SceneCaptureType": 0,
+        "Sharpness": 0,
+        "SubjectDistanceRange": 0,
+        "BodySerialNumber": "5AA05818",
+        "LensSpecification": [
+          50,
+          50,
+          1.4142135642135643,
+          1.4142135642135643
+        ],
+        "LensMake": "BS-Optics",
+        "LensModel": "BS-Optics FX 50mm F1.4 ",
+        "LensSerialNumber": "30400849"
+      }
+    }
   }
 ]

@@ -9,12 +9,20 @@ import {
   S3Client,
 } from '@aws-sdk/client-s3'
 import { encode } from 'blurhash'
+import type { Exif } from 'exif-reader'
+import exifReader from 'exif-reader'
 import sharp from 'sharp'
 
 import { env } from '../env.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+// 解析命令行参数
+const args = process.argv.slice(2)
+const isForceMode = args.includes('--force')
+
+console.info(`运行模式: ${isForceMode ? '全量更新' : '增量更新'}`)
 
 // 创建 S3 客户端
 const s3ClientConfig: S3ClientConfig = {
@@ -74,6 +82,51 @@ interface PhotoManifestItem {
   s3Key: string
   lastModified: string
   size: number
+  exif: Exif | null
+}
+
+// 读取现有的 manifest
+async function loadExistingManifest(): Promise<PhotoManifestItem[]> {
+  try {
+    const manifestPath = path.join(
+      __dirname,
+      '../src/data/photos-manifest.json',
+    )
+    const manifestContent = await fs.readFile(manifestPath, 'utf-8')
+    return JSON.parse(manifestContent) as PhotoManifestItem[]
+  } catch {
+    console.info('未找到现有 manifest 文件，将创建新的')
+    return []
+  }
+}
+
+// 检查缩略图是否存在
+async function thumbnailExists(photoId: string): Promise<boolean> {
+  try {
+    const thumbnailPath = path.join(
+      __dirname,
+      '../public/thumbnails',
+      `${photoId}.webp`,
+    )
+    await fs.access(thumbnailPath)
+    return true
+  } catch {
+    return false
+  }
+}
+
+// 检查照片是否需要更新（基于最后修改时间）
+function needsUpdate(
+  existingItem: PhotoManifestItem | undefined,
+  s3Object: _Object,
+): boolean {
+  if (!existingItem) return true
+  if (!s3Object.LastModified) return true
+
+  const existingModified = new Date(existingItem.lastModified)
+  const s3Modified = s3Object.LastModified
+
+  return s3Modified > existingModified
 }
 
 // 生成 blurhash
@@ -96,12 +149,20 @@ async function generateBlurhash(imageBuffer: Buffer): Promise<string | null> {
 async function generateThumbnail(
   imageBuffer: Buffer,
   photoId: string,
+  forceRegenerate = false,
 ): Promise<string | null> {
   try {
     const thumbnailDir = path.join(__dirname, '../public/thumbnails')
     await fs.mkdir(thumbnailDir, { recursive: true })
 
     const thumbnailPath = path.join(thumbnailDir, `${photoId}.webp`)
+    const thumbnailUrl = `/thumbnails/${photoId}.webp`
+
+    // 如果不是强制模式且缩略图已存在，直接返回URL
+    if (!forceRegenerate && (await thumbnailExists(photoId))) {
+      console.info(`缩略图已存在，跳过生成: ${photoId}`)
+      return thumbnailUrl
+    }
 
     await sharp(imageBuffer)
       .resize(400, 400, {
@@ -111,7 +172,7 @@ async function generateThumbnail(
       .webp({ quality: 80 })
       .toFile(thumbnailPath)
 
-    return `/thumbnails/${photoId}.webp`
+    return thumbnailUrl
   } catch (error) {
     console.error('生成缩略图失败:', error)
     return null
@@ -181,6 +242,29 @@ async function getImageMetadata(
     }
   } catch (error) {
     console.error('获取图片元数据失败:', error)
+    return null
+  }
+}
+
+// 提取 EXIF 数据
+async function extractExifData(imageBuffer: Buffer): Promise<Exif | null> {
+  try {
+    const metadata = await sharp(imageBuffer).metadata()
+
+    if (!metadata.exif) {
+      return null
+    }
+
+    // 使用 exif-reader 解析 EXIF 数据
+    const exifData = exifReader(metadata.exif)
+
+    if (!exifData) {
+      return null
+    }
+
+    return exifData
+  } catch (error) {
+    console.error('提取 EXIF 数据失败:', error)
     return null
   }
 }
@@ -258,6 +342,14 @@ async function buildManifest(): Promise<void> {
     console.info(`存储桶: ${env.S3_BUCKET_NAME}`)
     console.info(`前缀: ${env.S3_PREFIX || '无前缀'}`)
 
+    // 读取现有的 manifest（如果存在）
+    const existingManifest = isForceMode ? [] : await loadExistingManifest()
+    const existingManifestMap = new Map(
+      existingManifest.map((item) => [item.s3Key, item]),
+    )
+
+    console.info(`现有 manifest 包含 ${existingManifest.length} 张照片`)
+
     // 列出 S3 中的所有图片文件
     const listCommand = new ListObjectsV2Command({
       Bucket: env.S3_BUCKET_NAME,
@@ -275,9 +367,12 @@ async function buildManifest(): Promise<void> {
       return SUPPORTED_FORMATS.has(ext)
     })
 
-    console.info(`找到 ${imageObjects.length} 张照片`)
+    console.info(`S3 中找到 ${imageObjects.length} 张照片`)
 
     const manifest: PhotoManifestItem[] = []
+    let processedCount = 0
+    let skippedCount = 0
+    let newCount = 0
 
     for (const [index, obj] of imageObjects.entries()) {
       const key = obj.Key
@@ -287,8 +382,31 @@ async function buildManifest(): Promise<void> {
       }
 
       const photoId = path.basename(key, path.extname(key))
+      const existingItem = existingManifestMap.get(key)
 
       console.info(`处理照片 ${index + 1}/${imageObjects.length}: ${key}`)
+
+      // 检查是否需要更新
+      if (!isForceMode && existingItem && !needsUpdate(existingItem, obj)) {
+        // 检查缩略图是否存在，如果不存在则需要重新处理
+        const hasThumbnail = await thumbnailExists(photoId)
+        if (hasThumbnail) {
+          console.info(`照片未更新且缩略图存在，跳过处理: ${key}`)
+          manifest.push(existingItem)
+          skippedCount++
+          continue
+        } else {
+          console.info(`照片未更新但缩略图缺失，重新生成缩略图: ${key}`)
+        }
+      }
+
+      // 需要处理的照片（新照片、更新的照片或缺失缩略图的照片）
+      if (!existingItem) {
+        newCount++
+        console.info(`新照片: ${key}`)
+      } else {
+        console.info(`更新照片: ${key}`)
+      }
 
       // 获取图片数据
       const imageBuffer = await getImageFromS3(key)
@@ -301,11 +419,30 @@ async function buildManifest(): Promise<void> {
       // 提取照片信息
       const photoInfo = extractPhotoInfo(key)
 
-      // 生成 blurhash 和缩略图
-      const [blurhash, thumbnailUrl] = await Promise.all([
-        generateBlurhash(imageBuffer),
-        generateThumbnail(imageBuffer, photoId),
-      ])
+      // 如果是增量更新且已有 blurhash，可以复用
+      let blurhash: string | null = null
+      if (!isForceMode && existingItem?.blurhash) {
+        blurhash = existingItem.blurhash
+        console.info(`复用现有 blurhash: ${photoId}`)
+      } else {
+        blurhash = await generateBlurhash(imageBuffer)
+      }
+
+      // 如果是增量更新且已有 EXIF 数据，可以复用
+      let exifData: ExifData | null = null
+      if (!isForceMode && existingItem?.exif) {
+        exifData = existingItem.exif
+        console.info(`复用现有 EXIF 数据: ${photoId}`)
+      } else {
+        exifData = await extractExifData(imageBuffer)
+      }
+
+      // 生成缩略图（会自动检查是否需要重新生成）
+      const thumbnailUrl = await generateThumbnail(
+        imageBuffer,
+        photoId,
+        isForceMode,
+      )
 
       const aspectRatio = metadata.width / metadata.height
 
@@ -326,7 +463,10 @@ async function buildManifest(): Promise<void> {
         lastModified:
           obj.LastModified?.toISOString() || new Date().toISOString(),
         size: obj.Size || 0,
+        exif: exifData,
       })
+
+      processedCount++
 
       // 添加延迟避免过快处理
       await new Promise((resolve) => setTimeout(resolve, 100))
@@ -347,6 +487,10 @@ async function buildManifest(): Promise<void> {
     await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2))
 
     console.info(`✅ 成功生成 manifest，包含 ${manifest.length} 张照片`)
+    console.info(`📊 统计信息:`)
+    console.info(`   - 新增照片: ${newCount}`)
+    console.info(`   - 处理照片: ${processedCount}`)
+    console.info(`   - 跳过照片: ${skippedCount}`)
     console.info(`📁 Manifest 保存至: ${manifestPath}`)
   } catch (error) {
     console.error('构建 manifest 失败:', error)
