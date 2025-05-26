@@ -1,5 +1,5 @@
 import tailwindcss from '@tailwindcss/vite'
-import reactRefresh from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
 import { defineConfig } from 'vite'
 import { checker } from 'vite-plugin-checker'
@@ -9,10 +9,18 @@ import { siteConfig } from './config/site.config'
 import PKG from './package.json'
 import { ogImagePlugin } from './plugins/og-image-plugin'
 
+const ReactCompilerConfig = {
+  /* ... */
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    reactRefresh(),
+    react({
+      babel: {
+        plugins: [['babel-plugin-react-compiler', ReactCompilerConfig]],
+      },
+    }),
     tsconfigPaths(),
     checker({
       typescript: true,
