@@ -5,7 +5,9 @@ import { RootProviders } from './providers/root-providers'
 function App() {
   return (
     <RootProviders>
-      <Outlet />
+      <div className="min-h-screen">
+        <Outlet />
+      </div>
     </RootProviders>
   )
 }
