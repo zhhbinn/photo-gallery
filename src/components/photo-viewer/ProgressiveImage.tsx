@@ -115,7 +115,7 @@ export const ProgressiveImage = ({
     return (
       <div
         className={clsxm(
-          'flex items-center justify-center bg-gray-100',
+          'flex items-center justify-center bg-material-opaque',
           className,
         )}
       >
