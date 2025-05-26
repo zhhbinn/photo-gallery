@@ -97,6 +97,18 @@ class WebGLImageViewerEngine {
   private targetTranslateX = 0
   private targetTranslateY = 0
 
+  // Throttle state for render
+  private renderThrottleId: number | null = null
+  private lastRenderTime = 0
+  private renderThrottleDelay = 16 // ~60fps
+
+  // Texture optimization state
+  private originalImage: HTMLImageElement | null = null
+  private textureDebounceId: ReturnType<typeof setTimeout> | null = null
+  private textureDebounceDelay = 300 // ms
+  private currentTextureScale = 1
+  private lastOptimalTextureSize = { width: 0, height: 0 }
+
   // Configuration
   private config: Required<WebGLImageViewerProps>
   private onZoomChange?: (originalScale: number, relativeScale: number) => void
@@ -194,6 +206,8 @@ class WebGLImageViewerEngine {
     if (this.imageLoaded) {
       this.constrainImagePosition()
       this.render()
+      // canvas尺寸变化时也需要检查纹理更新
+      this.debouncedTextureUpdate()
     }
   }
 
@@ -296,15 +310,137 @@ class WebGLImageViewerEngine {
   }
 
   private createTexture(image: HTMLImageElement) {
+    this.originalImage = image
+    this.createOptimizedTexture()
+  }
+
+  private createOptimizedTexture() {
+    if (!this.originalImage) return
+
     const { gl } = this
 
+    // 计算当前最优纹理尺寸
+    const optimalSize = this.calculateOptimalTextureSize()
+
+    this.lastOptimalTextureSize = optimalSize
+
+    // 创建离屏canvas来调整图片尺寸
+    const offscreenCanvas = document.createElement('canvas')
+    const offscreenCtx = offscreenCanvas.getContext('2d')!
+
+    offscreenCanvas.width = optimalSize.width
+    offscreenCanvas.height = optimalSize.height
+
+    // 绘制缩放后的图片
+    offscreenCtx.drawImage(
+      this.originalImage,
+      0,
+      0,
+      this.originalImage.width,
+      this.originalImage.height,
+      0,
+      0,
+      optimalSize.width,
+      optimalSize.height,
+    )
+
+    // 删除旧纹理
+    if (this.texture) {
+      gl.deleteTexture(this.texture)
+    }
+
+    // 创建新纹理
     this.texture = gl.createTexture()
     gl.bindTexture(gl.TEXTURE_2D, this.texture)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
+    gl.texImage2D(
+      gl.TEXTURE_2D,
+      0,
+      gl.RGBA,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
+      offscreenCanvas,
+    )
+
+    this.currentTextureScale = this.scale
+  }
+
+  private calculateOptimalTextureSize(): { width: number; height: number } {
+    if (!this.originalImage) return { width: 0, height: 0 }
+
+    // 获取fit-to-window的基础缩放比例
+    const fitToScreenScale = this.getFitToScreenScale()
+
+    // 计算相对于fit-to-window的缩放倍率
+    const relativeScale = this.scale / fitToScreenScale
+
+    // 计算图片在fit-to-window状态下的显示尺寸
+    const imageAspectRatio =
+      this.originalImage.width / this.originalImage.height
+    const canvasAspectRatio = this.canvasWidth / this.canvasHeight
+
+    let baseFitWidth: number
+    let baseFitHeight: number
+
+    if (imageAspectRatio > canvasAspectRatio) {
+      // 图片更宽，以宽度为准适应canvas
+      baseFitWidth = this.canvasWidth
+      baseFitHeight = this.canvasWidth / imageAspectRatio
+    } else {
+      // 图片更高，以高度为准适应canvas
+      baseFitHeight = this.canvasHeight
+      baseFitWidth = this.canvasHeight * imageAspectRatio
+    }
+
+    // 应用相对缩放倍率和2倍超采样
+    const targetWidth = baseFitWidth * relativeScale * 2
+    const targetHeight = baseFitHeight * relativeScale * 2
+
+    // 限制在原图尺寸内，避免放大超过原图
+    const maxWidth = Math.min(targetWidth, this.originalImage.width)
+    const maxHeight = Math.min(targetHeight, this.originalImage.height)
+
+    // 确保尺寸是2的幂次方（WebGL优化）
+    const optimalWidth = Math.max(
+      64,
+      Math.min(4096, Math.pow(2, Math.ceil(Math.log2(maxWidth)))),
+    )
+    const optimalHeight = Math.max(
+      64,
+      Math.min(4096, Math.pow(2, Math.ceil(Math.log2(maxHeight)))),
+    )
+
+    return { width: optimalWidth, height: optimalHeight }
+  }
+
+  private debouncedTextureUpdate() {
+    // 检查是否需要更新纹理
+    const fitToScreenScale = this.getFitToScreenScale()
+    const currentRelativeScale = this.scale / fitToScreenScale
+    const textureRelativeScale = this.currentTextureScale / fitToScreenScale
+
+    // 如果相对缩放变化超过阈值，才进行更新
+    const relativeScaleChange =
+      Math.abs(currentRelativeScale - textureRelativeScale) /
+      Math.max(textureRelativeScale, 0.1)
+    if (relativeScaleChange < 0.5) {
+      return // 变化不大，不需要更新
+    }
+
+    // 清除之前的防抖调用
+    if (this.textureDebounceId !== null) {
+      clearTimeout(this.textureDebounceId)
+    }
+
+    // 设置新的防抖调用
+    this.textureDebounceId = setTimeout(() => {
+      this.textureDebounceId = null
+      this.createOptimizedTexture()
+      this.render()
+    }, this.textureDebounceDelay)
   }
   private fitImageToScreen() {
     const scaleX = this.canvasWidth / this.imageWidth
@@ -460,6 +596,29 @@ class WebGLImageViewerEngine {
   }
 
   private render() {
+    const now = performance.now()
+
+    // 如果距离上次渲染时间不足，则使用节流
+    if (now - this.lastRenderTime < this.renderThrottleDelay) {
+      // 清除之前的节流调用
+      if (this.renderThrottleId !== null) {
+        cancelAnimationFrame(this.renderThrottleId)
+      }
+
+      // 安排下次渲染
+      this.renderThrottleId = requestAnimationFrame(() => {
+        this.renderThrottleId = null
+        this.renderInternal()
+      })
+      return
+    }
+
+    this.renderInternal()
+  }
+
+  private renderInternal() {
+    this.lastRenderTime = performance.now()
+
     const { gl } = this
 
     gl.clearColor(0, 0, 0, 0)
@@ -745,6 +904,8 @@ class WebGLImageViewerEngine {
       this.constrainImagePosition()
       this.render()
       this.notifyZoomChange()
+
+      this.debouncedTextureUpdate()
     }
   }
 
@@ -801,6 +962,18 @@ class WebGLImageViewerEngine {
   public destroy() {
     this.removeEventListeners()
     window.removeEventListener('resize', this.boundResizeCanvas)
+
+    // 清理节流相关的资源
+    if (this.renderThrottleId !== null) {
+      cancelAnimationFrame(this.renderThrottleId)
+      this.renderThrottleId = null
+    }
+
+    // 清理纹理防抖相关的资源
+    if (this.textureDebounceId !== null) {
+      clearTimeout(this.textureDebounceId)
+      this.textureDebounceId = null
+    }
   }
 }
 
