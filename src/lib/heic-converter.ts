@@ -32,7 +32,7 @@ export async function convertHeicImage(
   file: File | Blob,
   options: HeicConversionOptions = {},
 ): Promise<ConversionResult> {
-  const { quality = 0.8, format = 'image/jpeg' } = options
+  const { quality = 1, format = 'image/png' } = options
 
   try {
     // 检查是否为 HEIC 格式
@@ -75,44 +75,4 @@ export function revokeConvertedUrl(url: string): void {
   } catch (error) {
     console.warn('Failed to revoke URL:', error)
   }
-}
-
-/**
- * 获取文件的 MIME 类型
- */
-export function getFileMimeType(file: File): string {
-  return file.type || 'application/octet-stream'
-}
-
-/**
- * 检查文件是否可能是 HEIC 格式（基于扩展名）
- */
-export function isPotentialHeicFile(file: File): boolean {
-  const fileName = file.name.toLowerCase()
-  return fileName.endsWith('.heic') || fileName.endsWith('.heif')
-}
-
-/**
- * 批量转换 HEIC 图片
- */
-export async function convertMultipleHeicImages(
-  files: (File | Blob)[],
-  options: HeicConversionOptions = {},
-  onProgress?: (completed: number, total: number) => void,
-): Promise<ConversionResult[]> {
-  const results: ConversionResult[] = []
-
-  for (let i = 0; i < files.length; i++) {
-    try {
-      const result = await convertHeicImage(files[i], options)
-      results.push(result)
-    } catch (error) {
-      console.error(`Failed to convert file ${i}:`, error)
-      // 继续处理其他文件，不中断整个流程
-    }
-
-    onProgress?.(i + 1, files.length)
-  }
-
-  return results
 }
