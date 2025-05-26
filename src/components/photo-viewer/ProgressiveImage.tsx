@@ -5,6 +5,11 @@ import type { ReactZoomPanPinchRef } from 'react-zoom-pan-pinch'
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
 
 import { clsxm } from '~/lib/cn'
+import {
+  convertHeicImage,
+  detectHeicFormat,
+  revokeConvertedUrl,
+} from '~/lib/heic-converter'
 import { Spring } from '~/lib/spring'
 
 interface ProgressiveImageProps {
@@ -42,11 +47,14 @@ export const ProgressiveImage = ({
   const [highResLoaded, setHighResLoaded] = useState(false)
   const [error, setError] = useState(false)
   const [loadingProgress, setLoadingProgress] = useState(0)
+  const [isHeicFormat, setIsHeicFormat] = useState(false)
+  const [isConverting, setIsConverting] = useState(false)
 
   const thumbnailRef = useRef<HTMLImageElement>(null)
   const highResRef = useRef<HTMLImageElement>(null)
   const transformRef = useRef<ReactZoomPanPinchRef>(null)
   const thumbnailAnimateController = useAnimationControls()
+  const convertedUrlRef = useRef<string | null>(null)
 
   // Reset states when image changes
   useEffect(() => {
@@ -54,6 +62,14 @@ export const ProgressiveImage = ({
     setBlobSrc(null)
     setError(false)
     setLoadingProgress(0)
+    setIsHeicFormat(false)
+    setIsConverting(false)
+
+    // Clean up previous converted URL
+    if (convertedUrlRef.current) {
+      revokeConvertedUrl(convertedUrlRef.current)
+      convertedUrlRef.current = null
+    }
 
     // Reset transform when image changes
     if (transformRef.current) {
@@ -61,21 +77,69 @@ export const ProgressiveImage = ({
     }
   }, [src])
 
+  // 组件卸载时清理 URL
+  useEffect(() => {
+    return () => {
+      if (convertedUrlRef.current) {
+        revokeConvertedUrl(convertedUrlRef.current)
+      }
+    }
+  }, [])
+
   useEffect(() => {
     if (highResLoaded || error) return
 
     let upperXHR: XMLHttpRequest | null = null
 
-    const delayToLoadTimer = setTimeout(() => {
+    const delayToLoadTimer = setTimeout(async () => {
       const xhr = new XMLHttpRequest()
       xhr.open('GET', src)
       xhr.responseType = 'blob'
-      xhr.onload = () => {
+      xhr.onload = async () => {
         if (xhr.status === 200) {
           const blob = xhr.response
-          const url = URL.createObjectURL(blob)
-          setBlobSrc(url)
-          setHighResLoaded(true)
+
+          try {
+            // 检测是否为 HEIC 格式
+            const isHeic = await detectHeicFormat(blob)
+            setIsHeicFormat(isHeic)
+
+            if (isHeic) {
+              // 如果是 HEIC 格式，进行转换
+              setIsConverting(true)
+              try {
+                const conversionResult = await convertHeicImage(blob, {
+                  quality: 0.85,
+                  format: 'image/jpeg',
+                })
+
+                convertedUrlRef.current = conversionResult.url
+                setBlobSrc(conversionResult.url)
+                setHighResLoaded(true)
+                setIsConverting(false)
+
+                console.info(
+                  `HEIC converted: ${(blob.size / 1024).toFixed(1)}KB → ${(conversionResult.convertedSize / 1024).toFixed(1)}KB`,
+                )
+              } catch (conversionError) {
+                console.error('HEIC conversion failed:', conversionError)
+                setError(true)
+                setIsConverting(false)
+                onError?.()
+              }
+            } else {
+              // 普通图片格式
+              const url = URL.createObjectURL(blob)
+              setBlobSrc(url)
+              setHighResLoaded(true)
+            }
+          } catch (detectionError) {
+            console.error('Format detection failed:', detectionError)
+            // 如果检测失败，按普通图片处理
+            const url = URL.createObjectURL(blob)
+            setBlobSrc(url)
+            setHighResLoaded(true)
+          }
         }
       }
 
@@ -226,10 +290,28 @@ export const ProgressiveImage = ({
           >
             <div className="text-center text-white">
               <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-2" />
-              <p className="text-sm">正在加载高清图片...</p>
-              <p className="text-xs text-white/70 mt-1">
-                {Math.round(loadingProgress)}%
-              </p>
+              {isConverting ? (
+                <>
+                  <p className="text-sm">正在转换 HEIC 图片...</p>
+                  <p className="text-xs text-white/70 mt-1">
+                    使用高性能 WASM 引擎
+                  </p>
+                </>
+              ) : isHeicFormat ? (
+                <>
+                  <p className="text-sm">正在下载 HEIC 图片...</p>
+                  <p className="text-xs text-white/70 mt-1">
+                    {Math.round(loadingProgress)}%
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-sm">正在加载高清图片...</p>
+                  <p className="text-xs text-white/70 mt-1">
+                    {Math.round(loadingProgress)}%
+                  </p>
+                </>
+              )}
             </div>
           </m.div>
         )}

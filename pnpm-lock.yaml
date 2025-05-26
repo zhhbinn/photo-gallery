@@ -53,6 +53,9 @@ importers:
       heic-convert:
         specifier: 2.1.0
         version: 2.1.0
+      heic-to:
+        specifier: 1.1.13
+        version: 1.1.13
       immer:
         specifier: 10.1.1
         version: 10.1.1
@@ -2805,6 +2808,9 @@ packages:
   heic-decode@2.0.0:
     resolution: {integrity: sha512-NU+zsiDvdL+EebyTjrEqjkO2XYI7FgLhQzsbmO8dnnYce3S0PBSDm/ZyI4KpcGPXYEdb5W72vp/AQFuc4F8ASg==}
     engines: {node: '>=8.0.0'}
+
+  heic-to@1.1.13:
+    resolution: {integrity: sha512-7BBM+UOWbAfzpmRn4q44DBTU8JIDds3c2BGSmCV1FqDAK6P1ANgJ3iM8da5A9evX/DtIXinKzJ1vL1IljQjaEw==}
 
   hermes-estree@0.25.1:
     resolution: {integrity: sha512-0wUoCcLp+5Ev5pDW2OriHC2MJCbwLwuRx+gAqMTOkGKJJiBCLjtrvy4PWUGn6MIVefecRpzoOZ/UV6iGdOr+Cw==}
@@ -7413,6 +7419,8 @@ snapshots:
   heic-decode@2.0.0:
     dependencies:
       libheif-js: 1.18.2
+
+  heic-to@1.1.13: {}
 
   hermes-estree@0.25.1: {}
 
