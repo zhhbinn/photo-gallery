@@ -36,6 +36,7 @@
     "es-toolkit": "1.38.0",
     "exif-reader": "2.0.2",
     "fuji-recipes": "1.0.1",
+    "heic-convert": "2.1.0",
     "immer": "10.1.1",
     "jotai": "2.12.4",
     "masonic": "4.1.0",

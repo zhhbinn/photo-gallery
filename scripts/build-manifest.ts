@@ -12,6 +12,7 @@ import { encode } from 'blurhash'
 import type { Exif } from 'exif-reader'
 import exifReader from 'exif-reader'
 import getRecipe from 'fuji-recipes'
+import heicConvert from 'heic-convert'
 import sharp from 'sharp'
 
 import { env } from '../env.js'
@@ -50,7 +51,13 @@ const SUPPORTED_FORMATS = new Set([
   '.gif',
   '.bmp',
   '.tiff',
+  '.heic',
+  '.heif',
+  '.hif',
 ])
+
+// HEIC/HEIF 格式
+const HEIC_FORMATS = new Set(['.heic', '.heif', '.hif'])
 
 // 定义类型
 interface PhotoInfo {
@@ -180,6 +187,40 @@ async function generateThumbnail(
   }
 }
 
+// 转换 HEIC/HEIF 格式到 JPEG
+async function convertHeicToJpeg(heicBuffer: Buffer): Promise<Buffer> {
+  try {
+    console.info('正在转换 HEIC/HEIF 格式到 JPEG...')
+    const jpegBuffer = await heicConvert({
+      buffer: heicBuffer,
+      format: 'JPEG',
+      quality: 0.95, // 高质量转换
+    })
+
+    return Buffer.from(jpegBuffer)
+  } catch (error) {
+    console.error('HEIC/HEIF 转换失败:', error)
+    throw error
+  }
+}
+
+// 预处理图片 Buffer（处理 HEIC/HEIF 格式）
+async function preprocessImageBuffer(
+  buffer: Buffer,
+  key: string,
+): Promise<Buffer> {
+  const ext = path.extname(key).toLowerCase()
+
+  // 如果是 HEIC/HEIF 格式，先转换为 JPEG
+  if (HEIC_FORMATS.has(ext)) {
+    console.info(`检测到 HEIC/HEIF 格式，正在转换: ${key}`)
+    return await convertHeicToJpeg(buffer)
+  }
+
+  // 其他格式直接返回原始 buffer
+  return buffer
+}
+
 // 从 S3 获取图片
 async function getImageFromS3(key: string): Promise<Buffer | null> {
   try {
@@ -230,6 +271,7 @@ async function getImageMetadata(
 ): Promise<ImageMetadata | null> {
   try {
     const metadata = await sharp(imageBuffer).metadata()
+    console.info(metadata)
 
     if (!metadata.width || !metadata.height || !metadata.format) {
       console.error('图片元数据不完整')
@@ -247,10 +289,62 @@ async function getImageMetadata(
   }
 }
 
+// 清理 EXIF 数据中的空字符和无用信息
+function cleanExifData(exifData: any): any {
+  if (!exifData || typeof exifData !== 'object') {
+    return exifData
+  }
+
+  if (Array.isArray(exifData)) {
+    return exifData.map((item) => cleanExifData(item))
+  }
+
+  const cleaned: any = {}
+
+  for (const [key, value] of Object.entries(exifData)) {
+    if (value === null || value === undefined) {
+      continue
+    }
+
+    if (typeof value === 'string') {
+      // 移除字符串中的所有空字符并清理空白字符
+      const cleanedString = value.replaceAll('\0', '').trim()
+      if (cleanedString.length > 0) {
+        cleaned[key] = cleanedString
+      }
+    } else if (typeof value === 'object') {
+      // 递归清理嵌套对象
+      const cleanedNested = cleanExifData(value)
+      if (cleanedNested && Object.keys(cleanedNested).length > 0) {
+        cleaned[key] = cleanedNested
+      }
+    } else {
+      // 其他类型直接保留
+      cleaned[key] = value
+    }
+  }
+
+  return cleaned
+}
+
 // 提取 EXIF 数据
-async function extractExifData(imageBuffer: Buffer): Promise<Exif | null> {
+async function extractExifData(
+  imageBuffer: Buffer,
+  originalBuffer?: Buffer,
+): Promise<Exif | null> {
   try {
-    const metadata = await sharp(imageBuffer).metadata()
+    // 首先尝试从处理后的图片中提取 EXIF
+    let metadata = await sharp(imageBuffer).metadata()
+
+    // 如果处理后的图片没有 EXIF 数据，且提供了原始 buffer，尝试从原始图片提取
+    if (!metadata.exif && originalBuffer) {
+      console.info('处理后的图片缺少 EXIF 数据，尝试从原始图片提取...')
+      try {
+        metadata = await sharp(originalBuffer).metadata()
+      } catch (error) {
+        console.warn('从原始图片提取 EXIF 失败，可能是不支持的格式:', error)
+      }
+    }
 
     if (!metadata.exif) {
       return null
@@ -267,12 +361,16 @@ async function extractExifData(imageBuffer: Buffer): Promise<Exif | null> {
     delete exifData.Photo?.MakerNote
     delete exifData.Photo?.UserComment
     delete exifData.Photo?.PrintImageMatching
+    delete exifData.Image?.PrintImageMatching
 
     if (!exifData) {
       return null
     }
 
-    return exifData
+    // 清理 EXIF 数据中的空字符和无用数据
+    const cleanedExifData = cleanExifData(exifData)
+
+    return cleanedExifData
   } catch (error) {
     console.error('提取 EXIF 数据失败:', error)
     return null
@@ -427,8 +525,17 @@ async function buildManifest(): Promise<void> {
       }
 
       // 获取图片数据
-      const imageBuffer = await getImageFromS3(key)
-      if (!imageBuffer) continue
+      const rawImageBuffer = await getImageFromS3(key)
+      if (!rawImageBuffer) continue
+
+      // 预处理图片（处理 HEIC/HEIF 格式）
+      let imageBuffer: Buffer
+      try {
+        imageBuffer = await preprocessImageBuffer(rawImageBuffer, key)
+      } catch (error) {
+        console.error(`预处理图片失败 ${key}:`, error)
+        continue
+      }
 
       // 获取图片元数据
       const metadata = await getImageMetadata(imageBuffer)
@@ -452,7 +559,12 @@ async function buildManifest(): Promise<void> {
         exifData = existingItem.exif
         console.info(`复用现有 EXIF 数据: ${photoId}`)
       } else {
-        exifData = await extractExifData(imageBuffer)
+        // 传入原始 buffer 以便在转换后的图片缺少 EXIF 时回退
+        const ext = path.extname(key).toLowerCase()
+        const originalBuffer = HEIC_FORMATS.has(ext)
+          ? rawImageBuffer
+          : undefined
+        exifData = await extractExifData(imageBuffer, originalBuffer)
       }
 
       // 生成缩略图（会自动检查是否需要重新生成）
