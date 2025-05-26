@@ -1,7 +1,13 @@
 import './PhotoViewer.css'
+// Import Swiper styles
+import 'swiper/css'
+import 'swiper/css/navigation'
 
 import { AnimatePresence, m } from 'motion/react'
 import { useCallback, useEffect, useRef } from 'react'
+import type { Swiper as SwiperType } from 'swiper'
+import { Keyboard, Navigation, Virtual } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
 import type { PhotoManifest } from '~/types/photo'
 
@@ -25,8 +31,7 @@ export const PhotoViewer = ({
   onIndexChange,
 }: PhotoViewerProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
-
-  const imageContainerRef = useRef<HTMLDivElement>(null)
+  const swiperRef = useRef<SwiperType | null>(null)
 
   const currentPhoto = photos[currentIndex]
 
@@ -78,19 +83,22 @@ export const PhotoViewer = ({
 
   const handlePrevious = useCallback(() => {
     if (currentIndex > 0) {
-      setTimeout(() => {
-        onIndexChange(currentIndex - 1)
-      }, 100)
+      onIndexChange(currentIndex - 1)
     }
   }, [currentIndex, onIndexChange])
 
-  const handleNext = useCallback(() => {
-    if (currentIndex < photos.length - 1) {
-      setTimeout(() => {
-        onIndexChange(currentIndex + 1)
-      }, 100)
+  // const handleNext = useCallback(() => {
+  //   // if (currentIndex < photos.length - 1) {
+  //   //   onIndexChange(currentIndex + 1)
+  //   // }
+  // }, [currentIndex, photos.length, onIndexChange])
+
+  // 同步 Swiper 的索引
+  useEffect(() => {
+    if (swiperRef.current && swiperRef.current.activeIndex !== currentIndex) {
+      swiperRef.current.slideTo(currentIndex, 300)
     }
-  }, [currentIndex, photos.length, onIndexChange])
+  }, [currentIndex])
 
   // 键盘导航
   useEffect(() => {
@@ -105,7 +113,7 @@ export const PhotoViewer = ({
         }
         case 'ArrowRight': {
           event.preventDefault()
-          handleNext()
+          // handleNext()
           break
         }
         case 'Escape': {
@@ -120,7 +128,7 @@ export const PhotoViewer = ({
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen, handlePrevious, handleNext, onClose])
+  }, [isOpen, handlePrevious, onClose])
 
   const imageSize = getImageDisplaySize()
 
@@ -145,67 +153,101 @@ export const PhotoViewer = ({
           <div className="size-full flex flex-row">
             <div className="flex-1 flex-col flex min-w-0 min-h-0">
               <div className="flex flex-1 min-w-0 relative group min-h-0">
-                {/* Buttons */}
-
+                {/* 顶部工具栏 */}
                 <m.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
+                  className="absolute top-4 left-4 right-4 z-30 flex items-center"
                 >
-                  {/* 顶部工具栏 - Fixed */}
-                  <div className="absolute top-4 left-4 right-4 z-30 flex items-center">
-                    {/* 关闭按钮 */}
-                    <button
-                      type="button"
-                      className="absolute right-0 top-0 hover:bg-black/40 duration-200 size-8 flex items-center justify-center rounded-full text-white bg-material-ultra-thick backdrop-blur-2xl"
-                      onClick={onClose}
-                    >
-                      <i className="i-mingcute-close-line" />
-                    </button>
-                  </div>
-                  {/* 导航按钮 */}
-                  {currentIndex > 0 && (
-                    <button
-                      type="button"
-                      className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center size-10 text-white bg-material-medium rounded-full backdrop-blur-sm hover:bg-black/40 group-hover:opacity-100 opacity-0 duration-200"
-                      onClick={handlePrevious}
-                    >
-                      <i className="i-mingcute-arrow-left-line text-xl" />
-                    </button>
-                  )}
-
-                  {currentIndex < photos.length - 1 && (
-                    <button
-                      type="button"
-                      className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center size-10 text-white bg-material-medium rounded-full backdrop-blur-sm hover:bg-black/40 group-hover:opacity-100 opacity-0 duration-200"
-                      onClick={handleNext}
-                    >
-                      <i className="i-mingcute-arrow-right-line text-xl" />
-                    </button>
-                  )}
+                  {/* 关闭按钮 */}
+                  <button
+                    type="button"
+                    className="absolute right-0 top-0 hover:bg-black/40 duration-200 size-8 flex items-center justify-center rounded-full text-white bg-material-ultra-thick backdrop-blur-2xl"
+                    onClick={onClose}
+                  >
+                    <i className="i-mingcute-close-line" />
+                  </button>
                 </m.div>
 
-                <m.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.3 }}
-                  ref={imageContainerRef}
-                  className="relative w-full h-full flex items-center justify-center"
+                {/* Swiper 容器 */}
+                <Swiper
+                  modules={[Navigation, Keyboard, Virtual]}
+                  spaceBetween={0}
+                  slidesPerView={1}
+                  initialSlide={currentIndex}
+                  virtual
+                  keyboard={{
+                    enabled: true,
+                    onlyInViewport: true,
+                  }}
+                  navigation={{
+                    prevEl: '.swiper-button-prev-custom',
+                    nextEl: '.swiper-button-next-custom',
+                  }}
+                  onSwiper={(swiper) => {
+                    swiperRef.current = swiper
+                  }}
+                  onSlideChange={(swiper) => {
+                    onIndexChange(swiper.activeIndex)
+                  }}
+                  className="w-full h-full"
+                  style={{ touchAction: 'pan-y' }}
                 >
-                  <AnimatePresence>
-                    <ProgressiveImage
-                      src={currentPhoto.originalUrl}
-                      thumbnailSrc={currentPhoto.thumbnailUrl}
-                      blurhash={currentPhoto.blurhash}
-                      alt={currentPhoto.title}
-                      width={imageSize.width}
-                      height={imageSize.height}
-                      className="w-full h-full object-contain"
-                    />
-                  </AnimatePresence>
-                </m.div>
+                  {photos.map((photo, index) => (
+                    <SwiperSlide
+                      key={photo.id}
+                      className="flex items-center justify-center"
+                      virtualIndex={index}
+                    >
+                      <m.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 0.3 }}
+                        className="relative w-full h-full flex items-center justify-center"
+                      >
+                        <ProgressiveImage
+                          src={photo.originalUrl}
+                          thumbnailSrc={photo.thumbnailUrl}
+                          blurhash={photo.blurhash}
+                          alt={photo.title}
+                          width={
+                            index === currentIndex ? imageSize.width : undefined
+                          }
+                          height={
+                            index === currentIndex
+                              ? imageSize.height
+                              : undefined
+                          }
+                          className="w-full h-full object-contain"
+                        />
+                      </m.div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+
+                {/* 自定义导航按钮 */}
+                {currentIndex > 0 && (
+                  <button
+                    type="button"
+                    className="swiper-button-prev-custom absolute left-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center size-10 text-white bg-material-medium rounded-full backdrop-blur-sm hover:bg-black/40 group-hover:opacity-100 opacity-0 duration-200"
+                    onClick={handlePrevious}
+                  >
+                    <i className="i-mingcute-arrow-left-line text-xl" />
+                  </button>
+                )}
+
+                {currentIndex < photos.length - 1 && (
+                  <button
+                    type="button"
+                    className="swiper-button-next-custom absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center size-10 text-white bg-material-medium rounded-full backdrop-blur-sm hover:bg-black/40 group-hover:opacity-100 opacity-0 duration-200"
+                    // onClick={handleNext}
+                  >
+                    <i className="i-mingcute-arrow-right-line text-xl" />
+                  </button>
+                )}
               </div>
 
               <GalleryThumbnail

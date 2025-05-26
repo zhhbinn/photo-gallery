@@ -2,3 +2,31 @@
   contain-intrinsic-size: 64px;
   content-visibility: auto;
 }
+
+/* PhotoViewer custom styles */
+
+/* Hide default Swiper navigation buttons since we use custom ones */
+.swiper-button-next,
+.swiper-button-prev {
+  display: none !important;
+}
+
+/* Ensure Swiper slides don't interfere with zoom/pan gestures */
+.swiper-slide {
+  overflow: visible;
+}
+
+/* Custom navigation button hover effects */
+.swiper-button-prev-custom,
+.swiper-button-next-custom {
+  transition: all 0.2s ease;
+}
+
+/* Ensure proper touch handling */
+.swiper {
+  touch-action: pan-y;
+}
+
+.swiper-slide {
+  touch-action: manipulation;
+}
