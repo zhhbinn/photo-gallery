@@ -245,7 +245,7 @@ export const ExifPanel: FC<{
                   {formattedExifData.focalLength35mm && (
                     <Row
                       label="等效焦距"
-                      value={`${formattedExifData.focalLength35mm}mm (35mm)`}
+                      value={`${formattedExifData.focalLength35mm}mm`}
                     />
                   )}
                   {formattedExifData.maxAperture && (

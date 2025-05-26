@@ -4,7 +4,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 
 import { AnimatePresence, m } from 'motion/react'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Swiper as SwiperType } from 'swiper'
 import { Keyboard, Navigation, Virtual } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -32,8 +32,16 @@ export const PhotoViewer = ({
 }: PhotoViewerProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const swiperRef = useRef<SwiperType | null>(null)
+  const [isImageZoomed, setIsImageZoomed] = useState(false)
 
   const currentPhoto = photos[currentIndex]
+
+  // 当 PhotoViewer 关闭时重置缩放状态
+  useEffect(() => {
+    if (!isOpen) {
+      setIsImageZoomed(false)
+    }
+  }, [isOpen])
 
   // 计算图片的适配尺寸
   const getImageDisplaySize = () => {
@@ -98,7 +106,27 @@ export const PhotoViewer = ({
     if (swiperRef.current && swiperRef.current.activeIndex !== currentIndex) {
       swiperRef.current.slideTo(currentIndex, 300)
     }
+    // 切换图片时重置缩放状态
+    setIsImageZoomed(false)
   }, [currentIndex])
+
+  // 当图片缩放状态改变时，控制 Swiper 的触摸行为
+  useEffect(() => {
+    if (swiperRef.current) {
+      if (isImageZoomed) {
+        // 图片被缩放时，禁用 Swiper 的触摸滑动
+        swiperRef.current.allowTouchMove = false
+      } else {
+        // 图片未缩放时，启用 Swiper 的触摸滑动
+        swiperRef.current.allowTouchMove = true
+      }
+    }
+  }, [isImageZoomed])
+
+  // 处理图片缩放状态变化
+  const handleZoomChange = useCallback((isZoomed: boolean) => {
+    setIsImageZoomed(isZoomed)
+  }, [])
 
   // 键盘导航
   useEffect(() => {
@@ -188,6 +216,8 @@ export const PhotoViewer = ({
                   }}
                   onSwiper={(swiper) => {
                     swiperRef.current = swiper
+                    // 初始化时确保触摸滑动是启用的
+                    swiper.allowTouchMove = !isImageZoomed
                   }}
                   onSlideChange={(swiper) => {
                     onIndexChange(swiper.activeIndex)
@@ -222,6 +252,11 @@ export const PhotoViewer = ({
                               : undefined
                           }
                           className="w-full h-full object-contain"
+                          onZoomChange={
+                            index === currentIndex
+                              ? handleZoomChange
+                              : undefined
+                          }
                         />
                       </m.div>
                     </SwiperSlide>

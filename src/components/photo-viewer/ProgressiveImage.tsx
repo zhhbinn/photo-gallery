@@ -23,6 +23,7 @@ interface ProgressiveImageProps {
   onLoad?: () => void
   onError?: () => void
   onProgress?: (progress: number) => void
+  onZoomChange?: (isZoomed: boolean) => void
   enableZoom?: boolean
   enablePan?: boolean
   maxZoom?: number
@@ -38,6 +39,7 @@ export const ProgressiveImage = ({
   onLoad,
   onError,
   onProgress,
+  onZoomChange,
   enableZoom = true,
   enablePan = true,
   maxZoom = 10,
@@ -239,6 +241,11 @@ export const ProgressiveImage = ({
         velocityAnimation={{
           sensitivity: 1,
           animationTime: 0.2,
+        }}
+        onTransformed={(ref, state) => {
+          // 当缩放比例不等于 1 时，认为图片被缩放了
+          const isZoomed = state.scale !== 1
+          onZoomChange?.(isZoomed)
         }}
       >
         <TransformComponent
