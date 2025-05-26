@@ -97,15 +97,6 @@ class WebGLImageViewerEngine {
   private targetTranslateX = 0
   private targetTranslateY = 0
 
-  // Render throttling
-  private lastRenderTime = 0
-  private renderThrottleDelay = 16 // ~60fps
-  private pendingRender = false
-
-  // Matrix caching
-  private cachedMatrix: Float32Array | null = null
-  private matrixDirty = true
-
   // Configuration
   private config: Required<WebGLImageViewerProps>
   private onZoomChange?: (originalScale: number, relativeScale: number) => void
@@ -200,7 +191,6 @@ class WebGLImageViewerEngine {
     this.canvas.height = this.canvasHeight
     this.gl.viewport(0, 0, this.canvasWidth, this.canvasHeight)
 
-    this.matrixDirty = true
     if (this.imageLoaded) {
       this.constrainImagePosition()
       this.render()
@@ -279,74 +269,33 @@ class WebGLImageViewerEngine {
     return shader
   }
 
-  // Add task yielding utility function at the top level
-  private static yieldToMain = (): Promise<void> => {
-    return new Promise<void>((resolve) => {
-      if ('scheduler' in window && 'postTask' in (window as any).scheduler) {
-        ;(window as any).scheduler.postTask(() => resolve(), {
-          priority: 'user-blocking',
-        })
-      } else {
-        setTimeout(resolve, 0)
-      }
-    })
-  }
-
   async loadImage(url: string) {
     this.originalImageSrc = url
     const image = new Image()
     image.crossOrigin = 'anonymous'
 
     return new Promise<void>((resolve, reject) => {
-      image.onload = async () => {
-        try {
-          // Yield to main thread for large images
-          if (image.width * image.height > 1000000) {
-            // 1MP threshold
-            await WebGLImageViewerEngine.yieldToMain()
-          }
+      image.onload = () => {
+        this.imageWidth = image.width
+        this.imageHeight = image.height
+        this.createTexture(image)
 
-          this.imageWidth = image.width
-          this.imageHeight = image.height
-
-          // Use createImageBitmap for better performance with large images
-          let processedImage: ImageBitmap | HTMLImageElement = image
-          if (
-            'createImageBitmap' in window &&
-            image.width * image.height > 500000
-          ) {
-            try {
-              processedImage = await createImageBitmap(image)
-              await WebGLImageViewerEngine.yieldToMain() // Yield after bitmap creation
-            } catch {
-              // Fallback to original image if createImageBitmap fails
-              processedImage = image
-            }
-          }
-
-          await this.createTextureAsync(processedImage)
-
-          if (this.config.centerOnInit) {
-            this.fitImageToScreen()
-          }
-
-          this.imageLoaded = true
-          this.render()
-          this.notifyZoomChange() // 通知初始缩放值
-          resolve()
-        } catch (error) {
-          reject(error)
+        if (this.config.centerOnInit) {
+          this.fitImageToScreen()
         }
+
+        this.imageLoaded = true
+        this.render()
+        this.notifyZoomChange() // 通知初始缩放值
+        resolve()
       }
 
       image.onerror = () => reject(new Error('Failed to load image'))
-
-      console.info('[WebGLImageViewer] loadImage', url)
       image.src = url
     })
   }
 
-  private async createTextureAsync(image: HTMLImageElement | ImageBitmap) {
+  private createTexture(image: HTMLImageElement) {
     const { gl } = this
 
     this.texture = gl.createTexture()
@@ -355,21 +304,8 @@ class WebGLImageViewerEngine {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-
-    // For very large textures, yield to main thread before upload
-    const isLarge = image.width * image.height > 2000000 // 2MP threshold
-    if (isLarge) {
-      await WebGLImageViewerEngine.yieldToMain()
-    }
-
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
-
-    // Clean up ImageBitmap to free memory
-    if (image instanceof ImageBitmap) {
-      image.close()
-    }
   }
-
   private fitImageToScreen() {
     const scaleX = this.canvasWidth / this.imageWidth
     const scaleY = this.canvasHeight / this.imageHeight
@@ -383,7 +319,6 @@ class WebGLImageViewerEngine {
     this.translateY = 0
 
     this.isOriginalSize = false
-    this.matrixDirty = true
   }
 
   // Easing function for smooth animation
@@ -450,38 +385,23 @@ class WebGLImageViewerEngine {
       this.startTranslateY +
       (this.targetTranslateY - this.startTranslateY) * easedProgress
 
-    this.matrixDirty = true
-
     this.render()
     this.notifyZoomChange()
 
     if (progress < 1) {
-      // Use scheduler-based animation frame for better yielding
-      if ('scheduler' in window && 'postTask' in (window as any).scheduler) {
-        ;(window as any).scheduler.postTask(() => this.animate(), {
-          priority: 'user-visible',
-        })
-      } else {
-        requestAnimationFrame(() => this.animate())
-      }
+      requestAnimationFrame(() => this.animate())
     } else {
       this.isAnimating = false
       // Ensure final values are exactly the target values
       this.scale = this.targetScale
       this.translateX = this.targetTranslateX
       this.translateY = this.targetTranslateY
-      this.matrixDirty = true
       this.render()
       this.notifyZoomChange()
     }
   }
 
   private createMatrix(): Float32Array {
-    // Return cached matrix if not dirty
-    if (!this.matrixDirty && this.cachedMatrix) {
-      return this.cachedMatrix
-    }
-
     // Create transformation matrix
     const scaleX = (this.imageWidth * this.scale) / this.canvasWidth
     const scaleY = (this.imageHeight * this.scale) / this.canvasHeight
@@ -489,7 +409,7 @@ class WebGLImageViewerEngine {
     const translateX = (this.translateX * 2) / this.canvasWidth
     const translateY = -(this.translateY * 2) / this.canvasHeight
 
-    this.cachedMatrix = new Float32Array([
+    return new Float32Array([
       scaleX,
       0,
       0,
@@ -500,9 +420,6 @@ class WebGLImageViewerEngine {
       translateY,
       1,
     ])
-
-    this.matrixDirty = false
-    return this.cachedMatrix
   }
 
   private getFitToScreenScale(): number {
@@ -520,7 +437,6 @@ class WebGLImageViewerEngine {
     if (this.scale <= fitScale) {
       this.translateX = 0
       this.translateY = 0
-      this.matrixDirty = true
       return
     }
 
@@ -532,10 +448,6 @@ class WebGLImageViewerEngine {
     const maxTranslateX = Math.max(0, (scaledWidth - this.canvasWidth) / 2)
     const maxTranslateY = Math.max(0, (scaledHeight - this.canvasHeight) / 2)
 
-    // Store old values to check if they changed
-    const oldTranslateX = this.translateX
-    const oldTranslateY = this.translateY
-
     // Constrain translation
     this.translateX = Math.max(
       -maxTranslateX,
@@ -545,40 +457,10 @@ class WebGLImageViewerEngine {
       -maxTranslateY,
       Math.min(maxTranslateY, this.translateY),
     )
-
-    // Mark matrix dirty only if position actually changed
-    if (
-      oldTranslateX !== this.translateX ||
-      oldTranslateY !== this.translateY
-    ) {
-      this.matrixDirty = true
-    }
   }
 
   private render() {
-    const now = performance.now()
-
-    // Throttle render calls to prevent excessive rendering
-    if (now - this.lastRenderTime < this.renderThrottleDelay) {
-      if (!this.pendingRender) {
-        this.pendingRender = true
-        setTimeout(
-          () => {
-            this.pendingRender = false
-            this.actualRender()
-          },
-          this.renderThrottleDelay - (now - this.lastRenderTime),
-        )
-      }
-      return
-    }
-
-    this.actualRender()
-  }
-
-  private actualRender() {
     const { gl } = this
-    this.lastRenderTime = performance.now()
 
     gl.clearColor(0, 0, 0, 0)
     gl.clear(gl.COLOR_BUFFER_BIT)
@@ -655,16 +537,12 @@ class WebGLImageViewerEngine {
     const deltaX = e.clientX - this.lastMouseX
     const deltaY = e.clientY - this.lastMouseY
 
-    // Skip rendering for very small movements to reduce unnecessary renders
-    if (Math.abs(deltaX) < 1 && Math.abs(deltaY) < 1) return
-
     this.translateX += deltaX
     this.translateY += deltaY
 
     this.lastMouseX = e.clientX
     this.lastMouseY = e.clientY
 
-    this.matrixDirty = true
     this.constrainImagePosition()
     this.render()
   }
@@ -798,16 +676,12 @@ class WebGLImageViewerEngine {
       const deltaX = e.touches[0].clientX - this.lastMouseX
       const deltaY = e.touches[0].clientY - this.lastMouseY
 
-      // Skip rendering for very small movements to reduce unnecessary renders
-      if (Math.abs(deltaX) < 1 && Math.abs(deltaY) < 1) return
-
       this.translateX += deltaX
       this.translateY += deltaY
 
       this.lastMouseX = e.touches[0].clientX
       this.lastMouseY = e.touches[0].clientY
 
-      this.matrixDirty = true
       this.constrainImagePosition()
       this.render()
     } else if (e.touches.length === 2 && !this.config.pinch.disabled) {
@@ -868,7 +742,6 @@ class WebGLImageViewerEngine {
       this.translateX = x - this.canvasWidth / 2 - zoomX * this.scale
       this.translateY = y - this.canvasHeight / 2 - zoomY * this.scale
 
-      this.matrixDirty = true
       this.constrainImagePosition()
       this.render()
       this.notifyZoomChange()
