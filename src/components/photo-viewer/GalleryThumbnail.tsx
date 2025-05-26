@@ -43,6 +43,27 @@ export const GalleryThumbnail: FC<{
     }
   }, [currentIndex])
 
+  // 处理鼠标滚轮事件，映射为横向滚动
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current
+    if (!scrollContainer) return
+
+    const handleWheel = (e: WheelEvent) => {
+      // 阻止默认的垂直滚动
+      e.preventDefault()
+
+      // 将垂直滚动转换为横向滚动
+      const scrollAmount = e.deltaY
+      scrollContainer.scrollLeft += scrollAmount
+    }
+
+    scrollContainer.addEventListener('wheel', handleWheel, { passive: false })
+
+    return () => {
+      scrollContainer.removeEventListener('wheel', handleWheel)
+    }
+  }, [])
+
   return (
     <m.div
       className="z-10 shrink-0 backdrop-blur-3xl bg-material-medium"

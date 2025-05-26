@@ -248,6 +248,11 @@ export const ProgressiveImage = ({
           // 当缩放比例不等于 1 时，认为图片被缩放了
           const isZoomed = state.scale !== 1
           onZoomChange?.(isZoomed)
+
+          // 当缩放比例小于等于1时，自动让图片中心归位
+          if (state.scale <= 1) {
+            ref.centerView(1, 200)
+          }
         }}
       >
         <TransformComponent
