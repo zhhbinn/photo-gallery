@@ -33,6 +33,8 @@ interface ProgressiveImageProps {
   enablePan?: boolean
   maxZoom?: number
   minZoom?: number
+
+  isCurrentImage?: boolean
 }
 
 export const ProgressiveImage = ({
@@ -46,8 +48,9 @@ export const ProgressiveImage = ({
   onProgress,
   onZoomChange,
 
-  maxZoom = 10,
+  maxZoom = 20,
   minZoom = 1,
+  isCurrentImage = false,
 }: ProgressiveImageProps) => {
   const [blobSrc, setBlobSrc] = useState<string | null>(null)
   const [highResLoaded, setHighResLoaded] = useState(false)
@@ -93,7 +96,7 @@ export const ProgressiveImage = ({
   }, [])
 
   useEffect(() => {
-    if (highResLoaded || error) return
+    if (highResLoaded || error || !isCurrentImage) return
 
     let upperXHR: XMLHttpRequest | null = null
 
@@ -165,7 +168,7 @@ export const ProgressiveImage = ({
       clearTimeout(delayToLoadTimer)
       upperXHR?.abort()
     }
-  }, [highResLoaded, error, onProgress, src, onError])
+  }, [highResLoaded, error, onProgress, src, onError, isCurrentImage])
 
   const onTransformed = useCallback(
     (originalScale: number, relativeScale: number) => {
@@ -244,9 +247,9 @@ export const ProgressiveImage = ({
 
       {/* 加载指示器 */}
       <AnimatePresence>
-        {!highResLoaded && !error && (
+        {!highResLoaded && !error && isCurrentImage && (
           <m.div
-            className="absolute inset-0 flex items-center justify-center bg-black/20 z-10 pointer-events-none"
+            className="absolute top-1/2 left-1/2 p-4 rounded-lg -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-black/50 backdrop-blur-3xl z-10 pointer-events-none"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

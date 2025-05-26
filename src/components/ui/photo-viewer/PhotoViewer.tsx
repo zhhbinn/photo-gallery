@@ -10,6 +10,7 @@ import type { Swiper as SwiperType } from 'swiper'
 import { Keyboard, Navigation, Virtual } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
+import { Spring } from '~/lib/spring'
 import type { PhotoManifest } from '~/types/photo'
 
 import { ExifPanel } from './ExifPanel'
@@ -180,182 +181,199 @@ export const PhotoViewer = ({
   if (!currentPhoto) return null
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <div
-          ref={containerRef}
-          className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ touchAction: isMobile ? 'manipulation' : 'none' }}
-        >
-          <m.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="absolute inset-0"
-          >
-            <Blurhash
-              hash={currentPhoto.blurhash}
-              width="100%"
-              height="100%"
-              resolutionX={32}
-              resolutionY={32}
-              punch={1}
-              className="size-fill"
+    <>
+      {/* 固定背景层防止透出 */}
+      {/* 交叉溶解的 Blurhash 背景 */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            <m.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={Spring.presets.smooth}
+              className="absolute inset-0 bg-material-opaque"
             />
-          </m.div>
-
+            <m.div
+              key={currentPhoto.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={Spring.presets.smooth}
+              className="absolute inset-0"
+            >
+              <Blurhash
+                hash={currentPhoto.blurhash}
+                width="100%"
+                height="100%"
+                resolutionX={32}
+                resolutionY={32}
+                punch={1}
+                className="size-fill"
+              />
+            </m.div>
+          </>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {isOpen && (
           <div
-            className={`size-full flex ${isMobile ? 'flex-col' : 'flex-row'}`}
+            ref={containerRef}
+            className="fixed inset-0 z-50 flex items-center justify-center"
+            style={{ touchAction: isMobile ? 'manipulation' : 'none' }}
           >
-            <div className="flex-1 flex-col flex min-w-0 min-h-0 z-[1]">
-              <div className="flex flex-1 min-w-0 relative group min-h-0">
-                {/* 顶部工具栏 */}
-                <m.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className={`absolute ${isMobile ? 'top-2 left-2 right-2' : 'top-4 left-4 right-4'} z-30 flex items-center justify-between`}
-                >
-                  {/* 左侧工具按钮 */}
-                  <div className="flex items-center gap-2">
-                    {/* 信息按钮 - 在移动设备上显示 */}
-                    {isMobile && (
-                      <button
-                        type="button"
-                        className={`size-8 flex items-center justify-center rounded-full text-white bg-material-ultra-thick backdrop-blur-2xl hover:bg-black/40 duration-200 ${showExifPanel ? 'bg-accent' : ''}`}
-                        onClick={() => setShowExifPanel(!showExifPanel)}
-                      >
-                        <i className="i-mingcute-information-line" />
-                      </button>
-                    )}
-                  </div>
-
-                  {/* 关闭按钮 */}
-                  <button
-                    type="button"
-                    className="size-8 flex items-center justify-center rounded-full text-white bg-material-ultra-thick backdrop-blur-2xl hover:bg-black/40 duration-200"
-                    onClick={onClose}
+            <div
+              className={`size-full flex ${isMobile ? 'flex-col' : 'flex-row'}`}
+            >
+              <div className="flex-1 flex-col flex min-w-0 min-h-0 z-[1]">
+                <div className="flex flex-1 min-w-0 relative group min-h-0">
+                  {/* 顶部工具栏 */}
+                  <m.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className={`absolute ${isMobile ? 'top-2 left-2 right-2' : 'top-4 left-4 right-4'} z-30 flex items-center justify-between`}
                   >
-                    <i className="i-mingcute-close-line" />
-                  </button>
-                </m.div>
+                    {/* 左侧工具按钮 */}
+                    <div className="flex items-center gap-2">
+                      {/* 信息按钮 - 在移动设备上显示 */}
+                      {isMobile && (
+                        <button
+                          type="button"
+                          className={`size-8 flex items-center justify-center rounded-full text-white bg-material-ultra-thick backdrop-blur-2xl hover:bg-black/40 duration-200 ${showExifPanel ? 'bg-accent' : ''}`}
+                          onClick={() => setShowExifPanel(!showExifPanel)}
+                        >
+                          <i className="i-mingcute-information-line" />
+                        </button>
+                      )}
+                    </div>
 
-                {/* Swiper 容器 */}
-                <Swiper
-                  modules={[Navigation, Keyboard, Virtual]}
-                  spaceBetween={0}
-                  slidesPerView={1}
-                  initialSlide={currentIndex}
-                  virtual
-                  keyboard={{
-                    enabled: true,
-                    onlyInViewport: true,
-                  }}
-                  navigation={{
-                    prevEl: '.swiper-button-prev-custom',
-                    nextEl: '.swiper-button-next-custom',
-                  }}
-                  onSwiper={(swiper) => {
-                    swiperRef.current = swiper
-                    // 初始化时确保触摸滑动是启用的
-                    swiper.allowTouchMove = !isImageZoomed
-                  }}
-                  onSlideChange={(swiper) => {
-                    onIndexChange(swiper.activeIndex)
-                  }}
-                  className="w-full h-full"
-                  style={{ touchAction: isMobile ? 'pan-x' : 'pan-y' }}
-                >
-                  {photos.map((photo, index) => (
-                    <SwiperSlide
-                      key={photo.id}
-                      className="flex items-center justify-center"
-                      virtualIndex={index}
+                    {/* 关闭按钮 */}
+                    <button
+                      type="button"
+                      className="size-8 flex items-center justify-center rounded-full text-white bg-material-ultra-thick backdrop-blur-2xl hover:bg-black/40 duration-200"
+                      onClick={onClose}
                     >
-                      <m.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        transition={{ duration: 0.3 }}
-                        className="relative w-full h-full flex items-center justify-center"
-                      >
-                        <ProgressiveImage
-                          src={photo.originalUrl}
-                          thumbnailSrc={photo.thumbnailUrl}
-                          alt={photo.title}
-                          width={
-                            index === currentIndex ? imageSize.width : undefined
-                          }
-                          height={
-                            index === currentIndex
-                              ? imageSize.height
-                              : undefined
-                          }
-                          className="w-full h-full object-contain"
-                          enablePan={
-                            index === currentIndex
-                              ? !isMobile || isImageZoomed
-                              : true
-                          }
-                          enableZoom={true}
-                          onZoomChange={
-                            index === currentIndex
-                              ? handleZoomChange
-                              : undefined
-                          }
-                        />
-                      </m.div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
+                      <i className="i-mingcute-close-line" />
+                    </button>
+                  </m.div>
 
-                {/* 自定义导航按钮 */}
-                {currentIndex > 0 && (
-                  <button
-                    type="button"
-                    className={`swiper-button-prev-custom absolute ${isMobile ? 'left-2' : 'left-4'} top-1/2 -translate-y-1/2 z-20 flex items-center justify-center ${isMobile ? 'size-8' : 'size-10'} text-white bg-material-medium rounded-full backdrop-blur-sm hover:bg-black/40 group-hover:opacity-100 opacity-0 duration-200`}
-                    onClick={handlePrevious}
+                  {/* Swiper 容器 */}
+                  <Swiper
+                    modules={[Navigation, Keyboard, Virtual]}
+                    spaceBetween={0}
+                    slidesPerView={1}
+                    initialSlide={currentIndex}
+                    virtual
+                    keyboard={{
+                      enabled: true,
+                      onlyInViewport: true,
+                    }}
+                    navigation={{
+                      prevEl: '.swiper-button-prev-custom',
+                      nextEl: '.swiper-button-next-custom',
+                    }}
+                    onSwiper={(swiper) => {
+                      swiperRef.current = swiper
+                      // 初始化时确保触摸滑动是启用的
+                      swiper.allowTouchMove = !isImageZoomed
+                    }}
+                    onSlideChange={(swiper) => {
+                      onIndexChange(swiper.activeIndex)
+                    }}
+                    className="w-full h-full"
+                    style={{ touchAction: isMobile ? 'pan-x' : 'pan-y' }}
                   >
-                    <i
-                      className={`i-mingcute-arrow-left-line ${isMobile ? 'text-lg' : 'text-xl'}`}
-                    />
-                  </button>
-                )}
+                    {photos.map((photo, index) => {
+                      const isCurrentImage = index === currentIndex
+                      return (
+                        <SwiperSlide
+                          key={photo.id}
+                          className="flex items-center justify-center"
+                          virtualIndex={index}
+                        >
+                          <m.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.3 }}
+                            className="relative w-full h-full flex items-center justify-center"
+                          >
+                            <ProgressiveImage
+                              isCurrentImage={isCurrentImage}
+                              src={photo.originalUrl}
+                              thumbnailSrc={photo.thumbnailUrl}
+                              alt={photo.title}
+                              width={
+                                isCurrentImage ? imageSize.width : undefined
+                              }
+                              height={
+                                isCurrentImage ? imageSize.height : undefined
+                              }
+                              className="w-full h-full object-contain"
+                              enablePan={
+                                isCurrentImage
+                                  ? !isMobile || isImageZoomed
+                                  : true
+                              }
+                              enableZoom={true}
+                              onZoomChange={
+                                isCurrentImage ? handleZoomChange : undefined
+                              }
+                            />
+                          </m.div>
+                        </SwiperSlide>
+                      )
+                    })}
+                  </Swiper>
 
-                {currentIndex < photos.length - 1 && (
-                  <button
-                    type="button"
-                    className={`swiper-button-next-custom absolute ${isMobile ? 'right-2' : 'right-4'} top-1/2 -translate-y-1/2 z-20 flex items-center justify-center ${isMobile ? 'size-8' : 'size-10'} text-white bg-material-medium rounded-full backdrop-blur-sm hover:bg-black/40 group-hover:opacity-100 opacity-0 duration-200`}
-                  >
-                    <i
-                      className={`i-mingcute-arrow-right-line ${isMobile ? 'text-lg' : 'text-xl'}`}
-                    />
-                  </button>
-                )}
+                  {/* 自定义导航按钮 */}
+                  {currentIndex > 0 && (
+                    <button
+                      type="button"
+                      className={`swiper-button-prev-custom absolute ${isMobile ? 'left-2' : 'left-4'} top-1/2 -translate-y-1/2 z-20 flex items-center justify-center ${isMobile ? 'size-8' : 'size-10'} text-white bg-material-medium rounded-full backdrop-blur-sm hover:bg-black/40 group-hover:opacity-100 opacity-0 duration-200`}
+                      onClick={handlePrevious}
+                    >
+                      <i
+                        className={`i-mingcute-arrow-left-line ${isMobile ? 'text-lg' : 'text-xl'}`}
+                      />
+                    </button>
+                  )}
+
+                  {currentIndex < photos.length - 1 && (
+                    <button
+                      type="button"
+                      className={`swiper-button-next-custom absolute ${isMobile ? 'right-2' : 'right-4'} top-1/2 -translate-y-1/2 z-20 flex items-center justify-center ${isMobile ? 'size-8' : 'size-10'} text-white bg-material-medium rounded-full backdrop-blur-sm hover:bg-black/40 group-hover:opacity-100 opacity-0 duration-200`}
+                    >
+                      <i
+                        className={`i-mingcute-arrow-right-line ${isMobile ? 'text-lg' : 'text-xl'}`}
+                      />
+                    </button>
+                  )}
+                </div>
+
+                <GalleryThumbnail
+                  currentIndex={currentIndex}
+                  photos={photos}
+                  onIndexChange={onIndexChange}
+                />
               </div>
 
-              <GalleryThumbnail
-                currentIndex={currentIndex}
-                photos={photos}
-                onIndexChange={onIndexChange}
-              />
+              {/* ExifPanel - 在桌面端始终显示，在移动端根据状态显示 */}
+
+              {(!isMobile || showExifPanel) && (
+                <ExifPanel
+                  currentPhoto={currentPhoto}
+                  exifData={currentPhoto.exif}
+                  isMobile={isMobile}
+                  onClose={isMobile ? () => setShowExifPanel(false) : undefined}
+                />
+              )}
             </div>
-
-            {/* ExifPanel - 在桌面端始终显示，在移动端根据状态显示 */}
-
-            {(!isMobile || showExifPanel) && (
-              <ExifPanel
-                currentPhoto={currentPhoto}
-                exifData={currentPhoto.exif}
-                isMobile={isMobile}
-                onClose={isMobile ? () => setShowExifPanel(false) : undefined}
-              />
-            )}
           </div>
-        </div>
-      )}
-    </AnimatePresence>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
