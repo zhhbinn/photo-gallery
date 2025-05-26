@@ -1,7 +1,8 @@
 import clsx from 'clsx'
 import { useAtom, useAtomValue } from 'jotai'
 import { Masonry } from 'masonic'
-import { useCallback, useMemo } from 'react'
+import { m } from 'motion/react'
+import { useCallback, useEffect, useMemo } from 'react'
 
 import { gallerySettingAtom } from '~/atoms/app'
 import { PhotoViewer } from '~/components/photo-viewer'
@@ -20,8 +21,41 @@ class MasonryHeaderItem {
 
 type MasonryItemType = PhotoManifest | MasonryHeaderItem
 
+// 全局动画状态管理器
+class AnimationStateManager {
+  private static instance: AnimationStateManager
+  private animatedItems = new Set<string>()
+
+  static getInstance() {
+    if (!AnimationStateManager.instance) {
+      AnimationStateManager.instance = new AnimationStateManager()
+    }
+    return AnimationStateManager.instance
+  }
+
+  hasAnimated(key: string): boolean {
+    return this.animatedItems.has(key)
+  }
+
+  markAsAnimated(key: string): void {
+    this.animatedItems.add(key)
+  }
+
+  reset(): void {
+    this.animatedItems.clear()
+  }
+}
+
+const animationManager = AnimationStateManager.getInstance()
+
 export const MasonryRoot = () => {
   const { sortOrder } = useAtomValue(gallerySettingAtom)
+
+  // 当排序改变时重置动画状态
+  useEffect(() => {
+    animationManager.reset()
+  }, [sortOrder])
+
   const masonryItems = useMemo(() => {
     const sortedPhotos = data.sort((a, b) => {
       const aComparedDate =
@@ -48,30 +82,37 @@ export const MasonryRoot = () => {
 
   return (
     <>
-      <Masonry<MasonryItemType>
+      <m.div
         key={sortOrder}
-        items={masonryItems}
-        render={useCallback(
-          (props) => (
-            <MasonryItem
-              {...props}
-              onPhotoClick={photoViewer.openViewer}
-              photos={photos}
-            />
-          ),
-          [photoViewer.openViewer, photos],
-        )}
-        columnWidth={300}
-        columnGutter={16}
-        rowGutter={16}
-        itemHeightEstimate={400}
-        itemKey={(data, _index) => {
-          if (data instanceof MasonryHeaderItem) {
-            return 'header'
-          }
-          return (data as PhotoManifest).id
-        }}
-      />
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        <Masonry<MasonryItemType>
+          key={sortOrder}
+          items={masonryItems}
+          render={useCallback(
+            (props) => (
+              <MasonryItem
+                {...props}
+                onPhotoClick={photoViewer.openViewer}
+                photos={photos}
+              />
+            ),
+            [photoViewer.openViewer, photos],
+          )}
+          columnWidth={300}
+          columnGutter={16}
+          rowGutter={16}
+          itemHeightEstimate={400}
+          itemKey={(data, _index) => {
+            if (data instanceof MasonryHeaderItem) {
+              return 'header'
+            }
+            return (data as PhotoManifest).id
+          }}
+        />
+      </m.div>
 
       <PhotoViewer
         photos={photos}
@@ -97,17 +138,72 @@ export const MasonryItem = ({
   onPhotoClick: (index: number, element?: HTMLElement) => void
   photos: PhotoManifest[]
 }) => {
+  // 为每个 item 生成唯一的 key 用于追踪动画状态
+  const itemKey = useMemo(() => {
+    if (data instanceof MasonryHeaderItem) {
+      return 'header'
+    }
+    return (data as PhotoManifest).id
+  }, [data])
+
+  // 检查是否已经动画过
+  const hasAnimated = animationManager.hasAnimated(itemKey)
+
+  // 标记为已动画
+  useEffect(() => {
+    if (!hasAnimated) {
+      animationManager.markAsAnimated(itemKey)
+    }
+  }, [hasAnimated, itemKey])
+
+  // 计算动画延迟
+  const delay =
+    data instanceof MasonryHeaderItem ? 0 : Math.min(index * 0.05, 0.8)
+
+  // Framer Motion 动画变体
+  const itemVariants = {
+    hidden: {
+      opacity: 0,
+      y: 30,
+      scale: 0.95,
+      filter: 'blur(4px)',
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      filter: 'blur(0px)',
+      transition: {
+        duration: 0.8,
+        ease: [0.16, 1, 0.3, 1], // cubic-bezier(0.16, 1, 0.3, 1)
+        delay,
+      },
+    },
+  }
+
   if (data instanceof MasonryHeaderItem) {
     return <MasonryHeaderMasonryItem width={width} />
   } else {
     return (
-      <PhotoMasonryItem
-        data={data as PhotoManifest}
-        width={width}
-        index={index}
-        onPhotoClick={onPhotoClick}
-        photos={photos}
-      />
+      <m.div
+        key={itemKey}
+        variants={itemVariants}
+        initial={hasAnimated ? 'visible' : 'hidden'}
+        animate="visible"
+        layout
+        whileHover={{
+          scale: 1.02,
+          transition: { duration: 0.2 },
+        }}
+      >
+        <PhotoMasonryItem
+          data={data as PhotoManifest}
+          width={width}
+          index={index}
+          onPhotoClick={onPhotoClick}
+          photos={photos}
+        />
+      </m.div>
     )
   }
 }
