@@ -1,6 +1,5 @@
 import { AnimatePresence, m, useAnimationControls } from 'motion/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Blurhash } from 'react-blurhash'
 
 import { clsxm } from '~/lib/cn'
 import {
@@ -21,7 +20,7 @@ const canUseWebGL = (() => {
 interface ProgressiveImageProps {
   src: string
   thumbnailSrc?: string
-  blurhash?: string
+
   alt: string
   width?: number
   height?: number
@@ -39,7 +38,7 @@ interface ProgressiveImageProps {
 export const ProgressiveImage = ({
   src,
   thumbnailSrc,
-  blurhash,
+
   alt,
   className,
 
@@ -201,18 +200,6 @@ export const ProgressiveImage = ({
 
   return (
     <div className={clsxm('relative overflow-hidden', className)}>
-      {blurhash && (
-        <Blurhash
-          hash={blurhash}
-          width="100%"
-          height="100%"
-          resolutionX={32}
-          resolutionY={32}
-          punch={1}
-          className="absolute inset-0 w-full h-full object-contain"
-        />
-      )}
-
       {/* 缩略图 */}
       {thumbnailSrc && (
         <m.img

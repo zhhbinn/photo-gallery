@@ -5,6 +5,7 @@ import 'swiper/css/navigation'
 
 import { AnimatePresence, m } from 'motion/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Blurhash } from 'react-blurhash'
 import type { Swiper as SwiperType } from 'swiper'
 import { Keyboard, Navigation, Virtual } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -187,17 +188,27 @@ export const PhotoViewer = ({
           style={{ touchAction: isMobile ? 'manipulation' : 'none' }}
         >
           <m.div
-            className="absolute inset-0 bg-black/50 backdrop-blur-[70px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-          />
+            className="absolute inset-0"
+          >
+            <Blurhash
+              hash={currentPhoto.blurhash}
+              width="100%"
+              height="100%"
+              resolutionX={32}
+              resolutionY={32}
+              punch={1}
+              className="size-fill"
+            />
+          </m.div>
 
           <div
             className={`size-full flex ${isMobile ? 'flex-col' : 'flex-row'}`}
           >
-            <div className="flex-1 flex-col flex min-w-0 min-h-0">
+            <div className="flex-1 flex-col flex min-w-0 min-h-0 z-[1]">
               <div className="flex flex-1 min-w-0 relative group min-h-0">
                 {/* 顶部工具栏 */}
                 <m.div
@@ -273,7 +284,6 @@ export const PhotoViewer = ({
                         <ProgressiveImage
                           src={photo.originalUrl}
                           thumbnailSrc={photo.thumbnailUrl}
-                          blurhash={photo.blurhash}
                           alt={photo.title}
                           width={
                             index === currentIndex ? imageSize.width : undefined
