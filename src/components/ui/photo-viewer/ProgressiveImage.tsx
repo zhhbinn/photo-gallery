@@ -228,6 +228,7 @@ export const ProgressiveImage = ({
           centerOnInit={true}
           smooth={true}
           onZoomChange={onTransformed}
+          debug={import.meta.env.DEV}
         />
       )}
 

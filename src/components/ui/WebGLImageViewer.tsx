@@ -1,4 +1,10 @@
-import { useEffect, useImperativeHandle, useMemo, useRef } from 'react'
+import {
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
 interface WheelConfig {
   step: number
@@ -51,6 +57,7 @@ interface WebGLImageViewerProps {
   velocityAnimation?: VelocityAnimationConfig
   onZoomChange?: (originalScale: number, relativeScale: number) => void
   onImageCopied?: () => void
+  debug?: boolean
 }
 
 interface WebGLImageViewerRef {
@@ -113,6 +120,7 @@ class WebGLImageViewerEngine {
   private config: Required<WebGLImageViewerProps>
   private onZoomChange?: (originalScale: number, relativeScale: number) => void
   private onImageCopied?: () => void
+  private onDebugUpdate?: (debugInfo: any) => void
 
   // Bound event handlers for proper cleanup
   private boundHandleMouseDown: (e: MouseEvent) => void
@@ -157,11 +165,13 @@ class WebGLImageViewerEngine {
     config: Required<WebGLImageViewerProps>,
     onZoomChange?: (originalScale: number, relativeScale: number) => void,
     onImageCopied?: () => void,
+    onDebugUpdate?: (debugInfo: any) => void,
   ) {
     this.canvas = canvas
     this.config = config
     this.onZoomChange = onZoomChange
     this.onImageCopied = onImageCopied
+    this.onDebugUpdate = onDebugUpdate
 
     const gl = canvas.getContext('webgl', {
       alpha: true,
@@ -204,10 +214,13 @@ class WebGLImageViewerEngine {
     this.gl.viewport(0, 0, this.canvasWidth, this.canvasHeight)
 
     if (this.imageLoaded) {
-      this.constrainImagePosition()
+      // 窗口大小改变时，需要重新约束缩放倍数和位置
+      this.constrainScaleAndPosition()
       this.render()
       // canvas尺寸变化时也需要检查纹理更新
       this.debouncedTextureUpdate()
+      // 通知缩放变化
+      this.notifyZoomChange()
     }
   }
 
@@ -321,7 +334,6 @@ class WebGLImageViewerEngine {
 
     // 计算当前最优纹理尺寸
     const optimalSize = this.calculateOptimalTextureSize()
-
     this.lastOptimalTextureSize = optimalSize
 
     // 创建离屏canvas来调整图片尺寸
@@ -330,7 +342,6 @@ class WebGLImageViewerEngine {
 
     offscreenCanvas.width = optimalSize.width
     offscreenCanvas.height = optimalSize.height
-
     // 绘制缩放后的图片
     offscreenCtx.drawImage(
       this.originalImage,
@@ -352,10 +363,14 @@ class WebGLImageViewerEngine {
     // 创建新纹理
     this.texture = gl.createTexture()
     gl.bindTexture(gl.TEXTURE_2D, this.texture)
+
+    // 设置纹理参数，防止边框效果
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+
+    // 上传纹理数据
     gl.texImage2D(
       gl.TEXTURE_2D,
       0,
@@ -371,46 +386,36 @@ class WebGLImageViewerEngine {
   private calculateOptimalTextureSize(): { width: number; height: number } {
     if (!this.originalImage) return { width: 0, height: 0 }
 
-    // 获取fit-to-window的基础缩放比例
-    const fitToScreenScale = this.getFitToScreenScale()
+    // 基于缩放级别计算所需的纹理分辨率
+    // scale = 1 表示原图大小，此时纹理应该是原图分辨率
+    let targetWidth = this.originalImage.width * this.scale
+    let targetHeight = this.originalImage.height * this.scale
 
-    // 计算相对于fit-to-window的缩放倍率
-    const relativeScale = this.scale / fitToScreenScale
+    // 应用超采样倍率来提高质量，但只在缩放较小时使用
+    // 当缩放接近或超过1x时，不需要额外的超采样
+    const supersamplingFactor = this.scale < 1 ? 2 : 1
+    targetWidth *= supersamplingFactor
+    targetHeight *= supersamplingFactor
 
-    // 计算图片在fit-to-window状态下的显示尺寸
-    const imageAspectRatio =
-      this.originalImage.width / this.originalImage.height
-    const canvasAspectRatio = this.canvasWidth / this.canvasHeight
+    // 限制在原图尺寸内，避免无意义的放大
+    targetWidth = Math.min(targetWidth, this.originalImage.width)
+    targetHeight = Math.min(targetHeight, this.originalImage.height)
 
-    let baseFitWidth: number
-    let baseFitHeight: number
+    // 确保最小尺寸，避免过小的纹理
+    const minSize = 64
+    targetWidth = Math.max(minSize, targetWidth)
+    targetHeight = Math.max(minSize, targetHeight)
 
-    if (imageAspectRatio > canvasAspectRatio) {
-      // 图片更宽，以宽度为准适应canvas
-      baseFitWidth = this.canvasWidth
-      baseFitHeight = this.canvasWidth / imageAspectRatio
-    } else {
-      // 图片更高，以高度为准适应canvas
-      baseFitHeight = this.canvasHeight
-      baseFitWidth = this.canvasHeight * imageAspectRatio
-    }
-
-    // 应用相对缩放倍率和2倍超采样
-    const targetWidth = baseFitWidth * relativeScale * 2
-    const targetHeight = baseFitHeight * relativeScale * 2
-
-    // 限制在原图尺寸内，避免放大超过原图
-    const maxWidth = Math.min(targetWidth, this.originalImage.width)
-    const maxHeight = Math.min(targetHeight, this.originalImage.height)
-
-    // 确保尺寸是2的幂次方（WebGL优化）
-    const optimalWidth = Math.max(
-      64,
-      Math.min(4096, Math.pow(2, Math.ceil(Math.log2(maxWidth)))),
+    // 将尺寸调整为2的幂次方（WebGL优化）
+    // 但限制最大尺寸避免内存问题
+    const maxSize = 4096
+    const optimalWidth = Math.min(
+      maxSize,
+      Math.pow(2, Math.ceil(Math.log2(targetWidth))),
     )
-    const optimalHeight = Math.max(
-      64,
-      Math.min(4096, Math.pow(2, Math.ceil(Math.log2(maxHeight)))),
+    const optimalHeight = Math.min(
+      maxSize,
+      Math.pow(2, Math.ceil(Math.log2(targetHeight))),
     )
 
     return { width: optimalWidth, height: optimalHeight }
@@ -595,6 +600,23 @@ class WebGLImageViewerEngine {
     )
   }
 
+  private constrainScaleAndPosition() {
+    // 首先约束缩放倍数
+    const fitToScreenScale = this.getFitToScreenScale()
+    const absoluteMinScale = fitToScreenScale * this.config.minScale
+    const absoluteMaxScale = fitToScreenScale * this.config.maxScale
+
+    // 如果当前缩放超出范围，调整到合理范围内
+    if (this.scale < absoluteMinScale) {
+      this.scale = absoluteMinScale
+    } else if (this.scale > absoluteMaxScale) {
+      this.scale = absoluteMaxScale
+    }
+
+    // 然后约束位置
+    this.constrainImagePosition()
+  }
+
   private render() {
     const now = performance.now()
 
@@ -621,6 +643,10 @@ class WebGLImageViewerEngine {
 
     const { gl } = this
 
+    // 确保视口设置正确
+    gl.viewport(0, 0, this.canvasWidth, this.canvasHeight)
+
+    // 清除为完全透明
     gl.clearColor(0, 0, 0, 0)
     gl.clear(gl.COLOR_BUFFER_BIT)
 
@@ -639,6 +665,31 @@ class WebGLImageViewerEngine {
     gl.bindTexture(gl.TEXTURE_2D, this.texture)
 
     gl.drawArrays(gl.TRIANGLES, 0, 6)
+
+    // Update debug info if enabled
+    if (this.config.debug && this.onDebugUpdate) {
+      this.updateDebugInfo()
+    }
+  }
+
+  private updateDebugInfo() {
+    if (!this.onDebugUpdate) return
+
+    const fitToScreenScale = this.getFitToScreenScale()
+    const relativeScale = this.scale / fitToScreenScale
+
+    this.onDebugUpdate({
+      scale: this.scale,
+      relativeScale,
+      translateX: this.translateX,
+      translateY: this.translateY,
+      textureSize: this.lastOptimalTextureSize,
+      canvasSize: { width: this.canvasWidth, height: this.canvasHeight },
+      imageSize: { width: this.imageWidth, height: this.imageHeight },
+      fitToScreenScale,
+      renderCount: performance.now(),
+      textureUpdateCount: this.currentTextureScale,
+    })
   }
 
   private notifyZoomChange() {
@@ -1029,11 +1080,24 @@ export const WebGLImageViewer = ({
   velocityAnimation = defaultVelocityAnimation,
   onZoomChange,
   onImageCopied,
+  debug = false,
 }: WebGLImageViewerProps & {
   ref?: React.RefObject<WebGLImageViewerRef | null>
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const viewerRef = useRef<WebGLImageViewerEngine | null>(null)
+  const [debugInfo, setDebugInfo] = useState({
+    scale: 1,
+    relativeScale: 1,
+    translateX: 0,
+    translateY: 0,
+    textureSize: { width: 0, height: 0 },
+    canvasSize: { width: 0, height: 0 },
+    imageSize: { width: 0, height: 0 },
+    fitToScreenScale: 1,
+    renderCount: 0,
+    textureUpdateCount: 0,
+  })
 
   const config: Required<WebGLImageViewerProps> = useMemo(
     () => ({
@@ -1059,6 +1123,7 @@ export const WebGLImageViewer = ({
       velocityAnimation: { ...defaultVelocityAnimation, ...velocityAnimation },
       onZoomChange: onZoomChange || (() => {}),
       onImageCopied: onImageCopied || (() => {}),
+      debug: debug || false,
     }),
     [
       src,
@@ -1077,6 +1142,7 @@ export const WebGLImageViewer = ({
       velocityAnimation,
       onZoomChange,
       onImageCopied,
+      debug,
     ],
   )
 
@@ -1097,6 +1163,7 @@ export const WebGLImageViewer = ({
         config,
         onZoomChange,
         onImageCopied,
+        debug ? setDebugInfo : undefined,
       )
       webGLImageViewerEngine.loadImage(src).catch(console.error)
       viewerRef.current = webGLImageViewerEngine
@@ -1110,16 +1177,62 @@ export const WebGLImageViewer = ({
   }, [src, config, onZoomChange, onImageCopied])
 
   return (
-    <canvas
-      ref={canvasRef}
-      className={className}
-      style={{
-        display: 'block',
-        width: '100%',
-        height: '100%',
-        touchAction: 'none',
-      }}
-    />
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <canvas
+        ref={canvasRef}
+        className={className}
+        style={{
+          display: 'block',
+          width: '100%',
+          height: '100%',
+          touchAction: 'none',
+          border: 'none',
+          outline: 'none',
+          margin: 0,
+          padding: 0,
+        }}
+      />
+      {debug && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '10px',
+            left: '10px',
+            background: 'rgba(0, 0, 0, 0.8)',
+            color: 'white',
+            padding: '10px',
+            borderRadius: '4px',
+            fontSize: '12px',
+            fontFamily: 'monospace',
+            lineHeight: '1.4',
+            pointerEvents: 'none',
+            zIndex: 1000,
+            minWidth: '200px',
+          }}
+        >
+          <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+            WebGL Debug Info
+          </div>
+          <div>Scale: {debugInfo.scale.toFixed(3)}</div>
+          <div>Relative Scale: {debugInfo.relativeScale.toFixed(3)}</div>
+          <div>
+            Translate: ({debugInfo.translateX.toFixed(1)},{' '}
+            {debugInfo.translateY.toFixed(1)})
+          </div>
+          <div>
+            Canvas: {debugInfo.canvasSize.width}×{debugInfo.canvasSize.height}
+          </div>
+          <div>
+            Image: {debugInfo.imageSize.width}×{debugInfo.imageSize.height}
+          </div>
+          <div>
+            Texture: {debugInfo.textureSize.width}×
+            {debugInfo.textureSize.height}
+          </div>
+          <div>Fit Scale: {debugInfo.fitToScreenScale.toFixed(3)}</div>
+        </div>
+      )}
+    </div>
   )
 }
 
