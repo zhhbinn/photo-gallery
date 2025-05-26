@@ -297,17 +297,15 @@ class WebGLImageViewerEngine {
 
   private createTexture(image: HTMLImageElement) {
     const { gl } = this
+
     this.texture = gl.createTexture()
     gl.bindTexture(gl.TEXTURE_2D, this.texture)
-
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
   }
-
   private fitImageToScreen() {
     const scaleX = this.canvasWidth / this.imageWidth
     const scaleY = this.canvasHeight / this.imageHeight
@@ -345,8 +343,24 @@ class WebGLImageViewerEngine {
     this.targetScale = targetScale
     this.startTranslateX = this.translateX
     this.startTranslateY = this.translateY
-    this.targetTranslateX = targetTranslateX
-    this.targetTranslateY = targetTranslateY
+
+    // Apply constraints to target position before starting animation
+    const tempScale = this.scale
+    const tempTranslateX = this.translateX
+    const tempTranslateY = this.translateY
+
+    this.scale = targetScale
+    this.translateX = targetTranslateX
+    this.translateY = targetTranslateY
+    this.constrainImagePosition()
+
+    this.targetTranslateX = this.translateX
+    this.targetTranslateY = this.translateY
+
+    // Restore current state
+    this.scale = tempScale
+    this.translateX = tempTranslateX
+    this.translateY = tempTranslateY
 
     this.animate()
   }
@@ -378,8 +392,10 @@ class WebGLImageViewerEngine {
       requestAnimationFrame(() => this.animate())
     } else {
       this.isAnimating = false
-      // Ensure constraints are applied at the end of animation
-      this.constrainImagePosition()
+      // Ensure final values are exactly the target values
+      this.scale = this.targetScale
+      this.translateX = this.targetTranslateX
+      this.translateY = this.targetTranslateY
       this.render()
       this.notifyZoomChange()
     }
@@ -507,6 +523,9 @@ class WebGLImageViewerEngine {
   private handleMouseDown(e: MouseEvent) {
     if (this.isAnimating || this.config.panning.disabled) return
 
+    // Stop any ongoing animation when user starts interacting
+    this.isAnimating = false
+
     this.isDragging = true
     this.lastMouseX = e.clientX
     this.lastMouseY = e.clientY
@@ -558,33 +577,70 @@ class WebGLImageViewerEngine {
     // Stop any ongoing animation
     this.isAnimating = false
 
+    const rect = this.canvas.getBoundingClientRect()
+    const mouseX = e.clientX - rect.left
+    const mouseY = e.clientY - rect.top
+
     if (this.config.doubleClick.mode === 'toggle') {
       const fitToScreenScale = this.getFitToScreenScale()
+      const absoluteMinScale = fitToScreenScale * this.config.minScale
+      const absoluteMaxScale = fitToScreenScale * this.config.maxScale
 
       if (this.isOriginalSize) {
-        // Animate to fit-to-screen 1x (适应页面大小)
+        // Animate to fit-to-screen 1x (适应页面大小) with click position as center
+        const targetScale = Math.max(
+          absoluteMinScale,
+          Math.min(absoluteMaxScale, fitToScreenScale),
+        )
+
+        // Calculate zoom point relative to current transform
+        const zoomX =
+          (mouseX - this.canvasWidth / 2 - this.translateX) / this.scale
+        const zoomY =
+          (mouseY - this.canvasHeight / 2 - this.translateY) / this.scale
+
+        // Calculate target translation after zoom
+        const targetTranslateX =
+          mouseX - this.canvasWidth / 2 - zoomX * targetScale
+        const targetTranslateY =
+          mouseY - this.canvasHeight / 2 - zoomY * targetScale
+
         this.startAnimation(
-          fitToScreenScale,
-          0,
-          0,
+          targetScale,
+          targetTranslateX,
+          targetTranslateY,
           this.config.doubleClick.animationTime,
         )
         this.isOriginalSize = false
       } else {
-        // Animate to original size 1x (原图原始大小)
+        // Animate to original size 1x (原图原始大小) with click position as center
+        const targetScale = Math.max(
+          absoluteMinScale,
+          Math.min(absoluteMaxScale, 1),
+        ) // 1x = 原图原始大小
+
+        // Calculate zoom point relative to current transform
+        const zoomX =
+          (mouseX - this.canvasWidth / 2 - this.translateX) / this.scale
+        const zoomY =
+          (mouseY - this.canvasHeight / 2 - this.translateY) / this.scale
+
+        // Calculate target translation after zoom
+        const targetTranslateX =
+          mouseX - this.canvasWidth / 2 - zoomX * targetScale
+        const targetTranslateY =
+          mouseY - this.canvasHeight / 2 - zoomY * targetScale
+
         this.startAnimation(
-          1, // 1x = 原图原始大小
-          0,
-          0,
+          targetScale,
+          targetTranslateX,
+          targetTranslateY,
           this.config.doubleClick.animationTime,
         )
         this.isOriginalSize = true
       }
     } else {
       // Zoom mode
-      const rect = this.canvas.getBoundingClientRect()
-      const mouseX = e.clientX - rect.left
-      const mouseY = e.clientY - rect.top
       this.zoomAt(mouseX, mouseY, this.config.doubleClick.step)
     }
   }
