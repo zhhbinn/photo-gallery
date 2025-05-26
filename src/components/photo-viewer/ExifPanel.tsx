@@ -125,7 +125,7 @@ export const ExifPanel: FC<{
                   {formattedExifData.digitalZoom && (
                     <Row
                       label="数字变焦"
-                      value={`${formattedExifData.digitalZoom}x`}
+                      value={`${formattedExifData.digitalZoom.toFixed(2)}x`}
                     />
                   )}
                 </div>
