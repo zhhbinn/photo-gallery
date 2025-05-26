@@ -28,6 +28,7 @@ interface ProgressiveImageProps {
   enablePan?: boolean
   maxZoom?: number
   minZoom?: number
+  isMobile?: boolean
 }
 
 export const ProgressiveImage = ({
@@ -225,6 +226,7 @@ export const ProgressiveImage = ({
           step: 2,
           disabled: !enableZoom,
           mode: 'toggle',
+          animationTime: 200,
         }}
         panning={{
           disabled: !enablePan,

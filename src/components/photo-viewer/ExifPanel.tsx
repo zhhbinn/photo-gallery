@@ -17,20 +17,48 @@ import type { PhotoManifest } from '~/types/photo'
 export const ExifPanel: FC<{
   currentPhoto: PhotoManifest
   exifData: Exif | null
-}> = ({ currentPhoto, exifData }) => {
+  isMobile?: boolean
+  onClose?: () => void
+}> = ({ currentPhoto, exifData, isMobile = false, onClose }) => {
   const formattedExifData = formatExifData(exifData)
 
   return (
     <m.div
-      className="w-80 bg-material-medium p-4 shrink-0 text-white overflow-y-auto z-10 backdrop-blur-3xl"
-      initial={{ opacity: 0, x: 100 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 100 }}
+      className={`${
+        isMobile
+          ? 'fixed bottom-0 left-0 right-0 max-h-[60vh] w-full rounded-t-2xl exif-panel-mobile'
+          : 'w-80 shrink-0'
+      } bg-material-medium p-4 text-white overflow-y-auto z-10 backdrop-blur-3xl`}
+      initial={{
+        opacity: 0,
+        ...(isMobile ? { y: 100 } : { x: 100 }),
+      }}
+      animate={{
+        opacity: 1,
+        ...(isMobile ? { y: 0 } : { x: 0 }),
+      }}
+      exit={{
+        opacity: 0,
+        ...(isMobile ? { y: 100 } : { x: 100 }),
+      }}
       transition={{ duration: 0.3 }}
     >
-      <h3 className="text-lg font-semibold mb-4">图片信息</h3>
-
-      <div className="space-y-4">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className={`${isMobile ? 'text-base' : 'text-lg'} font-semibold`}>
+          图片信息
+        </h3>
+        {isMobile && onClose && (
+          <button
+            type="button"
+            className="size-6 flex items-center justify-center rounded-full text-white/70 hover:text-white hover:bg-white/10 duration-200"
+            onClick={onClose}
+          >
+            <i className="i-mingcute-close-line text-sm" />
+          </button>
+        )}
+      </div>
+      {/* space-y-3 space-y-4 */}
+      <div className={`space-y-${isMobile ? '3' : '4'}`}>
         <div>
           <h4 className="text-sm font-medium text-white/80 mb-2">基本信息</h4>
           <div className="space-y-1 text-sm">
@@ -65,7 +93,7 @@ export const ExifPanel: FC<{
           <Fragment>
             {(formattedExifData.camera || formattedExifData.lens) && (
               <div>
-                <h4 className="text-sm font-medium text-white/80 mb-2">
+                <h4 className="text-sm font-medium text-white/80 my-2">
                   设备信息
                 </h4>
                 <div className="space-y-1 text-sm">
@@ -105,10 +133,12 @@ export const ExifPanel: FC<{
             )}
 
             <div>
-              <h4 className="text-sm font-medium text-white/80 mb-2">
+              <h4 className="text-sm font-medium text-white/80 my-2">
                 拍摄参数
               </h4>
-              <div className="grid grid-cols-2 gap-3">
+              <div
+                className={`grid ${isMobile ? 'grid-cols-1 gap-2' : 'grid-cols-2 gap-3'}`}
+              >
                 {formattedExifData.focalLength35mm && (
                   <div className="flex items-center gap-2 bg-white/10 rounded-md px-2 py-1">
                     <StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens className="text-white/70 text-sm" />
@@ -161,7 +191,7 @@ export const ExifPanel: FC<{
               formattedExifData.lightSource ||
               formattedExifData.flash) && (
               <div>
-                <h4 className="text-sm font-medium text-white/80 mb-2">
+                <h4 className="text-sm font-medium text-white/80 my-2">
                   拍摄模式
                 </h4>
                 <div className="space-y-1 text-sm">
@@ -249,7 +279,7 @@ export const ExifPanel: FC<{
 
             {formattedExifData.fujiRecipe && (
               <div>
-                <h4 className="text-sm font-medium text-white/80 mb-2">
+                <h4 className="text-sm font-medium text-white/80 my-2">
                   富士胶片模拟
                 </h4>
                 <div className="space-y-1 text-sm">
@@ -360,7 +390,7 @@ export const ExifPanel: FC<{
             )}
             {formattedExifData.gps && (
               <div>
-                <h4 className="text-sm font-medium text-white/80 mb-2">
+                <h4 className="text-sm font-medium text-white/80 my-2">
                   位置信息
                 </h4>
                 <div className="space-y-1 text-sm">
@@ -396,7 +426,7 @@ export const ExifPanel: FC<{
               formattedExifData.focalPlaneXResolution ||
               formattedExifData.focalPlaneYResolution) && (
               <div>
-                <h4 className="text-sm font-medium text-white/80 mb-2">
+                <h4 className="text-sm font-medium text-white/80 my-2">
                   技术参数
                 </h4>
                 <div className="space-y-1 text-sm">

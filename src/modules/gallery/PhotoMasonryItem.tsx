@@ -37,12 +37,6 @@ export const PhotoMasonryItem = ({
   }
 
   const handleClick = () => {
-    // 找到当前图片在 photos 数组中的索引
-
-    if (window.innerWidth < 1024) {
-      window.open(data.originalUrl, '_blank')
-      return
-    }
     const photoIndex = photos.findIndex((photo) => photo.id === data.id)
     if (photoIndex !== -1 && imageRef.current) {
       onPhotoClick(photoIndex, imageRef.current)

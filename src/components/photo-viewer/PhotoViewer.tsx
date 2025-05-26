@@ -33,13 +33,27 @@ export const PhotoViewer = ({
   const containerRef = useRef<HTMLDivElement>(null)
   const swiperRef = useRef<SwiperType | null>(null)
   const [isImageZoomed, setIsImageZoomed] = useState(false)
+  const [showExifPanel, setShowExifPanel] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   const currentPhoto = photos[currentIndex]
 
-  // 当 PhotoViewer 关闭时重置缩放状态
+  // 检测是否为移动设备
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // 当 PhotoViewer 关闭时重置缩放状态和面板状态
   useEffect(() => {
     if (!isOpen) {
       setIsImageZoomed(false)
+      setShowExifPanel(false)
     }
   }, [isOpen])
 
@@ -49,8 +63,10 @@ export const PhotoViewer = ({
 
     const viewportWidth = window.innerWidth
     const viewportHeight = window.innerHeight
-    const maxWidth = viewportWidth * 0.9
-    const maxHeight = viewportHeight * 0.9
+
+    // 在移动设备上调整最大尺寸
+    const maxWidth = isMobile ? viewportWidth * 0.95 : viewportWidth * 0.9
+    const maxHeight = isMobile ? viewportHeight * 0.8 : viewportHeight * 0.9
 
     const imageAspectRatio = currentPhoto.width / currentPhoto.height
     const maxAspectRatio = maxWidth / maxHeight
@@ -95,11 +111,11 @@ export const PhotoViewer = ({
     }
   }, [currentIndex, onIndexChange])
 
-  // const handleNext = useCallback(() => {
-  //   // if (currentIndex < photos.length - 1) {
-  //   //   onIndexChange(currentIndex + 1)
-  //   // }
-  // }, [currentIndex, photos.length, onIndexChange])
+  const handleNext = useCallback(() => {
+    if (currentIndex < photos.length - 1) {
+      onIndexChange(currentIndex + 1)
+    }
+  }, [currentIndex, photos.length, onIndexChange])
 
   // 同步 Swiper 的索引
   useEffect(() => {
@@ -141,12 +157,19 @@ export const PhotoViewer = ({
         }
         case 'ArrowRight': {
           event.preventDefault()
-          // handleNext()
+          handleNext()
           break
         }
         case 'Escape': {
           event.preventDefault()
           onClose()
+          break
+        }
+        case 'i':
+        case 'I': {
+          // 按 i 键切换信息面板
+          event.preventDefault()
+          setShowExifPanel(!showExifPanel)
           break
         }
       }
@@ -156,7 +179,7 @@ export const PhotoViewer = ({
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen, handlePrevious, onClose])
+  }, [isOpen, handlePrevious, handleNext, onClose, showExifPanel])
 
   const imageSize = getImageDisplaySize()
 
@@ -168,7 +191,7 @@ export const PhotoViewer = ({
         <div
           ref={containerRef}
           className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ touchAction: 'none' }}
+          style={{ touchAction: isMobile ? 'manipulation' : 'none' }}
         >
           <m.div
             className="absolute inset-0 bg-black/50 backdrop-blur-[70px]"
@@ -178,7 +201,9 @@ export const PhotoViewer = ({
             transition={{ duration: 0.3 }}
           />
 
-          <div className="size-full flex flex-row">
+          <div
+            className={`size-full flex ${isMobile ? 'flex-col' : 'flex-row'}`}
+          >
             <div className="flex-1 flex-col flex min-w-0 min-h-0">
               <div className="flex flex-1 min-w-0 relative group min-h-0">
                 {/* 顶部工具栏 */}
@@ -187,12 +212,26 @@ export const PhotoViewer = ({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="absolute top-4 left-4 right-4 z-30 flex items-center"
+                  className={`absolute ${isMobile ? 'top-2 left-2 right-2' : 'top-4 left-4 right-4'} z-30 flex items-center justify-between`}
                 >
+                  {/* 左侧工具按钮 */}
+                  <div className="flex items-center gap-2">
+                    {/* 信息按钮 - 在移动设备上显示 */}
+                    {isMobile && (
+                      <button
+                        type="button"
+                        className={`size-8 flex items-center justify-center rounded-full text-white bg-material-ultra-thick backdrop-blur-2xl hover:bg-black/40 duration-200 ${showExifPanel ? 'bg-accent' : ''}`}
+                        onClick={() => setShowExifPanel(!showExifPanel)}
+                      >
+                        <i className="i-mingcute-information-line" />
+                      </button>
+                    )}
+                  </div>
+
                   {/* 关闭按钮 */}
                   <button
                     type="button"
-                    className="absolute right-0 top-0 hover:bg-black/40 duration-200 size-8 flex items-center justify-center rounded-full text-white bg-material-ultra-thick backdrop-blur-2xl"
+                    className="size-8 flex items-center justify-center rounded-full text-white bg-material-ultra-thick backdrop-blur-2xl hover:bg-black/40 duration-200"
                     onClick={onClose}
                   >
                     <i className="i-mingcute-close-line" />
@@ -223,7 +262,7 @@ export const PhotoViewer = ({
                     onIndexChange(swiper.activeIndex)
                   }}
                   className="w-full h-full"
-                  style={{ touchAction: 'pan-y' }}
+                  style={{ touchAction: isMobile ? 'pan-x' : 'pan-y' }}
                 >
                   {photos.map((photo, index) => (
                     <SwiperSlide
@@ -252,6 +291,12 @@ export const PhotoViewer = ({
                               : undefined
                           }
                           className="w-full h-full object-contain"
+                          enablePan={
+                            index === currentIndex
+                              ? !isMobile || isImageZoomed
+                              : true
+                          }
+                          enableZoom={true}
                           onZoomChange={
                             index === currentIndex
                               ? handleZoomChange
@@ -267,20 +312,23 @@ export const PhotoViewer = ({
                 {currentIndex > 0 && (
                   <button
                     type="button"
-                    className="swiper-button-prev-custom absolute left-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center size-10 text-white bg-material-medium rounded-full backdrop-blur-sm hover:bg-black/40 group-hover:opacity-100 opacity-0 duration-200"
+                    className={`swiper-button-prev-custom absolute ${isMobile ? 'left-2' : 'left-4'} top-1/2 -translate-y-1/2 z-20 flex items-center justify-center ${isMobile ? 'size-8' : 'size-10'} text-white bg-material-medium rounded-full backdrop-blur-sm hover:bg-black/40 group-hover:opacity-100 opacity-0 duration-200`}
                     onClick={handlePrevious}
                   >
-                    <i className="i-mingcute-arrow-left-line text-xl" />
+                    <i
+                      className={`i-mingcute-arrow-left-line ${isMobile ? 'text-lg' : 'text-xl'}`}
+                    />
                   </button>
                 )}
 
                 {currentIndex < photos.length - 1 && (
                   <button
                     type="button"
-                    className="swiper-button-next-custom absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center size-10 text-white bg-material-medium rounded-full backdrop-blur-sm hover:bg-black/40 group-hover:opacity-100 opacity-0 duration-200"
-                    // onClick={handleNext}
+                    className={`swiper-button-next-custom absolute ${isMobile ? 'right-2' : 'right-4'} top-1/2 -translate-y-1/2 z-20 flex items-center justify-center ${isMobile ? 'size-8' : 'size-10'} text-white bg-material-medium rounded-full backdrop-blur-sm hover:bg-black/40 group-hover:opacity-100 opacity-0 duration-200`}
                   >
-                    <i className="i-mingcute-arrow-right-line text-xl" />
+                    <i
+                      className={`i-mingcute-arrow-right-line ${isMobile ? 'text-lg' : 'text-xl'}`}
+                    />
                   </button>
                 )}
               </div>
@@ -291,10 +339,18 @@ export const PhotoViewer = ({
                 onIndexChange={onIndexChange}
               />
             </div>
-            <ExifPanel
-              currentPhoto={currentPhoto}
-              exifData={currentPhoto.exif}
-            />
+
+            {/* ExifPanel - 在桌面端始终显示，在移动端根据状态显示 */}
+            <AnimatePresence>
+              {(!isMobile || showExifPanel) && (
+                <ExifPanel
+                  currentPhoto={currentPhoto}
+                  exifData={currentPhoto.exif}
+                  isMobile={isMobile}
+                  onClose={isMobile ? () => setShowExifPanel(false) : undefined}
+                />
+              )}
+            </AnimatePresence>
           </div>
         </div>
       )}
