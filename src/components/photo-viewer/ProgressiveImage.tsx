@@ -276,7 +276,7 @@ export const ProgressiveImage = ({
       >
         <div className="text-center text-text-secondary">
           <i className="i-mingcute-image-line text-4xl mb-2" />
-          <p className="text-sm">Failed to load image</p>
+          <p className="text-sm">图片加载失败</p>
         </div>
       </div>
     )
@@ -366,7 +366,7 @@ export const ProgressiveImage = ({
           >
             <div className="text-center text-white">
               <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-2" />
-              <p className="text-sm">Loading high resolution...</p>
+              <p className="text-sm">正在加载高清图片...</p>
               <p className="text-xs text-white/70 mt-1">
                 {Math.round(loadingProgress)}%
               </p>
@@ -378,7 +378,7 @@ export const ProgressiveImage = ({
       {/* 缩放提示 */}
       {enableZoom && transform.scale <= 1 && (
         <div className="absolute bottom-4 duration-200 opacity-0 group-hover:opacity-50 left-1/2 transform -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-1 rounded pointer-events-none">
-          Double tap or pinch to zoom
+          双击或双指缩放
         </div>
       )}
     </div>

@@ -264,7 +264,117 @@ export const ExifPanel: FC<{
               </div>
             )}
 
-            {/* 新增：GPS位置信息 */}
+            {formattedExifData.fujiRecipe && (
+              <div>
+                <h4 className="text-sm font-medium text-white/80 mb-2">
+                  富士胶片模拟
+                </h4>
+                <div className="space-y-1 text-sm">
+                  {formattedExifData.fujiRecipe.FilmMode && (
+                    <Row
+                      label="胶片模式"
+                      value={formattedExifData.fujiRecipe.FilmMode}
+                    />
+                  )}
+                  {formattedExifData.fujiRecipe.DynamicRange && (
+                    <Row
+                      label="动态范围"
+                      value={formattedExifData.fujiRecipe.DynamicRange}
+                    />
+                  )}
+                  {formattedExifData.fujiRecipe.WhiteBalance && (
+                    <Row
+                      label="白平衡"
+                      value={formattedExifData.fujiRecipe.WhiteBalance}
+                    />
+                  )}
+                  {formattedExifData.fujiRecipe.HighlightTone && (
+                    <Row
+                      label="高光色调"
+                      value={formattedExifData.fujiRecipe.HighlightTone}
+                    />
+                  )}
+                  {formattedExifData.fujiRecipe.ShadowTone && (
+                    <Row
+                      label="阴影色调"
+                      value={formattedExifData.fujiRecipe.ShadowTone}
+                    />
+                  )}
+                  {formattedExifData.fujiRecipe.Saturation && (
+                    <Row
+                      label="饱和度"
+                      value={formattedExifData.fujiRecipe.Saturation}
+                    />
+                  )}
+                  {formattedExifData.fujiRecipe.Sharpness && (
+                    <Row
+                      label="锐度"
+                      value={formattedExifData.fujiRecipe.Sharpness}
+                    />
+                  )}
+                  {formattedExifData.fujiRecipe.NoiseReduction && (
+                    <Row
+                      label="降噪"
+                      value={formattedExifData.fujiRecipe.NoiseReduction}
+                    />
+                  )}
+                  {formattedExifData.fujiRecipe.Clarity && (
+                    <Row
+                      label="清晰度"
+                      value={formattedExifData.fujiRecipe.Clarity}
+                    />
+                  )}
+                  {formattedExifData.fujiRecipe.ColorChromeEffect && (
+                    <Row
+                      label="色彩效果"
+                      value={formattedExifData.fujiRecipe.ColorChromeEffect}
+                    />
+                  )}
+                  {formattedExifData.fujiRecipe.ColorChromeFxBlue && (
+                    <Row
+                      label="蓝色色彩效果"
+                      value={formattedExifData.fujiRecipe.ColorChromeFxBlue}
+                    />
+                  )}
+                  {(formattedExifData.fujiRecipe.GrainEffectRoughness ||
+                    formattedExifData.fujiRecipe.GrainEffectSize) && (
+                    <>
+                      {formattedExifData.fujiRecipe.GrainEffectRoughness && (
+                        <Row
+                          label="颗粒效果强度"
+                          value={
+                            formattedExifData.fujiRecipe.GrainEffectRoughness
+                          }
+                        />
+                      )}
+                      {formattedExifData.fujiRecipe.GrainEffectSize && (
+                        <Row
+                          label="颗粒效果大小"
+                          value={formattedExifData.fujiRecipe.GrainEffectSize}
+                        />
+                      )}
+                    </>
+                  )}
+                  {(formattedExifData.fujiRecipe.Red ||
+                    formattedExifData.fujiRecipe.Blue) && (
+                    <>
+                      {formattedExifData.fujiRecipe.Red && (
+                        <Row
+                          label="红色调整"
+                          value={formattedExifData.fujiRecipe.Red}
+                        />
+                      )}
+                      {formattedExifData.fujiRecipe.Blue && (
+                        <Row
+                          label="蓝色调整"
+                          value={formattedExifData.fujiRecipe.Blue}
+                        />
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
             {formattedExifData.gps && (
               <div>
                 <h4 className="text-sm font-medium text-white/80 mb-2">
@@ -645,6 +755,9 @@ const formatExifData = (exif: Exif | null) => {
     }
   }
 
+  // 富士相机 Recipe 信息
+  const fujiRecipe = (exif as any).FujiRecipe || null
+
   return {
     focalLength35mm,
     focalLength,
@@ -683,6 +796,7 @@ const formatExifData = (exif: Exif | null) => {
     wbGRBLevels,
     wbGRBLevelsStandard,
     wbGRBLevelsAuto,
+    fujiRecipe,
   }
 }
 

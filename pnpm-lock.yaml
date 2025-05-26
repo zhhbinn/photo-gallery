@@ -47,6 +47,9 @@ importers:
       exif-reader:
         specifier: 2.0.2
         version: 2.0.2
+      fuji-recipes:
+        specifier: 1.0.1
+        version: 1.0.1
       immer:
         specifier: 10.1.1
         version: 10.1.1
@@ -2647,6 +2650,9 @@ packages:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+
+  fuji-recipes@1.0.1:
+    resolution: {integrity: sha512-L3YHH4Cs6nrJUNOPJmTRi9BHm/9JId637F9yD6mFpOa9T6/Q1xdDPexm3A9D6RleWFlwMGCaFWKWEeGSNg5c2Q==}
 
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
@@ -6341,8 +6347,7 @@ snapshots:
   balanced-match@2.0.0:
     optional: true
 
-  base64-js@1.5.1:
-    optional: true
+  base64-js@1.5.1: {}
 
   birecord@0.1.1: {}
 
@@ -6374,7 +6379,6 @@ snapshots:
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
-    optional: true
 
   builtin-modules@5.0.0: {}
 
@@ -7129,6 +7133,10 @@ snapshots:
   fsevents@2.3.3:
     optional: true
 
+  fuji-recipes@1.0.1:
+    dependencies:
+      buffer: 6.0.3
+
   function-bind@1.1.2: {}
 
   gensync@1.0.0-beta.2: {}
@@ -7223,8 +7231,7 @@ snapshots:
   html-tags@3.3.1:
     optional: true
 
-  ieee754@1.2.1:
-    optional: true
+  ieee754@1.2.1: {}
 
   ignore@5.3.2: {}
 

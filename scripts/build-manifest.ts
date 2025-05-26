@@ -11,6 +11,7 @@ import {
 import { encode } from 'blurhash'
 import type { Exif } from 'exif-reader'
 import exifReader from 'exif-reader'
+import getRecipe from 'fuji-recipes'
 import sharp from 'sharp'
 
 import { env } from '../env.js'
@@ -257,6 +258,15 @@ async function extractExifData(imageBuffer: Buffer): Promise<Exif | null> {
 
     // 使用 exif-reader 解析 EXIF 数据
     const exifData = exifReader(metadata.exif)
+    if (exifData.Photo?.MakerNote) {
+      const recipe = getRecipe(exifData.Photo.MakerNote)
+
+      ;(exifData as any).FujiRecipe = recipe
+    }
+
+    delete exifData.Photo?.MakerNote
+    delete exifData.Photo?.UserComment
+    delete exifData.Photo?.PrintImageMatching
 
     if (!exifData) {
       return null

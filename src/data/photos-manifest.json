@@ -1,139 +1,9 @@
 [
   {
-    "id": "DSCF0419",
-    "title": "DSCF0419",
-    "description": "",
-    "dateTaken": "2025-05-25T14:58:18.302Z",
-    "views": 0,
-    "tags": [],
-    "originalUrl": "https://s3-private.innei.in/images/DSCF0419.jpg",
-    "thumbnailUrl": "/thumbnails/DSCF0419.webp",
-    "blurhash": "UBEoojpJ0K%3%~yDohx[E9?K~X-;M-S$.8s:",
-    "width": 7728,
-    "height": 5152,
-    "aspectRatio": 1.5,
-    "s3Key": "DSCF0419.jpg",
-    "lastModified": "2025-05-25T14:58:14.999Z",
-    "size": 32243259,
-    "exif": {
-      "bigEndian": false,
-      "Image": {
-        "Make": "FUJIFILM",
-        "Model": "X-T5",
-        "XResolution": 300,
-        "YResolution": 300,
-        "ResolutionUnit": 2,
-        "Software": "Capture One Macintosh",
-        "Copyright": "                                                                                                                                                                                                                                                               ",
-        "ExifTag": 436,
-        "GPSTag": 1112
-      },
-      "Thumbnail": {
-        "Compression": 6,
-        "JPEGInterchangeFormat": 1418,
-        "JPEGInterchangeFormatLength": 3698
-      },
-      "Photo": {
-        "ExposureTime": 0.0004,
-        "FNumber": 2,
-        "ExposureProgram": 3,
-        "ISOSpeedRatings": 400,
-        "SensitivityType": 1,
-        "ExifVersion": {
-          "type": "Buffer",
-          "data": [
-            48,
-            50,
-            51,
-            48
-          ]
-        },
-        "DateTimeOriginal": "2025-05-05T14:42:53.000Z",
-        "DateTimeDigitized": "2025-05-05T14:42:53.000Z",
-        "OffsetTimeOriginal": "+08:00",
-        "ShutterSpeedValue": 11.287712,
-        "ApertureValue": 2,
-        "BrightnessValue": 7.46,
-        "ExposureBiasValue": 0.67,
-        "MaxApertureValue": 2,
-        "MeteringMode": 5,
-        "LightSource": 0,
-        "Flash": 0,
-        "FocalLength": 35,
-        "PixelXDimension": 7728,
-        "PixelYDimension": 5152,
-        "FocalPlaneXResolution": 1879,
-        "FocalPlaneYResolution": 1879,
-        "FocalPlaneResolutionUnit": 3,
-        "SensingMethod": 2,
-        "FileSource": {
-          "type": "Buffer",
-          "data": [
-            3
-          ]
-        },
-        "SceneType": {
-          "type": "Buffer",
-          "data": [
-            1
-          ]
-        },
-        "CustomRendered": 0,
-        "ExposureMode": 0,
-        "WhiteBalance": 0,
-        "FocalLengthIn35mmFilm": 53,
-        "SceneCaptureType": 0,
-        "Sharpness": 0,
-        "SubjectDistanceRange": 0,
-        "BodySerialNumber": "5AA05818",
-        "LensSpecification": [
-          35,
-          35,
-          2,
-          2
-        ],
-        "LensMake": "FUJIFILM",
-        "LensModel": "XC35mmF2",
-        "LensSerialNumber": "5AA07598"
-      },
-      "GPSInfo": {
-        "GPSVersionID": [
-          2,
-          3,
-          0,
-          0
-        ],
-        "GPSLatitudeRef": "N",
-        "GPSLatitude": [
-          30,
-          45.8091333,
-          0
-        ],
-        "GPSLongitudeRef": "E",
-        "GPSLongitude": [
-          120,
-          44.5595333,
-          0
-        ],
-        "GPSAltitudeRef": 0,
-        "GPSAltitude": 39,
-        "GPSTimeStamp": [
-          6,
-          42,
-          50
-        ],
-        "GPSSpeedRef": "K",
-        "GPSSpeed": 0,
-        "GPSMapDatum": "WGS-84",
-        "GPSDateStamp": "2025:05:05"
-      }
-    }
-  },
-  {
     "id": "DSCF3179",
     "title": "DSCF3179",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:45.414Z",
+    "dateTaken": "2025-05-26T05:07:18.785Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF3179.jpg",
@@ -231,7 +101,7 @@
     "id": "DSCF3174",
     "title": "DSCF3174",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:44.652Z",
+    "dateTaken": "2025-05-26T05:07:17.810Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF3174.jpg",
@@ -329,7 +199,7 @@
     "id": "DSCF3167",
     "title": "DSCF3167",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:43.844Z",
+    "dateTaken": "2025-05-26T05:07:16.781Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF3167.jpg",
@@ -427,7 +297,7 @@
     "id": "DSCF3157",
     "title": "DSCF3157",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:43.069Z",
+    "dateTaken": "2025-05-26T05:07:15.754Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF3157.jpg",
@@ -525,7 +395,7 @@
     "id": "DSCF3138",
     "title": "DSCF3138",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:42.302Z",
+    "dateTaken": "2025-05-26T05:07:14.756Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF3138.jpg",
@@ -623,7 +493,7 @@
     "id": "DSCF3136",
     "title": "DSCF3136",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:41.450Z",
+    "dateTaken": "2025-05-26T05:07:13.636Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF3136.jpg",
@@ -721,7 +591,7 @@
     "id": "DSCF3119",
     "title": "DSCF3119",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:40.624Z",
+    "dateTaken": "2025-05-26T05:07:12.587Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF3119.jpg",
@@ -819,7 +689,7 @@
     "id": "DSCF3117",
     "title": "DSCF3117",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:39.829Z",
+    "dateTaken": "2025-05-26T05:07:11.431Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF3117.jpg",
@@ -917,7 +787,7 @@
     "id": "DSCF3116",
     "title": "DSCF3116",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:38.791Z",
+    "dateTaken": "2025-05-26T05:07:10.128Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF3116.jpg",
@@ -1015,7 +885,7 @@
     "id": "DSCF3091",
     "title": "DSCF3091",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:38.011Z",
+    "dateTaken": "2025-05-26T05:07:09.222Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF3091.jpg",
@@ -1145,7 +1015,7 @@
     "id": "DSCF3029",
     "title": "DSCF3029",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:37.401Z",
+    "dateTaken": "2025-05-26T05:07:08.342Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF3029.jpg",
@@ -1275,7 +1145,7 @@
     "id": "DSCF3007",
     "title": "DSCF3007",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:36.576Z",
+    "dateTaken": "2025-05-26T05:07:07.255Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF3007.jpg",
@@ -1405,7 +1275,7 @@
     "id": "DSCF3002",
     "title": "DSCF3002",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:35.739Z",
+    "dateTaken": "2025-05-26T05:07:06.225Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF3002.jpg",
@@ -1535,7 +1405,7 @@
     "id": "DSCF2873",
     "title": "DSCF2873",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:35.054Z",
+    "dateTaken": "2025-05-26T05:07:05.424Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF2873.jpg",
@@ -1662,10 +1532,204 @@
     }
   },
   {
+    "id": "DSCF2862",
+    "title": "DSCF2862",
+    "description": "",
+    "dateTaken": "2025-05-26T05:07:04.662Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://s3-private.innei.in/images/DSCF2862.JPG",
+    "thumbnailUrl": "/thumbnails/DSCF2862.webp",
+    "blurhash": "U?F?^RxukCoz.Toza#kCo#j[f5jZM{ayaeax",
+    "width": 7728,
+    "height": 5152,
+    "aspectRatio": 1.5,
+    "s3Key": "DSCF2862.JPG",
+    "lastModified": "2025-05-26T05:05:08.225Z",
+    "size": 26418345,
+    "exif": {
+      "bigEndian": false,
+      "Image": {
+        "Make": "FUJIFILM",
+        "Model": "X-T5",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "Software": "Digital Camera X-T5 Ver4.21",
+        "DateTime": "2025-05-10T19:54:36.000Z",
+        "Artist": "                                                                                                                                                                                                                                                               ",
+        "YCbCrPositioning": 2,
+        "Copyright": "                                                                                                                                                                                                                                                               \u0000                                                                                                                                                                                                                                                               ",
+        "ExifTag": 1136,
+        "GPSTag": 3582
+      },
+      "Thumbnail": {
+        "Compression": 6,
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "Artist": "                                                                                                                                                                                                                                                               ",
+        "JPEGInterchangeFormat": 4228,
+        "JPEGInterchangeFormatLength": 9440,
+        "YCbCrPositioning": 2
+      },
+      "Photo": {
+        "ExposureTime": 0.0003333333333333333,
+        "FNumber": 3.7,
+        "ExposureProgram": 3,
+        "ISOSpeedRatings": 500,
+        "SensitivityType": 1,
+        "ExifVersion": {
+          "type": "Buffer",
+          "data": [
+            48,
+            50,
+            51,
+            50
+          ]
+        },
+        "DateTimeOriginal": "2025-04-25T15:11:47.000Z",
+        "DateTimeDigitized": "2025-04-25T15:11:47.000Z",
+        "OffsetTime": "+08:00",
+        "OffsetTimeOriginal": "+08:00",
+        "OffsetTimeDigitized": "+08:00",
+        "ComponentsConfiguration": {
+          "type": "Buffer",
+          "data": [
+            1,
+            2,
+            3,
+            0
+          ]
+        },
+        "CompressedBitsPerPixel": 4.8,
+        "ShutterSpeedValue": 11.66,
+        "ApertureValue": 3.8,
+        "BrightnessValue": 8.44,
+        "ExposureBiasValue": 0.33,
+        "MaxApertureValue": 3,
+        "MeteringMode": 3,
+        "LightSource": 1,
+        "Flash": 0,
+        "FocalLength": 30.5,
+        "CameraElevationAngle": 5.2,
+        "FlashpixVersion": {
+          "type": "Buffer",
+          "data": [
+            48,
+            49,
+            48,
+            48
+          ]
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 7728,
+        "PixelYDimension": 5152,
+        "InteroperabilityTag": 3552,
+        "FocalPlaneXResolution": 3289,
+        "FocalPlaneYResolution": 3289,
+        "FocalPlaneResolutionUnit": 3,
+        "SensingMethod": 2,
+        "FileSource": {
+          "type": "Buffer",
+          "data": [
+            3
+          ]
+        },
+        "SceneType": {
+          "type": "Buffer",
+          "data": [
+            1
+          ]
+        },
+        "CustomRendered": 0,
+        "ExposureMode": 0,
+        "WhiteBalance": 1,
+        "FocalLengthIn35mmFilm": 46,
+        "SceneCaptureType": 0,
+        "Sharpness": 2,
+        "SubjectDistanceRange": 0,
+        "BodySerialNumber": "5AA05818\u0000\u0000",
+        "LensSpecification": [
+          16,
+          50,
+          2.8,
+          4.8
+        ],
+        "LensMake": "FUJIFILM\u0000\u0000\u0000\u0000",
+        "LensModel": "XF16-50mmF2.8-4.8 R LM WR\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+        "LensSerialNumber": "4DA35395\u0000\u0000",
+        "CompositeImage": 1
+      },
+      "GPSInfo": {
+        "GPSVersionID": [
+          2,
+          3,
+          0,
+          0
+        ],
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          30,
+          29,
+          50.897
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          120,
+          52,
+          40.929
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 8,
+        "GPSTimeStamp": [
+          7,
+          11,
+          46
+        ],
+        "GPSSpeedRef": "K",
+        "GPSSpeed": 0,
+        "GPSMapDatum": "WGS-84",
+        "GPSDateStamp": "2025:04:25"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "type": "Buffer",
+          "data": [
+            48,
+            49,
+            48,
+            48
+          ]
+        }
+      },
+      "FujiRecipe": {
+        "FilmMode": "Classic Chrome",
+        "GrainEffectRoughness": "Weak",
+        "GrainEffectSize": "Small",
+        "ColorChromeEffect": "Strong",
+        "ColorChromeFxBlue": "Strong",
+        "WhiteBalance": "Daylight",
+        "Red": "-6",
+        "Blue": "+6",
+        "DynamicRange": "DR400",
+        "HighlightTone": "-2",
+        "ShadowTone": "-2",
+        "Saturation": "+4",
+        "Sharpness": "+2",
+        "NoiseReduction": "0",
+        "Clarity": "0"
+      }
+    }
+  },
+  {
     "id": "DSCF2853",
     "title": "DSCF2853",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:34.381Z",
+    "dateTaken": "2025-05-26T05:07:03.477Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF2853.jpg",
@@ -1763,7 +1827,7 @@
     "id": "DSCF2851",
     "title": "DSCF2851",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:33.387Z",
+    "dateTaken": "2025-05-26T05:07:02.091Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF2851.jpg",
@@ -1861,7 +1925,7 @@
     "id": "DSCF2850",
     "title": "DSCF2850",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:32.352Z",
+    "dateTaken": "2025-05-26T05:07:00.680Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF2850.jpg",
@@ -1959,7 +2023,7 @@
     "id": "DSCF2848",
     "title": "DSCF2848",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:31.399Z",
+    "dateTaken": "2025-05-26T05:06:59.394Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF2848.jpg",
@@ -2057,7 +2121,7 @@
     "id": "DSCF2847",
     "title": "DSCF2847",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:30.420Z",
+    "dateTaken": "2025-05-26T05:06:58.093Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF2847.jpg",
@@ -2155,7 +2219,7 @@
     "id": "DSCF0420",
     "title": "DSCF0420",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:29.476Z",
+    "dateTaken": "2025-05-26T05:06:56.893Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF0420.jpg",
@@ -2282,10 +2346,140 @@
     }
   },
   {
+    "id": "DSCF0419",
+    "title": "DSCF0419",
+    "description": "",
+    "dateTaken": "2025-05-26T05:06:55.702Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://s3-private.innei.in/images/DSCF0419.jpg",
+    "thumbnailUrl": "/thumbnails/DSCF0419.webp",
+    "blurhash": "UBEoojpJ0K%3%~yDohx[E9?K~X-;M-S$.8s:",
+    "width": 7728,
+    "height": 5152,
+    "aspectRatio": 1.5,
+    "s3Key": "DSCF0419.jpg",
+    "lastModified": "2025-05-25T14:58:14.999Z",
+    "size": 32243259,
+    "exif": {
+      "bigEndian": false,
+      "Image": {
+        "Make": "FUJIFILM",
+        "Model": "X-T5",
+        "XResolution": 300,
+        "YResolution": 300,
+        "ResolutionUnit": 2,
+        "Software": "Capture One Macintosh",
+        "Copyright": "                                                                                                                                                                                                                                                               ",
+        "ExifTag": 436,
+        "GPSTag": 1112
+      },
+      "Thumbnail": {
+        "Compression": 6,
+        "JPEGInterchangeFormat": 1418,
+        "JPEGInterchangeFormatLength": 3698
+      },
+      "Photo": {
+        "ExposureTime": 0.0004,
+        "FNumber": 2,
+        "ExposureProgram": 3,
+        "ISOSpeedRatings": 400,
+        "SensitivityType": 1,
+        "ExifVersion": {
+          "type": "Buffer",
+          "data": [
+            48,
+            50,
+            51,
+            48
+          ]
+        },
+        "DateTimeOriginal": "2025-05-05T14:42:53.000Z",
+        "DateTimeDigitized": "2025-05-05T14:42:53.000Z",
+        "OffsetTimeOriginal": "+08:00",
+        "ShutterSpeedValue": 11.287712,
+        "ApertureValue": 2,
+        "BrightnessValue": 7.46,
+        "ExposureBiasValue": 0.67,
+        "MaxApertureValue": 2,
+        "MeteringMode": 5,
+        "LightSource": 0,
+        "Flash": 0,
+        "FocalLength": 35,
+        "PixelXDimension": 7728,
+        "PixelYDimension": 5152,
+        "FocalPlaneXResolution": 1879,
+        "FocalPlaneYResolution": 1879,
+        "FocalPlaneResolutionUnit": 3,
+        "SensingMethod": 2,
+        "FileSource": {
+          "type": "Buffer",
+          "data": [
+            3
+          ]
+        },
+        "SceneType": {
+          "type": "Buffer",
+          "data": [
+            1
+          ]
+        },
+        "CustomRendered": 0,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "FocalLengthIn35mmFilm": 53,
+        "SceneCaptureType": 0,
+        "Sharpness": 0,
+        "SubjectDistanceRange": 0,
+        "BodySerialNumber": "5AA05818",
+        "LensSpecification": [
+          35,
+          35,
+          2,
+          2
+        ],
+        "LensMake": "FUJIFILM",
+        "LensModel": "XC35mmF2",
+        "LensSerialNumber": "5AA07598"
+      },
+      "GPSInfo": {
+        "GPSVersionID": [
+          2,
+          3,
+          0,
+          0
+        ],
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          30,
+          45.8091333,
+          0
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          120,
+          44.5595333,
+          0
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 39,
+        "GPSTimeStamp": [
+          6,
+          42,
+          50
+        ],
+        "GPSSpeedRef": "K",
+        "GPSSpeed": 0,
+        "GPSMapDatum": "WGS-84",
+        "GPSDateStamp": "2025:05:05"
+      }
+    }
+  },
+  {
     "id": "DSCF0414",
     "title": "DSCF0414",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:28.437Z",
+    "dateTaken": "2025-05-26T05:06:54.323Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF0414.jpg",
@@ -2415,7 +2609,7 @@
     "id": "DSCF0386",
     "title": "DSCF0386",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:27.325Z",
+    "dateTaken": "2025-05-26T05:06:52.979Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF0386.jpg",
@@ -2513,7 +2707,7 @@
     "id": "DSCF0378",
     "title": "DSCF0378",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:26.375Z",
+    "dateTaken": "2025-05-26T05:06:51.754Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF0378.jpg",
@@ -2640,10 +2834,171 @@
     }
   },
   {
+    "id": "DSCF0324",
+    "title": "DSCF0324",
+    "description": "",
+    "dateTaken": "2025-05-26T05:06:50.623Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://s3-private.innei.in/images/DSCF0324.jpg",
+    "thumbnailUrl": "/thumbnails/DSCF0324.webp",
+    "blurhash": "U56[]lYFDgt9lIy4.TtPEdyD-;NG%gxZMwr;",
+    "width": 7728,
+    "height": 5152,
+    "aspectRatio": 1.5,
+    "s3Key": "DSCF0324.jpg",
+    "lastModified": "2025-05-26T05:05:08.223Z",
+    "size": 22613721,
+    "exif": {
+      "bigEndian": false,
+      "Image": {
+        "Make": "FUJIFILM",
+        "Model": "X-T5",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "Software": "Digital Camera X-T5 Ver4.21",
+        "DateTime": "2025-05-03T18:50:32.000Z",
+        "Artist": "                                                                                                                                                                                                                                                               ",
+        "YCbCrPositioning": 2,
+        "Copyright": "                                                                                                                                                                                                                                                               \u0000                                                                                                                                                                                                                                                               ",
+        "ExifTag": 1124
+      },
+      "Thumbnail": {
+        "Compression": 6,
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "Artist": "                                                                                                                                                                                                                                                               ",
+        "JPEGInterchangeFormat": 3972,
+        "JPEGInterchangeFormatLength": 7889,
+        "YCbCrPositioning": 2
+      },
+      "Photo": {
+        "ExposureTime": 0.0020833333333333333,
+        "FNumber": 4,
+        "ExposureProgram": 3,
+        "ISOSpeedRatings": 800,
+        "SensitivityType": 1,
+        "ExifVersion": {
+          "type": "Buffer",
+          "data": [
+            48,
+            50,
+            51,
+            50
+          ]
+        },
+        "DateTimeOriginal": "2025-05-02T17:38:01.000Z",
+        "DateTimeDigitized": "2025-05-02T17:38:01.000Z",
+        "OffsetTime": "+08:00",
+        "OffsetTimeOriginal": "+08:00",
+        "OffsetTimeDigitized": "+08:00",
+        "ComponentsConfiguration": {
+          "type": "Buffer",
+          "data": [
+            1,
+            2,
+            3,
+            0
+          ]
+        },
+        "CompressedBitsPerPixel": 4.8,
+        "ShutterSpeedValue": 8.91,
+        "ApertureValue": 4,
+        "BrightnessValue": 5.32,
+        "ExposureBiasValue": 0.33,
+        "MaxApertureValue": 4,
+        "MeteringMode": 2,
+        "LightSource": 0,
+        "Flash": 0,
+        "FocalLength": 70,
+        "CameraElevationAngle": 0,
+        "FlashpixVersion": {
+          "type": "Buffer",
+          "data": [
+            48,
+            49,
+            48,
+            48
+          ]
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 7728,
+        "PixelYDimension": 5152,
+        "InteroperabilityTag": 3552,
+        "FocalPlaneXResolution": 3289,
+        "FocalPlaneYResolution": 3289,
+        "FocalPlaneResolutionUnit": 3,
+        "SensingMethod": 2,
+        "FileSource": {
+          "type": "Buffer",
+          "data": [
+            3
+          ]
+        },
+        "SceneType": {
+          "type": "Buffer",
+          "data": [
+            1
+          ]
+        },
+        "CustomRendered": 0,
+        "ExposureMode": 0,
+        "WhiteBalance": 1,
+        "FocalLengthIn35mmFilm": 105,
+        "SceneCaptureType": 0,
+        "Sharpness": 0,
+        "SubjectDistanceRange": 0,
+        "BodySerialNumber": "5AA05818\u0000\u0000",
+        "LensSpecification": [
+          70,
+          300,
+          4,
+          5.6
+        ],
+        "LensMake": "FUJIFILM\u0000\u0000\u0000\u0000",
+        "LensModel": "XF70-300mmF4-5.6 R LM OIS WR\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+        "LensSerialNumber": "5AC03773\u0000\u0000",
+        "CompositeImage": 1
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "type": "Buffer",
+          "data": [
+            48,
+            49,
+            48,
+            48
+          ]
+        }
+      },
+      "FujiRecipe": {
+        "FilmMode": "Classic Chrome",
+        "GrainEffectRoughness": "Off",
+        "GrainEffectSize": "Off",
+        "ColorChromeEffect": "Strong",
+        "ColorChromeFxBlue": "Strong",
+        "WhiteBalance": "3250K",
+        "Red": "0",
+        "Blue": "0",
+        "HighlightTone": "0",
+        "ShadowTone": "0",
+        "Saturation": "+1",
+        "Sharpness": "0",
+        "NoiseReduction": "0",
+        "Clarity": "0"
+      }
+    }
+  },
+  {
     "id": "DSCF0074",
     "title": "DSCF0074",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:25.397Z",
+    "dateTaken": "2025-05-26T05:06:49.748Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF0074.jpg",
@@ -2773,7 +3128,7 @@
     "id": "DSCF0071",
     "title": "DSCF0071",
     "description": "",
-    "dateTaken": "2025-05-25T14:56:24.779Z",
+    "dateTaken": "2025-05-26T05:06:48.971Z",
     "views": 0,
     "tags": [],
     "originalUrl": "https://s3-private.innei.in/images/DSCF0071.jpg",

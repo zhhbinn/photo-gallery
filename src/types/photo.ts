@@ -1,4 +1,5 @@
 import type { Exif } from 'exif-reader'
+import type getRecipe from 'fuji-recipes'
 
 export interface PhotoManifest {
   id: string
@@ -15,5 +16,5 @@ export interface PhotoManifest {
   s3Key: string
   lastModified: string
   size: number
-  exif: Exif
+  exif: Exif & { FujiRecipe?: ReturnType<typeof getRecipe> }
 }
