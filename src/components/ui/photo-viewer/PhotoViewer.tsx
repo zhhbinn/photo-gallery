@@ -184,7 +184,7 @@ export const PhotoViewer = ({
     <>
       {/* 固定背景层防止透出 */}
       {/* 交叉溶解的 Blurhash 背景 */}
-      <AnimatePresence>
+      <AnimatePresence mode="popLayout">
         {isOpen && (
           <>
             <m.div
@@ -192,15 +192,15 @@ export const PhotoViewer = ({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={Spring.presets.smooth}
-              className="absolute inset-0 bg-material-opaque"
+              className="fixed inset-0 bg-material-opaque"
             />
             <m.div
-              key={currentPhoto.id}
+              key={currentPhoto.blurhash}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={Spring.presets.smooth}
-              className="absolute inset-0"
+              className="fixed inset-0"
             >
               <Blurhash
                 hash={currentPhoto.blurhash}
