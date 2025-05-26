@@ -1,7 +1,10 @@
 import { AnimatePresence, m, useAnimationControls } from 'motion/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Blurhash } from 'react-blurhash'
-import type { ReactZoomPanPinchRef } from 'react-zoom-pan-pinch'
+import type {
+  ReactZoomPanPinchRef,
+  ReactZoomPanPinchState,
+} from 'react-zoom-pan-pinch'
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
 
 import { clsxm } from '~/lib/cn'
@@ -167,6 +170,18 @@ export const ProgressiveImage = ({
     }
   }, [highResLoaded, error, onProgress, src, onError])
 
+  const onTransformed = useCallback(
+    (
+      ref: ReactZoomPanPinchRef,
+      state: Omit<ReactZoomPanPinchState, 'previousScale'>,
+    ) => {
+      // 当缩放比例不等于 1 时，认为图片被缩放了
+      const isZoomed = state.scale !== 1
+      onZoomChange?.(isZoomed)
+    },
+    [onZoomChange],
+  )
+
   const handleThumbnailLoad = useCallback(() => {
     thumbnailAnimateController.start({
       opacity: 1,
@@ -244,16 +259,7 @@ export const ProgressiveImage = ({
           sensitivity: 1,
           animationTime: 0.2,
         }}
-        onTransformed={(ref, state) => {
-          // 当缩放比例不等于 1 时，认为图片被缩放了
-          const isZoomed = state.scale !== 1
-          onZoomChange?.(isZoomed)
-
-          // 当缩放比例小于等于1时，自动让图片中心归位
-          if (state.scale <= 1) {
-            ref.centerView(1, 200)
-          }
-        }}
+        onTransformed={onTransformed}
       >
         <TransformComponent
           wrapperClass="!w-full !h-full !absolute !inset-0"
