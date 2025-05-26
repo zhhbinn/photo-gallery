@@ -271,7 +271,6 @@ async function getImageMetadata(
 ): Promise<ImageMetadata | null> {
   try {
     const metadata = await sharp(imageBuffer).metadata()
-    console.info(metadata)
 
     if (!metadata.width || !metadata.height || !metadata.format) {
       console.error('图片元数据不完整')
@@ -299,7 +298,21 @@ function cleanExifData(exifData: any): any {
     return exifData.map((item) => cleanExifData(item))
   }
 
+  // 如果是 Date 对象，直接返回
+  if (exifData instanceof Date) {
+    return exifData
+  }
+
   const cleaned: any = {}
+
+  // 重要的日期字段，不应该被过度清理
+  const importantDateFields = new Set([
+    'DateTimeOriginal',
+    'DateTime',
+    'DateTimeDigitized',
+    'CreateDate',
+    'ModifyDate',
+  ])
 
   for (const [key, value] of Object.entries(exifData)) {
     if (value === null || value === undefined) {
@@ -307,11 +320,22 @@ function cleanExifData(exifData: any): any {
     }
 
     if (typeof value === 'string') {
-      // 移除字符串中的所有空字符并清理空白字符
-      const cleanedString = value.replaceAll('\0', '').trim()
-      if (cleanedString.length > 0) {
-        cleaned[key] = cleanedString
+      // 对于重要的日期字段，只移除空字符，不进行过度清理
+      if (importantDateFields.has(key)) {
+        const cleanedString = value.replaceAll('\0', '')
+        if (cleanedString.length > 0) {
+          cleaned[key] = cleanedString
+        }
+      } else {
+        // 对于其他字符串字段，移除空字符并清理空白字符
+        const cleanedString = value.replaceAll('\0', '').trim()
+        if (cleanedString.length > 0) {
+          cleaned[key] = cleanedString
+        }
       }
+    } else if (value instanceof Date) {
+      // Date 对象直接保留
+      cleaned[key] = value
     } else if (typeof value === 'object') {
       // 递归清理嵌套对象
       const cleanedNested = cleanExifData(value)
@@ -352,6 +376,7 @@ async function extractExifData(
 
     // 使用 exif-reader 解析 EXIF 数据
     const exifData = exifReader(metadata.exif)
+
     if (exifData.Photo?.MakerNote) {
       const recipe = getRecipe(exifData.Photo.MakerNote)
 
@@ -378,7 +403,7 @@ async function extractExifData(
 }
 
 // 从文件名提取照片信息
-function extractPhotoInfo(key: string): PhotoInfo {
+function extractPhotoInfo(key: string, exifData?: Exif | null): PhotoInfo {
   const fileName = path.basename(key, path.extname(key))
 
   // 尝试从文件名解析信息，格式示例: "2024-01-15_城市夜景_1250views"
@@ -387,10 +412,40 @@ function extractPhotoInfo(key: string): PhotoInfo {
   let views = 0
   const tags: string[] = []
 
-  // 如果文件名包含日期
-  const dateMatch = fileName.match(/(\d{4}-\d{2}-\d{2})/)
-  if (dateMatch) {
-    dateTaken = new Date(dateMatch[1]).toISOString()
+  // 优先使用 EXIF 中的 DateTimeOriginal
+  if (exifData?.Photo?.DateTimeOriginal) {
+    try {
+      const dateTimeOriginal = exifData.Photo.DateTimeOriginal as any
+
+      // 如果是 Date 对象，直接使用
+      if (dateTimeOriginal instanceof Date) {
+        dateTaken = dateTimeOriginal.toISOString()
+      } else if (typeof dateTimeOriginal === 'string') {
+        // 如果是字符串，按原来的方式处理
+        // EXIF 日期格式通常是 "YYYY:MM:DD HH:MM:SS"
+        const formattedDateStr = dateTimeOriginal.replace(
+          /^(\d{4}):(\d{2}):(\d{2})/,
+          '$1-$2-$3',
+        )
+        dateTaken = new Date(formattedDateStr).toISOString()
+      } else {
+        console.warn(
+          `未知的 DateTimeOriginal 类型: ${typeof dateTimeOriginal}`,
+          dateTimeOriginal,
+        )
+      }
+    } catch (error) {
+      console.warn(
+        `解析 EXIF DateTimeOriginal 失败: ${exifData.Photo.DateTimeOriginal}`,
+        error,
+      )
+    }
+  } else {
+    // 如果 EXIF 中没有日期，尝试从文件名解析
+    const dateMatch = fileName.match(/(\d{4}-\d{2}-\d{2})/)
+    if (dateMatch) {
+      dateTaken = new Date(dateMatch[1]).toISOString()
+    }
   }
 
   // 如果文件名包含浏览次数
@@ -541,9 +596,6 @@ async function buildManifest(): Promise<void> {
       const metadata = await getImageMetadata(imageBuffer)
       if (!metadata) continue
 
-      // 提取照片信息
-      const photoInfo = extractPhotoInfo(key)
-
       // 如果是增量更新且已有 blurhash，可以复用
       let blurhash: string | null = null
       if (!isForceMode && existingItem?.blurhash) {
@@ -566,6 +618,9 @@ async function buildManifest(): Promise<void> {
           : undefined
         exifData = await extractExifData(imageBuffer, originalBuffer)
       }
+
+      // 提取照片信息（在获取 EXIF 数据之后，以便使用 DateTimeOriginal）
+      const photoInfo = extractPhotoInfo(key, exifData)
 
       // 生成缩略图（会自动检查是否需要重新生成）
       const thumbnailUrl = await generateThumbnail(
