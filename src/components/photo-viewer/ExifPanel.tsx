@@ -75,6 +75,31 @@ export const ExifPanel: FC<{
                   {formattedExifData.lens && (
                     <Row label="镜头" value={formattedExifData.lens} />
                   )}
+
+                  {formattedExifData.focalLength && (
+                    <Row
+                      label="实际焦距"
+                      value={`${formattedExifData.focalLength}mm`}
+                    />
+                  )}
+                  {formattedExifData.focalLength35mm && (
+                    <Row
+                      label="等效焦距"
+                      value={`${formattedExifData.focalLength35mm}mm`}
+                    />
+                  )}
+                  {formattedExifData.maxAperture && (
+                    <Row
+                      label="最大光圈"
+                      value={`f/${formattedExifData.maxAperture}`}
+                    />
+                  )}
+                  {formattedExifData.digitalZoom && (
+                    <Row
+                      label="数字变焦"
+                      value={`${formattedExifData.digitalZoom}x`}
+                    />
+                  )}
                 </div>
               </div>
             )}
@@ -217,48 +242,6 @@ export const ExifPanel: FC<{
                   )}
                   {formattedExifData.lightSource && (
                     <Row label="光源" value={formattedExifData.lightSource} />
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* 新增：镜头信息 */}
-            {(formattedExifData.lens ||
-              formattedExifData.focalLength ||
-              formattedExifData.focalLength35mm ||
-              formattedExifData.maxAperture ||
-              formattedExifData.digitalZoom) && (
-              <div>
-                <h4 className="text-sm font-medium text-white/80 mb-2">
-                  镜头信息
-                </h4>
-                <div className="space-y-1 text-sm">
-                  {formattedExifData.lens && (
-                    <Row label="镜头型号" value={formattedExifData.lens} />
-                  )}
-                  {formattedExifData.focalLength && (
-                    <Row
-                      label="实际焦距"
-                      value={`${formattedExifData.focalLength}mm`}
-                    />
-                  )}
-                  {formattedExifData.focalLength35mm && (
-                    <Row
-                      label="等效焦距"
-                      value={`${formattedExifData.focalLength35mm}mm`}
-                    />
-                  )}
-                  {formattedExifData.maxAperture && (
-                    <Row
-                      label="最大光圈"
-                      value={`f/${formattedExifData.maxAperture}`}
-                    />
-                  )}
-                  {formattedExifData.digitalZoom && (
-                    <Row
-                      label="数字变焦"
-                      value={`${formattedExifData.digitalZoom}x`}
-                    />
                   )}
                 </div>
               </div>
