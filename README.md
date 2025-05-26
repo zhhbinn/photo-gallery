@@ -6,10 +6,11 @@ Preview: https://gallery.innei.in
 
 ## 特点
 
+- 高性能 WebGL 图像渲染器
 - HEIC/HEIF 格式支持
 - 支持缩略图生成
 - 支持 EXIF 信息展示
-- 支持瀑布流布局
+- 瀑布流布局
 - 支持富士胶片模拟信息读取
 
 ## 环境配置

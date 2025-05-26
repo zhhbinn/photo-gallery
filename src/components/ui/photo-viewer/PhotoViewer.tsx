@@ -165,13 +165,6 @@ export const PhotoViewer = ({
           onClose()
           break
         }
-        case 'i':
-        case 'I': {
-          // 按 i 键切换信息面板
-          event.preventDefault()
-          setShowExifPanel(!showExifPanel)
-          break
-        }
       }
     }
 

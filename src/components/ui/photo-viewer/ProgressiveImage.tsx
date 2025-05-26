@@ -1,11 +1,6 @@
 import { AnimatePresence, m, useAnimationControls } from 'motion/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Blurhash } from 'react-blurhash'
-import type {
-  ReactZoomPanPinchRef,
-  ReactZoomPanPinchState,
-} from 'react-zoom-pan-pinch'
-import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
 
 import { clsxm } from '~/lib/cn'
 import {
@@ -15,6 +10,14 @@ import {
 } from '~/lib/heic-converter'
 import { Spring } from '~/lib/spring'
 
+import type { WebGLImageViewerRef } from '../WebGLImageViewer'
+import { WebGLImageViewer } from '../WebGLImageViewer'
+
+const canUseWebGL = (() => {
+  const canvas = document.createElement('canvas')
+  const gl = canvas.getContext('webgl')
+  return gl !== null
+})()
 interface ProgressiveImageProps {
   src: string
   thumbnailSrc?: string
@@ -23,15 +26,14 @@ interface ProgressiveImageProps {
   width?: number
   height?: number
   className?: string
-  onLoad?: () => void
   onError?: () => void
   onProgress?: (progress: number) => void
   onZoomChange?: (isZoomed: boolean) => void
+
   enableZoom?: boolean
   enablePan?: boolean
   maxZoom?: number
   minZoom?: number
-  isMobile?: boolean
 }
 
 export const ProgressiveImage = ({
@@ -40,12 +42,11 @@ export const ProgressiveImage = ({
   blurhash,
   alt,
   className,
-  onLoad,
+
   onError,
   onProgress,
   onZoomChange,
-  enableZoom = true,
-  enablePan = true,
+
   maxZoom = 10,
   minZoom = 1,
 }: ProgressiveImageProps) => {
@@ -57,8 +58,8 @@ export const ProgressiveImage = ({
   const [isConverting, setIsConverting] = useState(false)
 
   const thumbnailRef = useRef<HTMLImageElement>(null)
-  const highResRef = useRef<HTMLImageElement>(null)
-  const transformRef = useRef<ReactZoomPanPinchRef>(null)
+
+  const transformRef = useRef<WebGLImageViewerRef>(null)
   const thumbnailAnimateController = useAnimationControls()
   const convertedUrlRef = useRef<string | null>(null)
 
@@ -79,7 +80,7 @@ export const ProgressiveImage = ({
 
     // Reset transform when image changes
     if (transformRef.current) {
-      transformRef.current.resetTransform()
+      transformRef.current.resetView()
     }
   }, [src])
 
@@ -114,10 +115,7 @@ export const ProgressiveImage = ({
               // 如果是 HEIC 格式，进行转换
               setIsConverting(true)
               try {
-                const conversionResult = await convertHeicImage(blob, {
-                  quality: 0.85,
-                  format: 'image/jpeg',
-                })
+                const conversionResult = await convertHeicImage(blob)
 
                 convertedUrlRef.current = conversionResult.url
                 setBlobSrc(conversionResult.url)
@@ -171,12 +169,9 @@ export const ProgressiveImage = ({
   }, [highResLoaded, error, onProgress, src, onError])
 
   const onTransformed = useCallback(
-    (
-      ref: ReactZoomPanPinchRef,
-      state: Omit<ReactZoomPanPinchState, 'previousScale'>,
-    ) => {
-      // 当缩放比例不等于 1 时，认为图片被缩放了
-      const isZoomed = state.scale !== 1
+    (originalScale: number, relativeScale: number) => {
+      const isZoomed = Math.abs(relativeScale - 1) > 0.01
+
       onZoomChange?.(isZoomed)
     },
     [onZoomChange],
@@ -187,11 +182,6 @@ export const ProgressiveImage = ({
       opacity: 1,
     })
   }, [thumbnailAnimateController])
-
-  const handleError = useCallback(() => {
-    setError(true)
-    onError?.()
-  }, [onError])
 
   if (error) {
     return (
@@ -223,80 +213,46 @@ export const ProgressiveImage = ({
         />
       )}
 
-      <TransformWrapper
-        ref={transformRef}
-        initialScale={1}
-        minScale={minZoom}
-        maxScale={maxZoom}
-        wheel={{
-          step: 0.1,
-          wheelDisabled: !enableZoom,
-          touchPadDisabled: !enableZoom,
-        }}
-        pinch={{
-          step: 0.5,
-          disabled: !enableZoom,
-        }}
-        doubleClick={{
-          step: 2,
-          disabled: !enableZoom,
-          mode: 'toggle',
-          animationTime: 200,
-        }}
-        panning={{
-          disabled: !enablePan,
-          velocityDisabled: true,
-        }}
-        limitToBounds={true}
-        centerOnInit={true}
-        smooth={true}
-        alignmentAnimation={{
-          sizeX: 0,
-          sizeY: 0,
-          velocityAlignmentTime: 0.2,
-        }}
-        velocityAnimation={{
-          sensitivity: 1,
-          animationTime: 0.2,
-        }}
-        onTransformed={onTransformed}
-      >
-        <TransformComponent
-          wrapperClass="!w-full !h-full !absolute !inset-0"
-          contentClass="!w-full !h-full flex items-center justify-center"
-        >
-          {/* 缩略图 */}
-          {thumbnailSrc && (
-            <m.img
-              ref={thumbnailRef}
-              initial={{ opacity: 0 }}
-              exit={{ opacity: 0 }}
-              src={thumbnailSrc}
-              key={thumbnailSrc}
-              alt={alt}
-              transition={Spring.presets.smooth}
-              className="absolute inset-0 w-full h-full object-contain"
-              animate={thumbnailAnimateController}
-              onLoad={handleThumbnailLoad}
-            />
-          )}
+      {/* 缩略图 */}
+      {thumbnailSrc && (
+        <m.img
+          ref={thumbnailRef}
+          initial={{ opacity: 0 }}
+          exit={{ opacity: 0 }}
+          src={thumbnailSrc}
+          key={thumbnailSrc}
+          alt={alt}
+          transition={Spring.presets.smooth}
+          className="absolute inset-0 w-full h-full object-contain"
+          animate={thumbnailAnimateController}
+          onLoad={handleThumbnailLoad}
+        />
+      )}
 
-          <img
-            ref={highResRef}
-            src={blobSrc || undefined}
-            alt={alt}
-            className={clsxm(
-              'absolute inset-0 w-full h-full object-contain',
-              highResLoaded ? 'opacity-100' : 'opacity-0',
-            )}
-            onLoad={onLoad}
-            onError={handleError}
-            draggable={false}
-            loading="eager"
-            decoding="async"
-          />
-        </TransformComponent>
-      </TransformWrapper>
+      {highResLoaded && blobSrc && (
+        <WebGLImageViewer
+          ref={transformRef}
+          src={blobSrc}
+          className="absolute inset-0 w-full h-full"
+          initialScale={1}
+          minScale={minZoom}
+          maxScale={maxZoom}
+          limitToBounds={true}
+          centerOnInit={true}
+          smooth={true}
+          onZoomChange={onTransformed}
+        />
+      )}
+
+      {/* 备用图片（当 WebGL 不可用时） */}
+      {!canUseWebGL && highResLoaded && blobSrc && (
+        <div className="absolute inset-0 flex-col gap-2 flex items-center justify-center bg-black/20 z-10 pointer-events-none">
+          <i className="i-mingcute-warning-line text-4xl mb-2" />
+          <span className="text-white text-sm text-center">
+            WebGL 不可用，无法渲染图片
+          </span>
+        </div>
+      )}
 
       {/* 加载指示器 */}
       <AnimatePresence>
@@ -338,11 +294,10 @@ export const ProgressiveImage = ({
       </AnimatePresence>
 
       {/* 缩放提示 */}
-      {enableZoom && (
-        <div className="absolute bottom-4 duration-200 opacity-0 group-hover:opacity-50 left-1/2 transform -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-1 rounded pointer-events-none z-20">
-          双击或双指缩放
-        </div>
-      )}
+
+      <div className="absolute bottom-4 duration-200 opacity-0 group-hover:opacity-50 left-1/2 transform -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-1 rounded pointer-events-none z-20">
+        双击或双指缩放
+      </div>
     </div>
   )
 }
