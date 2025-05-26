@@ -261,7 +261,7 @@ const MasonryHeaderMasonryItem = ({ width }: { width: number }) => {
                   )}
                 />
                 <span className="text-sm font-medium">
-                  {gallerySetting.sortOrder === 'asc' ? 'Asc' : 'Desc'}
+                  {gallerySetting.sortOrder === 'asc' ? '升序' : '降序'}
                 </span>
               </Button>
             </div>
@@ -274,7 +274,7 @@ const MasonryHeaderMasonryItem = ({ width }: { width: number }) => {
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
               <i className="i-mingcute-calendar-line size-4 text-text-secondary" />
-              <span className="text-text-secondary">Built in</span>
+              <span className="text-text-secondary">构建于</span>
             </div>
 
             <div className="flex items-center gap-2 text-text-secondary">

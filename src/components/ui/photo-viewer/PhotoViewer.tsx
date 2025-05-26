@@ -344,16 +344,15 @@ export const PhotoViewer = ({
             </div>
 
             {/* ExifPanel - 在桌面端始终显示，在移动端根据状态显示 */}
-            <AnimatePresence>
-              {(!isMobile || showExifPanel) && (
-                <ExifPanel
-                  currentPhoto={currentPhoto}
-                  exifData={currentPhoto.exif}
-                  isMobile={isMobile}
-                  onClose={isMobile ? () => setShowExifPanel(false) : undefined}
-                />
-              )}
-            </AnimatePresence>
+
+            {(!isMobile || showExifPanel) && (
+              <ExifPanel
+                currentPhoto={currentPhoto}
+                exifData={currentPhoto.exif}
+                isMobile={isMobile}
+                onClose={isMobile ? () => setShowExifPanel(false) : undefined}
+              />
+            )}
           </div>
         </div>
       )}
