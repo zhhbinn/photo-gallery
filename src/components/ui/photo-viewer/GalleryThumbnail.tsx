@@ -66,7 +66,7 @@ export const GalleryThumbnail: FC<{
 
   return (
     <m.div
-      className="z-10 shrink-0 backdrop-blur-3xl bg-material-medium"
+      className="z-10 shrink-0 backdrop-blur-3xl bg-material-medium pb-safe"
       initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 100 }}

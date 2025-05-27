@@ -86,15 +86,6 @@ export const ProgressiveImage = ({
     }
   }, [src])
 
-  // 组件卸载时清理 URL
-  useEffect(() => {
-    return () => {
-      if (convertedUrlRef.current) {
-        revokeConvertedUrl(convertedUrlRef.current)
-      }
-    }
-  }, [])
-
   useEffect(() => {
     if (highResLoaded || error || !isCurrentImage) return
 
@@ -136,6 +127,7 @@ export const ProgressiveImage = ({
             } else {
               // 普通图片格式
               const url = URL.createObjectURL(blob)
+
               setBlobSrc(url)
               setHighResLoaded(true)
             }
@@ -143,6 +135,7 @@ export const ProgressiveImage = ({
             console.error('Format detection failed:', detectionError)
             // 如果检测失败，按普通图片处理
             const url = URL.createObjectURL(blob)
+
             setBlobSrc(url)
             setHighResLoaded(true)
           }

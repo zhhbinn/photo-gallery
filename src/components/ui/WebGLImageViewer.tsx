@@ -342,6 +342,7 @@ class WebGLImageViewerEngine {
 
     offscreenCanvas.width = optimalSize.width
     offscreenCanvas.height = optimalSize.height
+
     // 绘制缩放后的图片
     offscreenCtx.drawImage(
       this.originalImage,
@@ -402,19 +403,18 @@ class WebGLImageViewerEngine {
     targetHeight = Math.min(targetHeight, this.originalImage.height)
 
     // 确保最小尺寸，避免过小的纹理
-    const minSize = 64
+    const minSize = 1024
     targetWidth = Math.max(minSize, targetWidth)
     targetHeight = Math.max(minSize, targetHeight)
 
-    // 将尺寸调整为2的幂次方（WebGL优化）
-    // 但限制最大尺寸避免内存问题
-    const maxSize = 4096
+    const maxHeight = this.originalImage.height
+    const maxWidth = this.originalImage.width
     const optimalWidth = Math.min(
-      maxSize,
+      maxWidth,
       Math.pow(2, Math.ceil(Math.log2(targetWidth))),
     )
     const optimalHeight = Math.min(
-      maxSize,
+      maxHeight,
       Math.pow(2, Math.ceil(Math.log2(targetHeight))),
     )
 
