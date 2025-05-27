@@ -143,7 +143,7 @@ export const PhotoMasonryItem = ({
               {data.title}
             </h3>
             {data.description && (
-              <p className="text-xs text-white/80 mb-3 line-clamp-2">
+              <p className="text-sm text-white/80 mb-3 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 {data.description}
               </p>
             )}

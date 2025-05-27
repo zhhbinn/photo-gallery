@@ -6,9 +6,8 @@ import { useCallback, useEffect, useMemo } from 'react'
 
 import { gallerySettingAtom } from '~/atoms/app'
 import { Button } from '~/components/ui/button'
-import { PhotoViewer } from '~/components/ui/photo-viewer'
 import { photoLoader } from '~/data/photos'
-import { usePhotoViewer } from '~/hooks/usePhotoViewer'
+import { usePhotos, usePhotoViewer } from '~/hooks/usePhotoViewer'
 import type { PhotoManifest } from '~/types/photo'
 
 import { PhotoMasonryItem } from './PhotoMasonryItem'
@@ -56,72 +55,42 @@ export const MasonryRoot = () => {
     animationManager.reset()
   }, [sortOrder])
 
-  const masonryItems = useMemo(() => {
-    const sortedPhotos = data.sort((a, b) => {
-      const aComparedDate =
-        (a.exif.Photo?.DateTimeOriginal as unknown as string) || a.lastModified
-      const bComparedDate =
-        (b.exif.Photo?.DateTimeOriginal as unknown as string) || b.lastModified
-      if (sortOrder === 'asc') {
-        return aComparedDate.localeCompare(bComparedDate)
-      }
-      return bComparedDate.localeCompare(aComparedDate)
-    })
+  const photos = usePhotos()
 
-    return [MasonryHeaderItem.default, ...sortedPhotos] as MasonryItemType[]
-  }, [sortOrder])
-
-  // 获取纯图片数据（不包含 header）
-  const photos = useMemo(() => {
-    return masonryItems.filter(
-      (item): item is PhotoManifest => !(item instanceof MasonryHeaderItem),
-    )
-  }, [masonryItems])
-
-  const photoViewer = usePhotoViewer(photos)
+  const photoViewer = usePhotoViewer()
 
   return (
-    <>
-      <m.div
+    <m.div
+      key={sortOrder}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Masonry<MasonryItemType>
         key={sortOrder}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-      >
-        <Masonry<MasonryItemType>
-          key={sortOrder}
-          items={masonryItems}
-          render={useCallback(
-            (props) => (
-              <MasonryItem
-                {...props}
-                onPhotoClick={photoViewer.openViewer}
-                photos={photos}
-              />
-            ),
-            [photoViewer.openViewer, photos],
-          )}
-          columnWidth={300}
-          columnGutter={16}
-          rowGutter={16}
-          itemHeightEstimate={400}
-          itemKey={(data, _index) => {
-            if (data instanceof MasonryHeaderItem) {
-              return 'header'
-            }
-            return (data as PhotoManifest).id
-          }}
-        />
-      </m.div>
-
-      <PhotoViewer
-        photos={photos}
-        currentIndex={photoViewer.currentIndex}
-        isOpen={photoViewer.isOpen}
-        onClose={photoViewer.closeViewer}
-        onIndexChange={photoViewer.goToIndex}
+        items={useMemo(() => [MasonryHeaderItem.default, ...photos], [photos])}
+        render={useCallback(
+          (props) => (
+            <MasonryItem
+              {...props}
+              onPhotoClick={photoViewer.openViewer}
+              photos={photos}
+            />
+          ),
+          [photoViewer.openViewer, photos],
+        )}
+        columnWidth={300}
+        columnGutter={16}
+        rowGutter={16}
+        itemHeightEstimate={400}
+        itemKey={(data, _index) => {
+          if (data instanceof MasonryHeaderItem) {
+            return 'header'
+          }
+          return (data as PhotoManifest).id
+        }}
       />
-    </>
+    </m.div>
   )
 }
 
@@ -208,6 +177,7 @@ export const MasonryItem = ({
   }
 }
 
+const numberFormatter = new Intl.NumberFormat('zh-CN')
 const MasonryHeaderMasonryItem = ({ width }: { width: number }) => {
   const [gallerySetting, setGallerySetting] = useAtom(gallerySettingAtom)
 
@@ -240,7 +210,7 @@ const MasonryHeaderMasonryItem = ({ width }: { width: number }) => {
               </div>
               <div>
                 <p className="text-sm text-text-secondary mt-1">
-                  {data?.length || 0} photos
+                  {numberFormatter.format(data?.length || 0)} 张照片
                 </p>
                 <p className="text-sm text-text-secondary">Innei's Gallery</p>
               </div>

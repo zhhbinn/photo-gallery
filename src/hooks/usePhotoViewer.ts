@@ -1,38 +1,84 @@
-import { useCallback, useState } from 'react'
+import { atom, useAtom, useAtomValue } from 'jotai'
+import { useCallback, useEffect, useMemo } from 'react'
+import { useLocation, useNavigate } from 'react-router'
 
-import type { PhotoManifest } from '~/types/photo'
+import { gallerySettingAtom } from '~/atoms/app'
+import { photoLoader } from '~/data/photos'
 
-export const usePhotoViewer = (photos: PhotoManifest[]) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [triggerElement, setTriggerElement] = useState<HTMLElement | null>(null)
+const openAtom = atom(false)
+const currentIndexAtom = atom(0)
+const triggerElementAtom = atom<HTMLElement | null>(null)
+const data = photoLoader.getPhotos()
+export const usePhotos = () => {
+  const { sortOrder } = useAtomValue(gallerySettingAtom)
 
-  const openViewer = useCallback((index: number, element?: HTMLElement) => {
-    setCurrentIndex(index)
-    setTriggerElement(element || null)
-    setIsOpen(true)
-    // 防止背景滚动
-    document.body.style.overflow = 'hidden'
-  }, [])
+  const masonryItems = useMemo(() => {
+    const sortedPhotos = data.sort((a, b) => {
+      const aComparedDate =
+        (a.exif.Photo?.DateTimeOriginal as unknown as string) || a.lastModified
+      const bComparedDate =
+        (b.exif.Photo?.DateTimeOriginal as unknown as string) || b.lastModified
+      if (sortOrder === 'asc') {
+        return aComparedDate.localeCompare(bComparedDate)
+      }
+      return bComparedDate.localeCompare(aComparedDate)
+    })
+
+    return sortedPhotos
+  }, [sortOrder])
+  return masonryItems
+}
+export const usePhotoViewer = () => {
+  const photos = usePhotos()
+  const [isOpen, setIsOpen] = useAtom(openAtom)
+  const [currentIndex, setCurrentIndex] = useAtom(currentIndexAtom)
+  const [triggerElement, setTriggerElement] = useAtom(triggerElementAtom)
+
+  const navigate = useNavigate()
+
+  const openViewer = useCallback(
+    (index: number, element?: HTMLElement) => {
+      setCurrentIndex(index)
+      setTriggerElement(element || null)
+      setIsOpen(true)
+      // 防止背景滚动
+      document.body.style.overflow = 'hidden'
+    },
+    [setCurrentIndex, setIsOpen, setTriggerElement],
+  )
 
   const closeViewer = useCallback(() => {
     setIsOpen(false)
     setTriggerElement(null)
     // 恢复背景滚动
     document.body.style.overflow = ''
-  }, [])
+  }, [setIsOpen, setTriggerElement])
 
   const goToNext = useCallback(() => {
     if (currentIndex < photos.length - 1) {
       setCurrentIndex(currentIndex + 1)
     }
-  }, [currentIndex, photos.length])
+  }, [currentIndex, photos.length, setCurrentIndex])
+
+  const location = useLocation()
+  useEffect(() => {
+    if (!isOpen) {
+      const timer = setTimeout(() => {
+        navigate('/')
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+    const targetPathname = `/${photos[currentIndex].id}`
+    if (location.pathname !== targetPathname) {
+      navigate(targetPathname)
+    }
+  }, [currentIndex, isOpen, location.pathname, navigate, photos])
 
   const goToPrevious = useCallback(() => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1)
     }
-  }, [currentIndex])
+  }, [currentIndex, setCurrentIndex])
 
   const goToIndex = useCallback(
     (index: number) => {
@@ -40,7 +86,7 @@ export const usePhotoViewer = (photos: PhotoManifest[]) => {
         setCurrentIndex(index)
       }
     },
-    [photos.length],
+    [photos.length, setCurrentIndex],
   )
 
   return {
