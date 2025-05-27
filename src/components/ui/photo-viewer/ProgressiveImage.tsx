@@ -57,6 +57,8 @@ export const ProgressiveImage = ({
   const [highResLoaded, setHighResLoaded] = useState(false)
   const [error, setError] = useState(false)
   const [loadingProgress, setLoadingProgress] = useState(0)
+  const [loadedBytes, setLoadedBytes] = useState(0)
+  const [totalBytes, setTotalBytes] = useState(0)
   const [isHeicFormat, setIsHeicFormat] = useState(false)
   const [isConverting, setIsConverting] = useState(false)
 
@@ -72,6 +74,8 @@ export const ProgressiveImage = ({
     setBlobSrc(null)
     setError(false)
     setLoadingProgress(0)
+    setLoadedBytes(0)
+    setTotalBytes(0)
     setIsHeicFormat(false)
     setIsConverting(false)
 
@@ -149,6 +153,8 @@ export const ProgressiveImage = ({
         if (e.lengthComputable) {
           const progress = (e.loaded / e.total) * 100
           setLoadingProgress(progress)
+          setLoadedBytes(e.loaded)
+          setTotalBytes(e.total)
           onProgress?.(progress)
         }
       }
@@ -245,33 +251,38 @@ export const ProgressiveImage = ({
       <AnimatePresence>
         {!highResLoaded && !error && isCurrentImage && (
           <m.div
-            className="absolute top-1/2 left-1/2 p-4 rounded-lg -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-black/50 backdrop-blur-3xl z-10 pointer-events-none"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            className="absolute bottom-4 right-4 px-3 py-2 rounded-xl bg-black/80 backdrop-blur-sm border border-white/10 z-10 pointer-events-none"
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={Spring.presets.snappy}
           >
-            <div className="text-center text-white">
-              <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-2" />
-              {isConverting ? (
-                <>
-                  <p className="text-sm">正在转换 HEIC 图片...</p>
-                </>
-              ) : isHeicFormat ? (
-                <>
-                  <p className="text-sm">正在下载 HEIC 图片...</p>
-                  <p className="text-xs text-white/70 mt-1">
-                    {Math.round(loadingProgress)}%
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className="text-sm">正在加载高清图片...</p>
-                  <p className="text-xs text-white/70 mt-1">
-                    {Math.round(loadingProgress)}%
-                  </p>
-                </>
-              )}
+            <div className="flex items-center gap-3 text-white">
+              <div className="relative">
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              </div>
+              <div className="flex flex-col gap-0.5 min-w-0">
+                {isConverting ? (
+                  <p className="text-xs font-medium text-white">转换中...</p>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-2">
+                      <p className="text-xs font-medium text-white">
+                        {isHeicFormat ? 'HEIC' : '加载中'}
+                      </p>
+                      <span className="text-xs text-white/60">
+                        {Math.round(loadingProgress)}%
+                      </span>
+                    </div>
+                    {totalBytes > 0 && (
+                      <p className="text-xs text-white/70 tabular-nums">
+                        {(loadedBytes / 1024 / 1024).toFixed(1)}MB /{' '}
+                        {(totalBytes / 1024 / 1024).toFixed(1)}MB
+                      </p>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </m.div>
         )}
