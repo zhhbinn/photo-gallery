@@ -25,6 +25,15 @@ export async function detectHeicFormat(file: File | Blob): Promise<boolean> {
   }
 }
 
+export const isBrowserSupportHeic = () => {
+  const isSafari = /^(?:(?!chrome|android).)*safari/i.test(navigator.userAgent)
+  const safariVersionMatch = navigator.userAgent.match(/version\/(\d+)/i)
+  const versionString = safariVersionMatch?.[1]
+  const version = versionString ? Number.parseInt(versionString, 10) : 0
+
+  return isSafari && version >= 17
+}
+
 /**
  * 将 HEIC/HEIF 图片转换为 JPEG 或 PNG
  */
