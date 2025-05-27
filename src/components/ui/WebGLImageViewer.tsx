@@ -176,6 +176,8 @@ class WebGLImageViewerEngine {
     const gl = canvas.getContext('webgl', {
       alpha: true,
       premultipliedAlpha: false,
+      antialias: true,
+      powerPreference: 'high-performance',
     })
     if (!gl) {
       throw new Error('WebGL not supported')
@@ -207,6 +209,8 @@ class WebGLImageViewerEngine {
 
   private resizeCanvas() {
     const rect = this.canvas.getBoundingClientRect()
+
+    // 暂时简化处理，使用1:1的像素映射
     this.canvasWidth = rect.width
     this.canvasHeight = rect.height
     this.canvas.width = this.canvasWidth
@@ -373,16 +377,9 @@ class WebGLImageViewerEngine {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
 
-    // 根据缩放级别选择合适的过滤方式
-    if (this.scale > 1) {
-      // 放大时使用线性插值获得更平滑的效果
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-    } else {
-      // 缩小时使用线性插值，但可以考虑使用mipmap
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-    }
+    // 始终使用线性插值获得最平滑的效果
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
 
     // 上传纹理数据
     gl.texImage2D(
@@ -411,8 +408,20 @@ class WebGLImageViewerEngine {
     let targetWidth = displayWidth * devicePixelRatio
     let targetHeight = displayHeight * devicePixelRatio
 
-    // 应用适度的超采样来提高质量，特别是在缩放时
-    const supersamplingFactor = Math.min(2, Math.max(1, 2 - this.scale))
+    // 应用超采样来提高质量，减少锯齿
+    // 在高DPI屏幕上或放大时使用更高的超采样倍率
+    const fitToScreenScale = this.getFitToScreenScale()
+    const relativeScale = this.scale / fitToScreenScale
+
+    let supersamplingFactor = 1
+    if (relativeScale >= 1) {
+      // 正常大小或放大时，使用较高的超采样
+      supersamplingFactor = Math.min(2, 1 + relativeScale * 0.5)
+    } else {
+      // 缩小时，仍然保持一定的超采样以减少锯齿
+      supersamplingFactor = Math.max(1.2, Math.min(2, 2 - relativeScale))
+    }
+
     targetWidth *= supersamplingFactor
     targetHeight *= supersamplingFactor
 
@@ -572,6 +581,7 @@ class WebGLImageViewerEngine {
 
   private createMatrix(): Float32Array {
     // Create transformation matrix
+    // 使用CSS尺寸进行计算，因为所有的交互和位置都是基于CSS尺寸的
     const scaleX = (this.imageWidth * this.scale) / this.canvasWidth
     const scaleY = (this.imageHeight * this.scale) / this.canvasHeight
 
@@ -1218,6 +1228,7 @@ export const WebGLImageViewer = ({
           outline: 'none',
           margin: 0,
           padding: 0,
+          imageRendering: 'auto', // 让浏览器选择最佳的渲染方式
         }}
       />
       {debug && (
@@ -1248,8 +1259,14 @@ export const WebGLImageViewer = ({
             {debugInfo.translateY.toFixed(1)})
           </div>
           <div>
-            Canvas: {debugInfo.canvasSize.width}×{debugInfo.canvasSize.height}
+            Canvas CSS: {debugInfo.canvasSize.width}×
+            {debugInfo.canvasSize.height}
           </div>
+          <div>
+            Canvas Actual: {canvasRef.current?.width || 0}×
+            {canvasRef.current?.height || 0}
+          </div>
+          <div>Device Pixel Ratio: {window.devicePixelRatio || 1}</div>
           <div>
             Image: {debugInfo.imageSize.width}×{debugInfo.imageSize.height}
           </div>

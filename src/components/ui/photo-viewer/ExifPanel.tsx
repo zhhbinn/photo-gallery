@@ -136,9 +136,7 @@ export const ExifPanel: FC<{
               <h4 className="text-sm font-medium text-white/80 my-2">
                 拍摄参数
               </h4>
-              <div
-                className={`grid ${isMobile ? 'grid-cols-1 gap-2' : 'grid-cols-2 gap-3'}`}
-              >
+              <div className={`grid grid-cols-2 gap-3`}>
                 {formattedExifData.focalLength35mm && (
                   <div className="flex items-center gap-2 bg-white/10 rounded-md px-2 py-1">
                     <StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens className="text-white/70 text-sm" />
