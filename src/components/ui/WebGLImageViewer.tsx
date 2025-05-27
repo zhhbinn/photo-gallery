@@ -93,6 +93,12 @@ class WebGLImageViewerEngine {
   private lastDoubleClickTime = 0
   private isOriginalSize = false
 
+  // Touch double-tap detection
+  private lastTouchTime = 0
+  private lastTouchX = 0
+  private lastTouchY = 0
+  private touchTapTimeout: ReturnType<typeof setTimeout> | null = null
+
   // Animation state
   private isAnimating = false
   private animationStartTime = 0
@@ -131,7 +137,7 @@ class WebGLImageViewerEngine {
   private boundHandleDoubleClick: (e: MouseEvent) => void
   private boundHandleTouchStart: (e: TouchEvent) => void
   private boundHandleTouchMove: (e: TouchEvent) => void
-  private boundHandleTouchEnd: () => void
+  private boundHandleTouchEnd: (e: TouchEvent) => void
   private boundResizeCanvas: () => void
 
   // Vertex and fragment shaders
@@ -215,7 +221,7 @@ class WebGLImageViewerEngine {
     this.boundHandleDoubleClick = (e: MouseEvent) => this.handleDoubleClick(e)
     this.boundHandleTouchStart = (e: TouchEvent) => this.handleTouchStart(e)
     this.boundHandleTouchMove = (e: TouchEvent) => this.handleTouchMove(e)
-    this.boundHandleTouchEnd = () => this.handleTouchEnd()
+    this.boundHandleTouchEnd = (e: TouchEvent) => this.handleTouchEnd(e)
     this.boundResizeCanvas = () => this.resizeCanvas()
 
     this.setupCanvas()
@@ -1180,12 +1186,26 @@ class WebGLImageViewerEngine {
     if (now - this.lastDoubleClickTime < 300) return
     this.lastDoubleClickTime = now
 
-    // Stop any ongoing animation
-    this.isAnimating = false
-
     const rect = this.canvas.getBoundingClientRect()
     const mouseX = e.clientX - rect.left
     const mouseY = e.clientY - rect.top
+
+    this.performDoubleClickAction(mouseX, mouseY)
+  }
+
+  private handleTouchDoubleTap(clientX: number, clientY: number) {
+    if (this.config.doubleClick.disabled) return
+
+    const rect = this.canvas.getBoundingClientRect()
+    const touchX = clientX - rect.left
+    const touchY = clientY - rect.top
+
+    this.performDoubleClickAction(touchX, touchY)
+  }
+
+  private performDoubleClickAction(x: number, y: number) {
+    // Stop any ongoing animation
+    this.isAnimating = false
 
     if (this.config.doubleClick.mode === 'toggle') {
       const fitToScreenScale = this.getFitToScreenScale()
@@ -1200,16 +1220,12 @@ class WebGLImageViewerEngine {
         )
 
         // Calculate zoom point relative to current transform
-        const zoomX =
-          (mouseX - this.canvasWidth / 2 - this.translateX) / this.scale
-        const zoomY =
-          (mouseY - this.canvasHeight / 2 - this.translateY) / this.scale
+        const zoomX = (x - this.canvasWidth / 2 - this.translateX) / this.scale
+        const zoomY = (y - this.canvasHeight / 2 - this.translateY) / this.scale
 
         // Calculate target translation after zoom
-        const targetTranslateX =
-          mouseX - this.canvasWidth / 2 - zoomX * targetScale
-        const targetTranslateY =
-          mouseY - this.canvasHeight / 2 - zoomY * targetScale
+        const targetTranslateX = x - this.canvasWidth / 2 - zoomX * targetScale
+        const targetTranslateY = y - this.canvasHeight / 2 - zoomY * targetScale
 
         this.startAnimation(
           targetScale,
@@ -1226,16 +1242,12 @@ class WebGLImageViewerEngine {
         ) // 1x = 原图原始大小
 
         // Calculate zoom point relative to current transform
-        const zoomX =
-          (mouseX - this.canvasWidth / 2 - this.translateX) / this.scale
-        const zoomY =
-          (mouseY - this.canvasHeight / 2 - this.translateY) / this.scale
+        const zoomX = (x - this.canvasWidth / 2 - this.translateX) / this.scale
+        const zoomY = (y - this.canvasHeight / 2 - this.translateY) / this.scale
 
         // Calculate target translation after zoom
-        const targetTranslateX =
-          mouseX - this.canvasWidth / 2 - zoomX * targetScale
-        const targetTranslateY =
-          mouseY - this.canvasHeight / 2 - zoomY * targetScale
+        const targetTranslateX = x - this.canvasWidth / 2 - zoomX * targetScale
+        const targetTranslateY = y - this.canvasHeight / 2 - zoomY * targetScale
 
         this.startAnimation(
           targetScale,
@@ -1247,7 +1259,7 @@ class WebGLImageViewerEngine {
       }
     } else {
       // Zoom mode
-      this.zoomAt(mouseX, mouseY, this.config.doubleClick.step)
+      this.zoomAt(x, y, this.config.doubleClick.step)
     }
   }
 
@@ -1257,9 +1269,29 @@ class WebGLImageViewerEngine {
     if (this.isAnimating) return
 
     if (e.touches.length === 1 && !this.config.panning.disabled) {
+      const touch = e.touches[0]
+      const now = Date.now()
+
+      // Check for double-tap
+      if (
+        !this.config.doubleClick.disabled &&
+        now - this.lastTouchTime < 300 &&
+        Math.abs(touch.clientX - this.lastTouchX) < 50 &&
+        Math.abs(touch.clientY - this.lastTouchY) < 50
+      ) {
+        // Double-tap detected
+        this.handleTouchDoubleTap(touch.clientX, touch.clientY)
+        this.lastTouchTime = 0 // Reset to prevent triple-tap
+        return
+      }
+
+      // Single touch - prepare for potential drag or single tap
       this.isDragging = true
-      this.lastMouseX = e.touches[0].clientX
-      this.lastMouseY = e.touches[0].clientY
+      this.lastMouseX = touch.clientX
+      this.lastMouseY = touch.clientY
+      this.lastTouchTime = now
+      this.lastTouchX = touch.clientX
+      this.lastTouchY = touch.clientY
     } else if (e.touches.length === 2 && !this.config.pinch.disabled) {
       this.isDragging = false
       const touch1 = e.touches[0]
@@ -1311,9 +1343,15 @@ class WebGLImageViewerEngine {
     }
   }
 
-  private handleTouchEnd() {
+  private handleTouchEnd(_e: TouchEvent) {
     this.isDragging = false
     this.lastTouchDistance = 0
+
+    // Clear any pending touch tap timeout
+    if (this.touchTapTimeout) {
+      clearTimeout(this.touchTapTimeout)
+      this.touchTapTimeout = null
+    }
   }
 
   private zoomAt(x: number, y: number, scaleFactor: number, animated = false) {
@@ -1420,6 +1458,12 @@ class WebGLImageViewerEngine {
     if (this.textureDebounceId !== null) {
       clearTimeout(this.textureDebounceId)
       this.textureDebounceId = null
+    }
+
+    // 清理触摸双击相关的资源
+    if (this.touchTapTimeout !== null) {
+      clearTimeout(this.touchTapTimeout)
+      this.touchTapTimeout = null
     }
 
     // 清理 WebGL 资源
