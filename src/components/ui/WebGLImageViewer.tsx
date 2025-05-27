@@ -343,6 +343,10 @@ class WebGLImageViewerEngine {
     offscreenCanvas.width = optimalSize.width
     offscreenCanvas.height = optimalSize.height
 
+    // 设置高质量的图像渲染
+    offscreenCtx.imageSmoothingEnabled = true
+    offscreenCtx.imageSmoothingQuality = 'high'
+
     // 绘制缩放后的图片
     offscreenCtx.drawImage(
       this.originalImage,
@@ -368,8 +372,17 @@ class WebGLImageViewerEngine {
     // 设置纹理参数，防止边框效果
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+
+    // 根据缩放级别选择合适的过滤方式
+    if (this.scale > 1) {
+      // 放大时使用线性插值获得更平滑的效果
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+    } else {
+      // 缩小时使用线性插值，但可以考虑使用mipmap
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+    }
 
     // 上传纹理数据
     gl.texImage2D(
@@ -387,51 +400,63 @@ class WebGLImageViewerEngine {
   private calculateOptimalTextureSize(): { width: number; height: number } {
     if (!this.originalImage) return { width: 0, height: 0 }
 
-    // 基于缩放级别计算所需的纹理分辨率
-    // scale = 1 表示原图大小，此时纹理应该是原图分辨率
-    let targetWidth = this.originalImage.width * this.scale
-    let targetHeight = this.originalImage.height * this.scale
+    // 计算当前显示在屏幕上的图片尺寸
+    const displayWidth = this.imageWidth * this.scale
+    const displayHeight = this.imageHeight * this.scale
 
-    // 应用超采样倍率来提高质量，但只在缩放较小时使用
-    // 当缩放接近或超过1x时，不需要额外的超采样
-    const supersamplingFactor = this.scale < 1 ? 2 : 1
+    // 计算设备像素比，确保在高DPI屏幕上也有足够的清晰度
+    const devicePixelRatio = window.devicePixelRatio || 1
+
+    // 基于显示尺寸和设备像素比计算目标纹理尺寸
+    let targetWidth = displayWidth * devicePixelRatio
+    let targetHeight = displayHeight * devicePixelRatio
+
+    // 应用适度的超采样来提高质量，特别是在缩放时
+    const supersamplingFactor = Math.min(2, Math.max(1, 2 - this.scale))
     targetWidth *= supersamplingFactor
     targetHeight *= supersamplingFactor
 
-    // 限制在原图尺寸内，避免无意义的放大
+    // 确保纹理尺寸不会过小，但也要考虑性能
+    // 最小尺寸应该足够保证图像质量，特别是对于原本就不大的图片
+    const minSize = Math.min(
+      1024,
+      Math.max(
+        512,
+        Math.min(this.originalImage.width, this.originalImage.height),
+      ),
+    )
+    // 最大纹理尺寸不应该超过原图尺寸，因为这样不会提供额外的图像信息
+    const maxSize = Math.max(
+      this.originalImage.width,
+      this.originalImage.height,
+    )
+
+    targetWidth = Math.max(minSize, Math.min(maxSize, targetWidth))
+    targetHeight = Math.max(minSize, Math.min(maxSize, targetHeight))
+
+    // 纹理尺寸永远不应该超过原图尺寸
     targetWidth = Math.min(targetWidth, this.originalImage.width)
     targetHeight = Math.min(targetHeight, this.originalImage.height)
 
-    // 确保最小尺寸，避免过小的纹理
-    const minSize = 1024
-    targetWidth = Math.max(minSize, targetWidth)
-    targetHeight = Math.max(minSize, targetHeight)
+    // 将尺寸调整为2的幂次方，这对WebGL性能更好
+    const optimalWidth = Math.pow(2, Math.ceil(Math.log2(targetWidth)))
+    const optimalHeight = Math.pow(2, Math.ceil(Math.log2(targetHeight)))
 
-    const maxHeight = this.originalImage.height
-    const maxWidth = this.originalImage.width
-    const optimalWidth = Math.min(
-      maxWidth,
-      Math.pow(2, Math.ceil(Math.log2(targetWidth))),
-    )
-    const optimalHeight = Math.min(
-      maxHeight,
-      Math.pow(2, Math.ceil(Math.log2(targetHeight))),
-    )
+    // 最终限制在合理范围内
+    const finalWidth = Math.max(minSize, Math.min(maxSize, optimalWidth))
+    const finalHeight = Math.max(minSize, Math.min(maxSize, optimalHeight))
 
-    return { width: optimalWidth, height: optimalHeight }
+    return { width: finalWidth, height: finalHeight }
   }
 
   private debouncedTextureUpdate() {
     // 检查是否需要更新纹理
-    const fitToScreenScale = this.getFitToScreenScale()
-    const currentRelativeScale = this.scale / fitToScreenScale
-    const textureRelativeScale = this.currentTextureScale / fitToScreenScale
+    const scaleChange =
+      Math.abs(this.scale - this.currentTextureScale) /
+      Math.max(this.currentTextureScale, 0.1)
 
-    // 如果相对缩放变化超过阈值，才进行更新
-    const relativeScaleChange =
-      Math.abs(currentRelativeScale - textureRelativeScale) /
-      Math.max(textureRelativeScale, 0.1)
-    if (relativeScaleChange < 0.5) {
+    // 降低更新阈值，使纹理更及时地响应缩放变化
+    if (scaleChange < 0.3) {
       return // 变化不大，不需要更新
     }
 
@@ -440,12 +465,15 @@ class WebGLImageViewerEngine {
       clearTimeout(this.textureDebounceId)
     }
 
+    // 缩短防抖延迟，使纹理更新更及时
+    const debounceDelay = this.textureDebounceDelay * 0.5
+
     // 设置新的防抖调用
     this.textureDebounceId = setTimeout(() => {
       this.textureDebounceId = null
       this.createOptimizedTexture()
       this.render()
-    }, this.textureDebounceDelay)
+    }, debounceDelay)
   }
   private fitImageToScreen() {
     const scaleX = this.canvasWidth / this.imageWidth
