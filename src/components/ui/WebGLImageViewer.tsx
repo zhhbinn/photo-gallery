@@ -184,7 +184,8 @@ class WebGLImageViewerEngine {
     }
     this.gl = gl
 
-    this.scale = config.initialScale
+    // 初始缩放将在图片加载时正确设置，这里先保持默认值
+    // this.scale = config.initialScale
 
     // Bind event handlers for proper cleanup
     this.boundHandleMouseDown = (e: MouseEvent) => this.handleMouseDown(e)
@@ -309,12 +310,17 @@ class WebGLImageViewerEngine {
       image.onload = () => {
         this.imageWidth = image.width
         this.imageHeight = image.height
-        this.createTexture(image)
 
+        // 先设置正确的缩放值，再创建纹理
         if (this.config.centerOnInit) {
           this.fitImageToScreen()
+        } else {
+          // 即使不居中，也需要将相对缩放转换为绝对缩放
+          const fitToScreenScale = this.getFitToScreenScale()
+          this.scale = fitToScreenScale * this.config.initialScale
         }
 
+        this.createTexture(image)
         this.imageLoaded = true
         this.render()
         this.notifyZoomChange() // 通知初始缩放值
@@ -397,6 +403,9 @@ class WebGLImageViewerEngine {
   private calculateOptimalTextureSize(): { width: number; height: number } {
     if (!this.originalImage) return { width: 0, height: 0 }
 
+    // 计算原图的宽高比
+    const aspectRatio = this.originalImage.width / this.originalImage.height
+
     // 计算当前显示在屏幕上的图片尺寸
     const displayWidth = this.imageWidth * this.scale
     const displayHeight = this.imageHeight * this.scale
@@ -427,35 +436,65 @@ class WebGLImageViewerEngine {
 
     // 确保纹理尺寸不会过小，但也要考虑性能
     // 最小尺寸应该足够保证图像质量，特别是对于原本就不大的图片
-    const minSize = Math.min(
+    const minDimension = Math.min(
       1024,
       Math.max(
         512,
         Math.min(this.originalImage.width, this.originalImage.height),
       ),
     )
-    // 最大纹理尺寸不应该超过原图尺寸，因为这样不会提供额外的图像信息
-    const maxSize = Math.max(
-      this.originalImage.width,
-      this.originalImage.height,
-    )
 
-    targetWidth = Math.max(minSize, Math.min(maxSize, targetWidth))
-    targetHeight = Math.max(minSize, Math.min(maxSize, targetHeight))
+    // 根据宽高比确定最小尺寸
+    let minWidth, minHeight
+    if (aspectRatio >= 1) {
+      // 宽图或正方形
+      minWidth = minDimension
+      minHeight = minDimension / aspectRatio
+    } else {
+      // 高图
+      minWidth = minDimension * aspectRatio
+      minHeight = minDimension
+    }
+
+    // 应用最小尺寸约束，但保持宽高比
+    if (targetWidth < minWidth || targetHeight < minHeight) {
+      const scaleToMin = Math.max(
+        minWidth / targetWidth,
+        minHeight / targetHeight,
+      )
+      targetWidth *= scaleToMin
+      targetHeight *= scaleToMin
+    }
 
     // 纹理尺寸永远不应该超过原图尺寸
     targetWidth = Math.min(targetWidth, this.originalImage.width)
     targetHeight = Math.min(targetHeight, this.originalImage.height)
 
     // 将尺寸调整为2的幂次方，这对WebGL性能更好
-    const optimalWidth = Math.pow(2, Math.ceil(Math.log2(targetWidth)))
-    const optimalHeight = Math.pow(2, Math.ceil(Math.log2(targetHeight)))
+    // 但要保持宽高比，所以基于较大的维度来计算
+    const maxDimension = Math.max(targetWidth, targetHeight)
+    const powerOfTwo = Math.pow(2, Math.ceil(Math.log2(maxDimension)))
 
-    // 最终限制在合理范围内
-    const finalWidth = Math.max(minSize, Math.min(maxSize, optimalWidth))
-    const finalHeight = Math.max(minSize, Math.min(maxSize, optimalHeight))
+    // 根据原图宽高比计算最终的纹理尺寸
+    let finalWidth, finalHeight
+    if (aspectRatio >= 1) {
+      // 宽图或正方形，以宽度为基准
+      finalWidth = Math.min(powerOfTwo, this.originalImage.width)
+      finalHeight = Math.min(
+        finalWidth / aspectRatio,
+        this.originalImage.height,
+      )
+    } else {
+      // 高图，以高度为基准
+      finalHeight = Math.min(powerOfTwo, this.originalImage.height)
+      finalWidth = Math.min(finalHeight * aspectRatio, this.originalImage.width)
+    }
 
-    return { width: finalWidth, height: finalHeight }
+    // 确保最终尺寸不小于最小要求
+    finalWidth = Math.max(minWidth, finalWidth)
+    finalHeight = Math.max(minHeight, finalHeight)
+
+    return { width: Math.round(finalWidth), height: Math.round(finalHeight) }
   }
 
   private debouncedTextureUpdate() {
@@ -576,6 +615,8 @@ class WebGLImageViewerEngine {
       this.translateY = this.targetTranslateY
       this.render()
       this.notifyZoomChange()
+      // 动画完成后触发纹理更新
+      this.debouncedTextureUpdate()
     }
   }
 

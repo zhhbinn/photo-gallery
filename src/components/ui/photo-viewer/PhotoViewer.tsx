@@ -336,7 +336,7 @@ export const PhotoViewer = ({
                       onClick={handlePrevious}
                     >
                       <i
-                        className={`i-mingcute-arrow-left-line ${isMobile ? 'text-lg' : 'text-xl'}`}
+                        className={`i-mingcute-left-line ${isMobile ? 'text-lg' : 'text-xl'}`}
                       />
                     </button>
                   )}
@@ -347,7 +347,7 @@ export const PhotoViewer = ({
                       className={`swiper-button-next-custom absolute ${isMobile ? 'right-2' : 'right-4'} top-1/2 -translate-y-1/2 z-20 flex items-center justify-center ${isMobile ? 'size-8' : 'size-10'} text-white bg-material-medium rounded-full backdrop-blur-sm hover:bg-black/40 group-hover:opacity-100 opacity-0 duration-200`}
                     >
                       <i
-                        className={`i-mingcute-arrow-right-line ${isMobile ? 'text-lg' : 'text-xl'}`}
+                        className={`i-mingcute-right-line ${isMobile ? 'text-lg' : 'text-xl'}`}
                       />
                     </button>
                   )}
