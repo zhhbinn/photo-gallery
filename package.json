@@ -12,7 +12,7 @@
     "build:manifest": "tsx scripts/build-manifest.ts",
     "build:og": "tsx scripts/generate-og-image.ts",
     "cleanup:og": "tsx scripts/cleanup-og-images.ts",
-    "dev": "vite",
+    "dev": "vite --host",
     "extract:font": "tsx scripts/extract-font-glyphs.ts",
     "format": "prettier --write \"src/**/*.ts\" ",
     "lint": "eslint --fix",
