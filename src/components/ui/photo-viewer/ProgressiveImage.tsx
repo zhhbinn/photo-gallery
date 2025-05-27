@@ -256,9 +256,6 @@ export const ProgressiveImage = ({
               {isConverting ? (
                 <>
                   <p className="text-sm">正在转换 HEIC 图片...</p>
-                  <p className="text-xs text-white/70 mt-1">
-                    使用高性能 WASM 引擎
-                  </p>
                 </>
               ) : isHeicFormat ? (
                 <>

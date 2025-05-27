@@ -41,7 +41,7 @@ export async function convertHeicImage(
   file: File | Blob,
   options: HeicConversionOptions = {},
 ): Promise<ConversionResult> {
-  const { quality = 1, format = 'image/png' } = options
+  const { quality = 1, format = 'image/jpeg' } = options
 
   try {
     // 检查是否为 HEIC 格式
