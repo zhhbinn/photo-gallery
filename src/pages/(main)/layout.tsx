@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Outlet, useParams } from 'react-router'
 
+import { ScrollArea } from '~/components/ui/ScrollArea'
 import { photoLoader } from '~/data/photos'
 import { usePhotoViewer } from '~/hooks/usePhotoViewer'
 import { MasonryRoot } from '~/modules/gallery/MasonryRoot'
@@ -23,10 +24,13 @@ export const Component = () => {
       }
     }
   }, [openViewer, photoId])
+
   return (
-    <div className="p-4">
-      <MasonryRoot />
-      <Outlet />
-    </div>
+    <ScrollArea rootClassName="h-screen w-full" viewportClassName="size-full">
+      <div className="p-4">
+        <MasonryRoot />
+        <Outlet />
+      </div>
+    </ScrollArea>
   )
 }

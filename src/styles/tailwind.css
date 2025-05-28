@@ -3,7 +3,7 @@
 @plugin '@egoist/tailwindcss-icons';
 @plugin 'daisyui';
 @plugin 'tailwind-scrollbar';
-@plugin 'tailwindcss-animated';
+@plugin 'tailwindcss-animate';
 @plugin 'tailwindcss-safe-area';
 @import 'tailwindcss-uikit-colors/v4/macos.css';
 
