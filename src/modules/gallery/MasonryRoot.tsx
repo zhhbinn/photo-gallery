@@ -198,6 +198,19 @@ const MasonryHeaderMasonryItem = ({ width }: { width: number }) => {
             <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
+                className="rounded-full p-2 bg-fill hover:bg-fill-hover transition-colors"
+                onClick={() =>
+                  window.open(
+                    'https://github.com/Innei/photo-gallery',
+                    '_blank',
+                  )
+                }
+                title="查看 GitHub 仓库"
+              >
+                <i className="i-mingcute-github-line size-4" />
+              </Button>
+              <Button
+                variant="ghost"
                 className="rounded-full px-4 py-2 bg-fill"
                 onClick={toggleSortOrder}
               >
