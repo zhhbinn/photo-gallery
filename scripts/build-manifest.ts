@@ -141,6 +141,7 @@ function needsUpdate(
 async function generateBlurhash(imageBuffer: Buffer): Promise<string | null> {
   try {
     const { data, info } = await sharp(imageBuffer)
+      .rotate()
       .raw()
       .ensureAlpha()
       .resize(32, 32, { fit: 'inside' })
@@ -173,6 +174,7 @@ async function generateThumbnail(
     }
 
     await sharp(imageBuffer)
+      .rotate()
       .resize(600, 600, {
         fit: 'inside',
         withoutEnlargement: true,
@@ -277,9 +279,36 @@ async function getImageMetadata(
       return null
     }
 
+    let { width } = metadata
+    let { height } = metadata
+
+    // 根据 EXIF Orientation 信息调整宽高
+    // Orientation 值说明：
+    // 1: 正常 (0°)
+    // 2: 水平翻转
+    // 3: 旋转 180°
+    // 4: 垂直翻转
+    // 5: 水平翻转 + 逆时针旋转 90° (宽高交换)
+    // 6: 顺时针旋转 90° (竖拍，宽高交换)
+    // 7: 水平翻转 + 顺时针旋转 90° (宽高交换)
+    // 8: 逆时针旋转 90° (竖拍，宽高交换)
+    const { orientation } = metadata
+    if (
+      orientation === 5 ||
+      orientation === 6 ||
+      orientation === 7 ||
+      orientation === 8
+    ) {
+      // 对于需要旋转90°的图片，需要交换宽高
+      ;[width, height] = [height, width]
+      console.info(
+        `检测到需要旋转90°的图片 (orientation: ${orientation})，交换宽高: ${width}x${height}`,
+      )
+    }
+
     return {
-      width: metadata.width,
-      height: metadata.height,
+      width,
+      height,
       format: metadata.format,
     }
   } catch (error) {
