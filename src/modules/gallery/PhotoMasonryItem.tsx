@@ -11,9 +11,6 @@ import {
 } from '~/icons'
 import type { PhotoManifest } from '~/types/photo'
 
-// 全局状态管理已加载的图片
-const loadedImages = new Set<string>()
-
 const isSafari =
   /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)
 
@@ -36,7 +33,6 @@ export const PhotoMasonryItem = ({
 
   const handleImageLoad = () => {
     setImageLoaded(true)
-    loadedImages.add(data.id)
   }
 
   const handleImageError = () => {
