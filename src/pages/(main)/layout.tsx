@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Outlet, useParams } from 'react-router'
 
 import { ScrollArea } from '~/components/ui/scroll-areas/ScrollArea'
@@ -26,13 +26,11 @@ export const Component = () => {
   }, [openViewer, photoId])
 
   return (
-    <Fragment>
-      <MasonryRoot />
-      <ScrollArea rootClassName="h-screen w-full" viewportClassName="size-full">
-        <div className="p-4">
-          <Outlet />
-        </div>
-      </ScrollArea>
-    </Fragment>
+    <ScrollArea rootClassName="h-screen w-full" viewportClassName="size-full">
+      <div className="p-4">
+        <MasonryRoot />
+        <Outlet />
+      </div>
+    </ScrollArea>
   )
 }
