@@ -11,6 +11,8 @@ import {
 } from '~/icons'
 import type { PhotoManifest } from '~/types/photo'
 
+import styles from './photo.module.css'
+
 const isSafari =
   /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)
 
@@ -124,11 +126,7 @@ export const PhotoMasonryItem = ({
           alt={data.title}
           className={clsx(
             'absolute inset-0 h-full w-full object-cover duration-300 group-hover:scale-105',
-            !isSafari
-              ? imageLoaded
-                ? 'opacity-100 blur-0'
-                : 'opacity-0 blur-lg'
-              : '',
+            !isSafari ? (imageLoaded ? styles.loaded : 'opacity-0') : '',
           )}
           onLoad={handleImageLoad}
           onError={handleImageError}
