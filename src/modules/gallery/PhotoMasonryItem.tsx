@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { m } from 'motion/react'
 import { useRef, useState } from 'react'
 import { Blurhash } from 'react-blurhash'
@@ -8,11 +9,13 @@ import {
   StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens,
   TablerAperture,
 } from '~/icons'
-import { clsxm } from '~/lib/cn'
 import type { PhotoManifest } from '~/types/photo'
 
 // 全局状态管理已加载的图片
 const loadedImages = new Set<string>()
+
+const isSafari =
+  /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)
 
 export const PhotoMasonryItem = ({
   data,
@@ -30,9 +33,6 @@ export const PhotoMasonryItem = ({
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
   const imageRef = useRef<HTMLImageElement>(null)
-
-  // 检查图片是否已经加载过
-  const hasLoadedBefore = loadedImages.has(data.id)
 
   const handleImageLoad = () => {
     setImageLoaded(true)
@@ -111,20 +111,20 @@ export const PhotoMasonryItem = ({
       )}
 
       {!imageError && (
-        <m.img
+        <img
           ref={imageRef}
           src={data.thumbnailUrl}
           alt={data.title}
-          className={clsxm(
-            'absolute inset-0 h-full w-full object-cover transition-all duration-500 group-hover:scale-105',
-            imageLoaded ? 'opacity-100' : 'opacity-0',
+          className={clsx(
+            'absolute inset-0 h-full w-full object-cover duration-300 group-hover:scale-105',
+            !isSafari
+              ? imageLoaded
+                ? 'opacity-100 blur-0'
+                : 'opacity-0 blur-lg'
+              : '',
           )}
           onLoad={handleImageLoad}
           onError={handleImageError}
-          initial={{ opacity: hasLoadedBefore ? 1 : 0 }}
-          animate={{ opacity: imageLoaded ? 1 : 0 }}
-          transition={{ duration: hasLoadedBefore ? 0 : 0.5 }}
-          loading="lazy"
         />
       )}
 
