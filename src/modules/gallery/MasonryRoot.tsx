@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { useAtom, useAtomValue } from 'jotai'
 import { m } from 'motion/react'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 
 import { gallerySettingAtom } from '~/atoms/app'
 import { Button } from '~/components/ui/button'
@@ -20,52 +20,18 @@ class MasonryHeaderItem {
 
 type MasonryItemType = PhotoManifest | MasonryHeaderItem
 
-// 全局动画状态管理器
-class AnimationStateManager {
-  private static instance: AnimationStateManager
-  private animatedItems = new Set<string>()
-
-  static getInstance() {
-    if (!AnimationStateManager.instance) {
-      AnimationStateManager.instance = new AnimationStateManager()
-    }
-    return AnimationStateManager.instance
-  }
-
-  hasAnimated(key: string): boolean {
-    return this.animatedItems.has(key)
-  }
-
-  markAsAnimated(key: string): void {
-    this.animatedItems.add(key)
-  }
-
-  reset(): void {
-    this.animatedItems.clear()
-  }
-}
-
-const animationManager = AnimationStateManager.getInstance()
+const FIRST_SCREEN_ITEMS_COUNT = 15
 
 export const MasonryRoot = () => {
   const { sortOrder } = useAtomValue(gallerySettingAtom)
-
-  // 当排序改变时重置动画状态
-  useEffect(() => {
-    animationManager.reset()
-  }, [sortOrder])
+  const hasAnimatedRef = useRef(false)
 
   const photos = usePhotos()
 
   const photoViewer = usePhotoViewer()
 
   return (
-    <m.div
-      key={sortOrder}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
-    >
+    <div>
       <Masonry<MasonryItemType>
         key={sortOrder}
         items={useMemo(() => [MasonryHeaderItem.default, ...photos], [photos])}
@@ -75,6 +41,10 @@ export const MasonryRoot = () => {
               {...props}
               onPhotoClick={photoViewer.openViewer}
               photos={photos}
+              hasAnimated={hasAnimatedRef.current}
+              onAnimationComplete={() => {
+                hasAnimatedRef.current = true
+              }}
             />
           ),
           [photoViewer.openViewer, photos],
@@ -90,7 +60,7 @@ export const MasonryRoot = () => {
           return (data as PhotoManifest).id
         }}
       />
-    </m.div>
+    </div>
   )
 }
 
@@ -100,14 +70,18 @@ export const MasonryItem = ({
   index,
   onPhotoClick,
   photos,
+  hasAnimated,
+  onAnimationComplete,
 }: {
   data: MasonryItemType
   width: number
   index: number
   onPhotoClick: (index: number, element?: HTMLElement) => void
   photos: PhotoManifest[]
+  hasAnimated: boolean
+  onAnimationComplete: () => void
 }) => {
-  // 为每个 item 生成唯一的 key 用于追踪动画状态
+  // 为每个 item 生成唯一的 key 用于追踪
   const itemKey = useMemo(() => {
     if (data instanceof MasonryHeaderItem) {
       return 'header'
@@ -115,19 +89,15 @@ export const MasonryItem = ({
     return (data as PhotoManifest).id
   }, [data])
 
-  // 检查是否已经动画过
-  const hasAnimated = animationManager.hasAnimated(itemKey)
-
-  // 标记为已动画
-  useEffect(() => {
-    if (!hasAnimated) {
-      animationManager.markAsAnimated(itemKey)
-    }
-  }, [hasAnimated, itemKey])
+  // 只对第一屏的 items 做动画，且只在首次加载时
+  const shouldAnimate = !hasAnimated && index < FIRST_SCREEN_ITEMS_COUNT
 
   // 计算动画延迟
-  const delay =
-    data instanceof MasonryHeaderItem ? 0 : Math.min(index * 0.05, 0.8)
+  const delay = shouldAnimate
+    ? data instanceof MasonryHeaderItem
+      ? 0
+      : Math.min(index * 0.05, 0.8)
+    : 0
 
   // Framer Motion 动画变体
   const itemVariants = {
@@ -143,7 +113,7 @@ export const MasonryItem = ({
       scale: 1,
       filter: 'blur(0px)',
       transition: {
-        duration: 0.8,
+        duration: shouldAnimate ? 0.8 : 0,
         ease: [0.16, 1, 0.3, 1], // cubic-bezier(0.16, 1, 0.3, 1)
         delay,
       },
@@ -151,13 +121,22 @@ export const MasonryItem = ({
   }
 
   if (data instanceof MasonryHeaderItem) {
-    return <MasonryHeaderMasonryItem width={width} />
+    return (
+      <m.div
+        variants={shouldAnimate ? itemVariants : undefined}
+        initial={shouldAnimate ? 'hidden' : 'visible'}
+        animate="visible"
+        onAnimationComplete={shouldAnimate ? onAnimationComplete : undefined}
+      >
+        <MasonryHeaderMasonryItem width={width} />
+      </m.div>
+    )
   } else {
     return (
       <m.div
         key={itemKey}
-        variants={itemVariants}
-        initial={hasAnimated ? 'visible' : 'hidden'}
+        variants={shouldAnimate ? itemVariants : undefined}
+        initial={shouldAnimate ? 'hidden' : 'visible'}
         animate="visible"
         layout
         whileHover={{
