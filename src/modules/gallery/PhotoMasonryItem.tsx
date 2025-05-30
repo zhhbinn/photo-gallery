@@ -11,6 +11,9 @@ import {
 import { clsxm } from '~/lib/cn'
 import type { PhotoManifest } from '~/types/photo'
 
+// 全局状态管理已加载的图片
+const loadedImages = new Set<string>()
+
 export const PhotoMasonryItem = ({
   data,
   width,
@@ -28,8 +31,12 @@ export const PhotoMasonryItem = ({
   const [imageError, setImageError] = useState(false)
   const imageRef = useRef<HTMLImageElement>(null)
 
+  // 检查图片是否已经加载过
+  const hasLoadedBefore = loadedImages.has(data.id)
+
   const handleImageLoad = () => {
     setImageLoaded(true)
+    loadedImages.add(data.id)
   }
 
   const handleImageError = () => {
@@ -91,7 +98,7 @@ export const PhotoMasonryItem = ({
       onClick={handleClick}
     >
       {/* Blurhash 占位符 */}
-      {data.blurhash && !imageLoaded && !imageError && (
+      {data.blurhash && (
         <Blurhash
           hash={data.blurhash}
           width="100%"
@@ -114,9 +121,9 @@ export const PhotoMasonryItem = ({
           )}
           onLoad={handleImageLoad}
           onError={handleImageError}
-          initial={{ opacity: 0 }}
+          initial={{ opacity: hasLoadedBefore ? 1 : 0 }}
           animate={{ opacity: imageLoaded ? 1 : 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: hasLoadedBefore ? 0 : 0.5 }}
           loading="lazy"
         />
       )}
