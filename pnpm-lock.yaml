@@ -14,6 +14,9 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: 3.817.0
         version: 3.817.0
+      '@essentials/request-timeout':
+        specifier: 1.3.0
+        version: 1.3.0
       '@headlessui/react':
         specifier: 2.2.4
         version: 2.2.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -23,6 +26,9 @@ importers:
       '@radix-ui/react-slot':
         specifier: 1.2.3
         version: 1.2.3(@types/react@19.1.6)(react@19.1.0)
+      '@react-hook/window-size':
+        specifier: 3.1.1
+        version: 3.1.1(react@19.1.0)
       '@remixicon/react':
         specifier: 4.6.0
         version: 4.6.0(react@19.1.0)
@@ -50,6 +56,9 @@ importers:
       exif-reader:
         specifier: 2.0.2
         version: 2.0.2
+      foxact:
+        specifier: 0.2.45
+        version: 0.2.45(react@19.1.0)
       fuji-recipes:
         specifier: 1.0.2
         version: 1.0.2
@@ -2249,6 +2258,9 @@ packages:
     resolution: {integrity: sha512-nPdaFdQ0h/GEigbPClz11D0v/ZJEwxmeVZGeMo3Z5StPtUTkA9o1lD6QwoirYiSDzbcwn2XcjwmCp68W1IS4TA==}
     engines: {node: '>=18'}
 
+  client-only@0.0.1:
+    resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
+
   cliui@8.0.1:
     resolution: {integrity: sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==}
     engines: {node: '>=12'}
@@ -2773,6 +2785,14 @@ packages:
 
   flatted@3.3.3:
     resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
+
+  foxact@0.2.45:
+    resolution: {integrity: sha512-pizJ+4hlSxs+mZKjJxhcwzY1uR4/7paZGgU/NQLrzY6Q0wa8RBZvhOxzg/HzXRAcglTt2y6DlIqPn85cTNdmcg==}
+    peerDependencies:
+      react: '*'
+    peerDependenciesMeta:
+      react:
+        optional: true
 
   framer-motion@12.15.0:
     resolution: {integrity: sha512-XKg/LnKExdLGugZrDILV7jZjI599785lDIJZLxMiiIFidCsy0a4R2ZEf+Izm67zyOuJgQYTHOmodi7igQsw3vg==}
@@ -3805,6 +3825,9 @@ packages:
     resolution: {integrity: sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==}
     engines: {node: '>=10'}
     hasBin: true
+
+  server-only@0.0.1:
+    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
 
   set-cookie-parser@2.7.1:
     resolution: {integrity: sha512-IOc8uWeOZgnb3ptbCURJWNjWUPcO3ZnTTdzsurqERrP6nPyv+paC55vJM0LpOlT2ne+Ix+9+CRG1MNLlyZ4GjQ==}
@@ -6800,6 +6823,8 @@ snapshots:
       slice-ansi: 5.0.0
       string-width: 7.2.0
 
+  client-only@0.0.1: {}
+
   cliui@8.0.1:
     dependencies:
       string-width: 4.2.3
@@ -7479,6 +7504,13 @@ snapshots:
     optional: true
 
   flatted@3.3.3: {}
+
+  foxact@0.2.45(react@19.1.0):
+    dependencies:
+      client-only: 0.0.1
+      server-only: 0.0.1
+    optionalDependencies:
+      react: 19.1.0
 
   framer-motion@12.15.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
@@ -8385,6 +8417,8 @@ snapshots:
   semver@7.6.3: {}
 
   semver@7.7.2: {}
+
+  server-only@0.0.1: {}
 
   set-cookie-parser@2.7.1: {}
 

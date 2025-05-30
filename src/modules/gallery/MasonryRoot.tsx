@@ -1,6 +1,5 @@
 import clsx from 'clsx'
 import { useAtom, useAtomValue } from 'jotai'
-import { Masonry } from 'masonic'
 import { m } from 'motion/react'
 import { useCallback, useEffect, useMemo } from 'react'
 
@@ -10,6 +9,7 @@ import { photoLoader } from '~/data/photos'
 import { usePhotos, usePhotoViewer } from '~/hooks/usePhotoViewer'
 import type { PhotoManifest } from '~/types/photo'
 
+import { Masonry } from './Masonic'
 import { PhotoMasonryItem } from './PhotoMasonryItem'
 
 const data = photoLoader.getPhotos()

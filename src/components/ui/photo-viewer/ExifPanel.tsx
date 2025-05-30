@@ -5,7 +5,7 @@ import { m } from 'motion/react'
 import type { FC } from 'react'
 import { Fragment } from 'react'
 
-import { ScrollArea } from '~/components/ui/ScrollArea'
+import { ScrollArea } from '~/components/ui/scroll-areas/ScrollArea'
 import {
   CarbonIsoOutline,
   MaterialSymbolsExposure,

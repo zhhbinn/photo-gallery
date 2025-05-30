@@ -4,6 +4,8 @@ import * as React from 'react'
 
 import { clsxm } from '~/lib/cn'
 
+import { ScrollElementContext } from './ctx'
+
 const Corner = ({
   ref: forwardedRef,
   className,
@@ -156,21 +158,23 @@ export const ScrollArea = ({
   React.useImperativeHandle(ref, () => viewportRef as HTMLDivElement)
 
   return (
-    <Root className={rootClassName}>
-      <Viewport
-        ref={setViewportRef}
-        className={clsxm(
-          flex ? '[&>div]:!flex [&>div]:!flex-col' : '',
-          viewportClassName,
-        )}
-        mask={mask}
-        asChild={asChild}
-        onScroll={onScroll}
-        focusable={focusable}
-      >
-        {children}
-      </Viewport>
-      <Scrollbar orientation={orientation} className={scrollbarClassName} />
-    </Root>
+    <ScrollElementContext value={viewportRef}>
+      <Root className={rootClassName}>
+        <Viewport
+          ref={setViewportRef}
+          className={clsxm(
+            flex ? '[&>div]:!flex [&>div]:!flex-col' : '',
+            viewportClassName,
+          )}
+          mask={mask}
+          asChild={asChild}
+          onScroll={onScroll}
+          focusable={focusable}
+        >
+          {children}
+        </Viewport>
+        <Scrollbar orientation={orientation} className={scrollbarClassName} />
+      </Root>
+    </ScrollElementContext>
   )
 }
