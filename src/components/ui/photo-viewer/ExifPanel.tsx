@@ -59,7 +59,10 @@ export const ExifPanel: FC<{
         )}
       </div>
 
-      <ScrollArea rootClassName="flex-1 min-h-0" viewportClassName="px-4 pb-4">
+      <ScrollArea
+        rootClassName="flex-1 min-h-0 overflow-auto lg:overflow-hidden"
+        viewportClassName="px-4 pb-4"
+      >
         <div className={`space-y-${isMobile ? '3' : '4'}`}>
           <div>
             <h4 className="text-sm font-medium text-white/80 mb-2">基本信息</h4>
