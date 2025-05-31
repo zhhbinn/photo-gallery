@@ -9,6 +9,7 @@ import {
   S3Client,
 } from '@aws-sdk/client-s3'
 import { encode } from 'blurhash'
+import consola from 'consola'
 import type { Exif } from 'exif-reader'
 import exifReader from 'exif-reader'
 import getRecipe from 'fuji-recipes'
@@ -20,9 +21,31 @@ import { env } from '../env.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+// 创建系统化的日志器
+const logger = {
+  // 主进程日志
+  main: consola.withTag('MAIN'),
+  // S3 操作日志
+  s3: consola.withTag('S3'),
+  // 图片处理日志
+  image: consola.withTag('IMAGE'),
+  // 缩略图处理日志
+  thumbnail: consola.withTag('THUMBNAIL'),
+  // Blurhash 处理日志
+  blurhash: consola.withTag('BLURHASH'),
+  // EXIF 处理日志
+  exif: consola.withTag('EXIF'),
+  // 文件系统操作日志
+  fs: consola.withTag('FS'),
+  // Worker 日志（动态创建）
+  worker: (id: number) => consola.withTag(`WORKER-${id}`),
+}
+
 // 解析命令行参数
 const args = process.argv.slice(2)
 const isForceMode = args.includes('--force')
+const isForceManifest = args.includes('--force-manifest')
+const isForceThumbnails = args.includes('--force-thumbnails')
 
 // 解析 --worker 参数
 let concurrencyLimit = 10 // 默认并发数
@@ -32,14 +55,26 @@ if (workerIndex !== -1 && workerIndex + 1 < args.length) {
   if (!Number.isNaN(workerValue) && workerValue > 0) {
     concurrencyLimit = workerValue
   } else {
-    console.warn(
-      `无效的 --worker 参数值: ${args[workerIndex + 1]}，使用默认值 ${concurrencyLimit}`,
+    logger.main.warn(
+      `无效的 --worker 参数值：${args[workerIndex + 1]}，使用默认值 ${concurrencyLimit}`,
     )
   }
 }
 
-console.info(`运行模式: ${isForceMode ? '全量更新' : '增量更新'}`)
-console.info(`并发数: ${concurrencyLimit}`)
+// 确定运行模式
+let runMode = '增量更新'
+if (isForceMode) {
+  runMode = '全量更新'
+} else if (isForceManifest && isForceThumbnails) {
+  runMode = '强制刷新 manifest 和缩略图'
+} else if (isForceManifest) {
+  runMode = '强制刷新 manifest'
+} else if (isForceThumbnails) {
+  runMode = '强制刷新缩略图'
+}
+
+logger.main.info(`🚀 运行模式：${runMode}`)
+logger.main.info(`⚡ 并发数：${concurrencyLimit}`)
 
 // 创建 S3 客户端
 const s3ClientConfig: S3ClientConfig = {
@@ -118,7 +153,7 @@ async function loadExistingManifest(): Promise<PhotoManifestItem[]> {
     const manifestContent = await fs.readFile(manifestPath, 'utf-8')
     return JSON.parse(manifestContent) as PhotoManifestItem[]
   } catch {
-    console.info('未找到现有 manifest 文件，将创建新的')
+    logger.main.info('未找到现有 manifest 文件，将创建新的')
     return []
   }
 }
@@ -152,29 +187,97 @@ function needsUpdate(
   return s3Modified > existingModified
 }
 
-// 生成 blurhash
-async function generateBlurhash(imageBuffer: Buffer): Promise<string | null> {
+// 生成 blurhash（基于缩略图数据，保持长宽比）
+async function generateBlurhash(
+  thumbnailBuffer: Buffer,
+  originalWidth: number,
+  originalHeight: number,
+  workerLogger?: typeof logger.blurhash,
+): Promise<string | null> {
+  const log = workerLogger || logger.blurhash
+
   try {
-    const { data, info } = await sharp(imageBuffer)
-      .rotate()
+    // 计算原始图像的长宽比
+    const aspectRatio = originalWidth / originalHeight
+
+    // 根据长宽比计算合适的 blurhash 尺寸
+    // 目标是在保持长宽比的同时，获得合适的细节级别
+    let targetWidth: number
+    let targetHeight: number
+
+    // 基础尺寸，可以根据需要调整
+    const baseSize = 64
+
+    if (aspectRatio >= 1) {
+      // 横向图片
+      targetWidth = baseSize
+      targetHeight = Math.round(baseSize / aspectRatio)
+    } else {
+      // 纵向图片
+      targetHeight = baseSize
+      targetWidth = Math.round(baseSize * aspectRatio)
+    }
+
+    // 确保最小尺寸，避免过小的尺寸
+    targetWidth = Math.max(targetWidth, 16)
+    targetHeight = Math.max(targetHeight, 16)
+
+    // 计算 blurhash 的组件数量
+    // 根据图像尺寸动态调整，但限制在合理范围内
+    const xComponents = Math.min(Math.max(Math.round(targetWidth / 16), 3), 9)
+    const yComponents = Math.min(Math.max(Math.round(targetHeight / 16), 3), 9)
+
+    log.debug(
+      `生成参数：原始 ${originalWidth}x${originalHeight}, 目标 ${targetWidth}x${targetHeight}, 组件 ${xComponents}x${yComponents}`,
+    )
+
+    // 复用缩略图的 Sharp 实例来生成 blurhash
+    const { data, info } = await sharp(thumbnailBuffer)
+      .rotate() // 自动根据 EXIF 旋转
+      .resize(targetWidth, targetHeight, {
+        fit: 'fill', // 填充整个目标尺寸，保持长宽比
+        background: { r: 255, g: 255, b: 255, alpha: 0 }, // 透明背景
+      })
       .raw()
       .ensureAlpha()
-      .resize(32, 32, { fit: 'inside' })
       .toBuffer({ resolveWithObject: true })
 
-    return encode(new Uint8ClampedArray(data), info.width, info.height, 4, 4)
+    // 生成 blurhash
+    const blurhash = encode(
+      new Uint8ClampedArray(data),
+      info.width,
+      info.height,
+      xComponents,
+      yComponents,
+    )
+
+    log.success(`生成成功：${blurhash}`)
+    return blurhash
   } catch (error) {
-    console.error('生成 blurhash 失败:', error)
+    log.error('生成失败：', error)
     return null
   }
 }
 
-// 生成缩略图
-async function generateThumbnail(
+// 生成缩略图和 blurhash（复用 Sharp 实例）
+async function generateThumbnailAndBlurhash(
   imageBuffer: Buffer,
   photoId: string,
+  originalWidth: number,
+  originalHeight: number,
   forceRegenerate = false,
-): Promise<string | null> {
+  workerLogger?: {
+    thumbnail: typeof logger.thumbnail
+    blurhash: typeof logger.blurhash
+  },
+): Promise<{
+  thumbnailUrl: string | null
+  thumbnailBuffer: Buffer | null
+  blurhash: string | null
+}> {
+  const thumbnailLog = workerLogger?.thumbnail || logger.thumbnail
+  const blurhashLog = workerLogger?.blurhash || logger.blurhash
+
   try {
     const thumbnailDir = path.join(__dirname, '../public/thumbnails')
     await fs.mkdir(thumbnailDir, { recursive: true })
@@ -182,41 +285,149 @@ async function generateThumbnail(
     const thumbnailPath = path.join(thumbnailDir, `${photoId}.webp`)
     const thumbnailUrl = `/thumbnails/${photoId}.webp`
 
-    // 如果不是强制模式且缩略图已存在，直接返回URL
+    // 如果不是强制模式且缩略图已存在，读取现有文件
     if (!forceRegenerate && (await thumbnailExists(photoId))) {
-      console.info(`缩略图已存在，跳过生成: ${photoId}`)
-      return thumbnailUrl
+      thumbnailLog.info(`复用现有缩略图：${photoId}`)
+      try {
+        const existingBuffer = await fs.readFile(thumbnailPath)
+
+        // 基于现有缩略图生成 blurhash
+        const blurhash = await generateBlurhash(
+          existingBuffer,
+          originalWidth,
+          originalHeight,
+          blurhashLog,
+        )
+
+        return {
+          thumbnailUrl,
+          thumbnailBuffer: existingBuffer,
+          blurhash,
+        }
+      } catch (error) {
+        thumbnailLog.warn(`读取现有缩略图失败，重新生成：${photoId}`, error)
+        // 继续执行生成逻辑
+      }
     }
 
-    await sharp(imageBuffer)
-      .rotate()
+    thumbnailLog.info(`生成缩略图：${photoId}`)
+    const startTime = Date.now()
+
+    // 创建 Sharp 实例，复用于缩略图和 blurhash 生成
+    const sharpInstance = sharp(imageBuffer).rotate() // 自动根据 EXIF 旋转
+
+    // 生成缩略图
+    const thumbnailBuffer = await sharpInstance
+      .clone() // 克隆实例用于缩略图生成
       .resize(600, 600, {
         fit: 'inside',
         withoutEnlargement: true,
       })
-      .webp({ quality: 100 })
-      .toFile(thumbnailPath)
+      .webp({
+        quality: 100,
+      })
+      .toBuffer()
 
-    return thumbnailUrl
+    // 保存到文件
+    await fs.writeFile(thumbnailPath, thumbnailBuffer)
+
+    const duration = Date.now() - startTime
+    const sizeKB = Math.round(thumbnailBuffer.length / 1024)
+    thumbnailLog.success(`生成完成：${photoId} (${sizeKB}KB, ${duration}ms)`)
+
+    // 基于生成的缩略图生成 blurhash
+    const blurhash = await generateBlurhash(
+      thumbnailBuffer,
+      originalWidth,
+      originalHeight,
+      blurhashLog,
+    )
+
+    return {
+      thumbnailUrl,
+      thumbnailBuffer,
+      blurhash,
+    }
   } catch (error) {
-    console.error('生成缩略图失败:', error)
+    thumbnailLog.error(`生成失败：${photoId}`, error)
+    return {
+      thumbnailUrl: null,
+      thumbnailBuffer: null,
+      blurhash: null,
+    }
+  }
+}
+
+// 获取图片元数据（复用 Sharp 实例）
+async function getImageMetadataWithSharp(
+  sharpInstance: sharp.Sharp,
+  workerLogger?: typeof logger.image,
+): Promise<ImageMetadata | null> {
+  const log = workerLogger || logger.image
+
+  try {
+    const metadata = await sharpInstance.metadata()
+
+    if (!metadata.width || !metadata.height || !metadata.format) {
+      log.error('图片元数据不完整')
+      return null
+    }
+
+    let { width } = metadata
+    let { height } = metadata
+
+    // 根据 EXIF Orientation 信息调整宽高
+    const { orientation } = metadata
+    if (
+      orientation === 5 ||
+      orientation === 6 ||
+      orientation === 7 ||
+      orientation === 8
+    ) {
+      // 对于需要旋转 90°的图片，需要交换宽高
+      ;[width, height] = [height, width]
+      log.info(
+        `检测到需要旋转 90°的图片 (orientation: ${orientation})，交换宽高：${width}x${height}`,
+      )
+    }
+
+    return {
+      width,
+      height,
+      format: metadata.format,
+    }
+  } catch (error) {
+    log.error('获取图片元数据失败：', error)
     return null
   }
 }
 
 // 转换 HEIC/HEIF 格式到 JPEG
-async function convertHeicToJpeg(heicBuffer: Buffer): Promise<Buffer> {
+async function convertHeicToJpeg(
+  heicBuffer: Buffer,
+  workerLogger?: typeof logger.image,
+): Promise<Buffer> {
+  const log = workerLogger || logger.image
+
   try {
-    console.info('正在转换 HEIC/HEIF 格式到 JPEG...')
+    log.info(
+      `开始 HEIC/HEIF → JPEG 转换 (${Math.round(heicBuffer.length / 1024)}KB)`,
+    )
+    const startTime = Date.now()
+
     const jpegBuffer = await heicConvert({
       buffer: heicBuffer,
       format: 'JPEG',
       quality: 0.95, // 高质量转换
     })
 
+    const duration = Date.now() - startTime
+    const outputSizeKB = Math.round(jpegBuffer.byteLength / 1024)
+    log.success(`HEIC/HEIF 转换完成 (${outputSizeKB}KB, ${duration}ms)`)
+
     return Buffer.from(jpegBuffer)
   } catch (error) {
-    console.error('HEIC/HEIF 转换失败:', error)
+    log.error('HEIC/HEIF 转换失败：', error)
     throw error
   }
 }
@@ -225,13 +436,15 @@ async function convertHeicToJpeg(heicBuffer: Buffer): Promise<Buffer> {
 async function preprocessImageBuffer(
   buffer: Buffer,
   key: string,
+  workerLogger?: typeof logger.image,
 ): Promise<Buffer> {
+  const log = workerLogger || logger.image
   const ext = path.extname(key).toLowerCase()
 
   // 如果是 HEIC/HEIF 格式，先转换为 JPEG
   if (HEIC_FORMATS.has(ext)) {
-    console.info(`检测到 HEIC/HEIF 格式，正在转换: ${key}`)
-    return await convertHeicToJpeg(buffer)
+    log.info(`检测到 HEIC/HEIF 格式：${key}`)
+    return await convertHeicToJpeg(buffer, log)
   }
 
   // 其他格式直接返回原始 buffer
@@ -239,8 +452,16 @@ async function preprocessImageBuffer(
 }
 
 // 从 S3 获取图片
-async function getImageFromS3(key: string): Promise<Buffer | null> {
+async function getImageFromS3(
+  key: string,
+  workerLogger?: typeof logger.s3,
+): Promise<Buffer | null> {
+  const log = workerLogger || logger.s3
+
   try {
+    log.info(`下载图片：${key}`)
+    const startTime = Date.now()
+
     const command = new GetObjectCommand({
       Bucket: env.S3_BUCKET_NAME,
       Key: key,
@@ -249,12 +470,15 @@ async function getImageFromS3(key: string): Promise<Buffer | null> {
     const response = await s3Client.send(command)
 
     if (!response.Body) {
-      console.error(`S3 响应中没有 Body: ${key}`)
+      log.error(`S3 响应中没有 Body: ${key}`)
       return null
     }
 
     // 处理不同类型的 Body
     if (response.Body instanceof Buffer) {
+      const duration = Date.now() - startTime
+      const sizeKB = Math.round(response.Body.length / 1024)
+      log.success(`下载完成：${key} (${sizeKB}KB, ${duration}ms)`)
       return response.Body
     }
 
@@ -268,66 +492,20 @@ async function getImageFromS3(key: string): Promise<Buffer | null> {
       })
 
       stream.on('end', () => {
-        resolve(Buffer.concat(chunks))
+        const buffer = Buffer.concat(chunks)
+        const duration = Date.now() - startTime
+        const sizeKB = Math.round(buffer.length / 1024)
+        log.success(`下载完成：${key} (${sizeKB}KB, ${duration}ms)`)
+        resolve(buffer)
       })
 
       stream.on('error', (error) => {
-        console.error(`从 S3 获取图片失败 ${key}:`, error)
+        log.error(`下载失败：${key}`, error)
         reject(error)
       })
     })
   } catch (error) {
-    console.error(`从 S3 获取图片失败 ${key}:`, error)
-    return null
-  }
-}
-
-// 获取图片元数据
-async function getImageMetadata(
-  imageBuffer: Buffer,
-): Promise<ImageMetadata | null> {
-  try {
-    const metadata = await sharp(imageBuffer).metadata()
-
-    if (!metadata.width || !metadata.height || !metadata.format) {
-      console.error('图片元数据不完整')
-      return null
-    }
-
-    let { width } = metadata
-    let { height } = metadata
-
-    // 根据 EXIF Orientation 信息调整宽高
-    // Orientation 值说明：
-    // 1: 正常 (0°)
-    // 2: 水平翻转
-    // 3: 旋转 180°
-    // 4: 垂直翻转
-    // 5: 水平翻转 + 逆时针旋转 90° (宽高交换)
-    // 6: 顺时针旋转 90° (竖拍，宽高交换)
-    // 7: 水平翻转 + 顺时针旋转 90° (宽高交换)
-    // 8: 逆时针旋转 90° (竖拍，宽高交换)
-    const { orientation } = metadata
-    if (
-      orientation === 5 ||
-      orientation === 6 ||
-      orientation === 7 ||
-      orientation === 8
-    ) {
-      // 对于需要旋转90°的图片，需要交换宽高
-      ;[width, height] = [height, width]
-      console.info(
-        `检测到需要旋转90°的图片 (orientation: ${orientation})，交换宽高: ${width}x${height}`,
-      )
-    }
-
-    return {
-      width,
-      height,
-      format: metadata.format,
-    }
-  } catch (error) {
-    console.error('获取图片元数据失败:', error)
+    log.error(`下载失败：${key}`, error)
     return null
   }
 }
@@ -399,22 +577,28 @@ function cleanExifData(exifData: any): any {
 async function extractExifData(
   imageBuffer: Buffer,
   originalBuffer?: Buffer,
+  workerLogger?: typeof logger.exif,
 ): Promise<Exif | null> {
+  const log = workerLogger || logger.exif
+
   try {
+    log.info('开始提取 EXIF 数据')
+
     // 首先尝试从处理后的图片中提取 EXIF
     let metadata = await sharp(imageBuffer).metadata()
 
     // 如果处理后的图片没有 EXIF 数据，且提供了原始 buffer，尝试从原始图片提取
     if (!metadata.exif && originalBuffer) {
-      console.info('处理后的图片缺少 EXIF 数据，尝试从原始图片提取...')
+      log.info('处理后的图片缺少 EXIF 数据，尝试从原始图片提取')
       try {
         metadata = await sharp(originalBuffer).metadata()
       } catch (error) {
-        console.warn('从原始图片提取 EXIF 失败，可能是不支持的格式:', error)
+        log.warn('从原始图片提取 EXIF 失败，可能是不支持的格式：', error)
       }
     }
 
     if (!metadata.exif) {
+      log.warn('未找到 EXIF 数据')
       return null
     }
 
@@ -440,6 +624,7 @@ async function extractExifData(
     if (exifData.Photo?.MakerNote) {
       const recipe = getRecipe(exifData.Photo.MakerNote)
       ;(exifData as any).FujiRecipe = recipe
+      log.info('检测到富士胶片配方信息')
     }
 
     delete exifData.Photo?.MakerNote
@@ -448,21 +633,31 @@ async function extractExifData(
     delete exifData.Image?.PrintImageMatching
 
     if (!exifData) {
+      log.warn('EXIF 数据解析失败')
       return null
     }
 
     // 清理 EXIF 数据中的空字符和无用数据
     const cleanedExifData = cleanExifData(exifData)
 
+    log.success('EXIF 数据提取完成')
     return cleanedExifData
   } catch (error) {
-    console.error('提取 EXIF 数据失败:', error)
+    log.error('提取 EXIF 数据失败:', error)
     return null
   }
 }
 
 // 从文件名提取照片信息
-function extractPhotoInfo(key: string, exifData?: Exif | null): PhotoInfo {
+function extractPhotoInfo(
+  key: string,
+  exifData?: Exif | null,
+  workerLogger?: typeof logger.image,
+): PhotoInfo {
+  const log = workerLogger || logger.image
+
+  log.debug(`提取照片信息: ${key}`)
+
   const fileName = path.basename(key, path.extname(key))
 
   // 尝试从文件名解析信息，格式示例: "2024-01-15_城市夜景_1250views"
@@ -490,7 +685,7 @@ function extractPhotoInfo(key: string, exifData?: Exif | null): PhotoInfo {
         .filter((part) => part.trim() !== '')
       tags = pathParts.map((part) => part.trim())
 
-      console.info(`从路径 "${dirPath}" 提取到标签: [${tags.join(', ')}]`)
+      log.debug(`从路径提取标签：[${tags.join(', ')}]`)
     }
   }
 
@@ -502,6 +697,7 @@ function extractPhotoInfo(key: string, exifData?: Exif | null): PhotoInfo {
       // 如果是 Date 对象，直接使用
       if (dateTimeOriginal instanceof Date) {
         dateTaken = dateTimeOriginal.toISOString()
+        log.debug('使用 EXIF Date 对象作为拍摄时间')
       } else if (typeof dateTimeOriginal === 'string') {
         // 如果是字符串，按原来的方式处理
         // EXIF 日期格式通常是 "YYYY:MM:DD HH:MM:SS"
@@ -510,15 +706,16 @@ function extractPhotoInfo(key: string, exifData?: Exif | null): PhotoInfo {
           '$1-$2-$3',
         )
         dateTaken = new Date(formattedDateStr).toISOString()
+        log.debug(`使用 EXIF 字符串作为拍摄时间：${dateTimeOriginal}`)
       } else {
-        console.warn(
-          `未知的 DateTimeOriginal 类型: ${typeof dateTimeOriginal}`,
+        log.warn(
+          `未知的 DateTimeOriginal 类型：${typeof dateTimeOriginal}`,
           dateTimeOriginal,
         )
       }
     } catch (error) {
-      console.warn(
-        `解析 EXIF DateTimeOriginal 失败: ${exifData.Photo.DateTimeOriginal}`,
+      log.warn(
+        `解析 EXIF DateTimeOriginal 失败：${exifData.Photo.DateTimeOriginal}`,
         error,
       )
     }
@@ -527,6 +724,7 @@ function extractPhotoInfo(key: string, exifData?: Exif | null): PhotoInfo {
     const dateMatch = fileName.match(/(\d{4}-\d{2}-\d{2})/)
     if (dateMatch) {
       dateTaken = new Date(dateMatch[1]).toISOString()
+      log.debug(`从文件名提取拍摄时间：${dateMatch[1]}`)
     }
   }
 
@@ -534,6 +732,7 @@ function extractPhotoInfo(key: string, exifData?: Exif | null): PhotoInfo {
   const viewsMatch = fileName.match(/(\d+)views?/i)
   if (viewsMatch) {
     views = Number.parseInt(viewsMatch[1])
+    log.debug(`从文件名提取浏览次数：${views}`)
   }
 
   // 从文件名中提取标题（移除日期和浏览次数）
@@ -547,6 +746,8 @@ function extractPhotoInfo(key: string, exifData?: Exif | null): PhotoInfo {
   if (!title) {
     title = path.basename(key, path.extname(key))
   }
+
+  log.debug(`照片信息提取完成："${title}"`)
 
   return {
     title,
@@ -582,20 +783,23 @@ function generateS3Url(key: string): string {
 
 // 主函数
 async function buildManifest(): Promise<void> {
+  const startTime = Date.now()
+
   try {
-    console.info('开始从 S3 获取照片列表...')
-    console.info(`使用端点: ${env.S3_ENDPOINT || '默认 AWS S3'}`)
-    console.info(`自定义域名: ${env.S3_CUSTOM_DOMAIN || '未设置'}`)
-    console.info(`存储桶: ${env.S3_BUCKET_NAME}`)
-    console.info(`前缀: ${env.S3_PREFIX || '无前缀'}`)
+    logger.main.info('🚀 开始从 S3 获取照片列表...')
+    logger.main.info(`🔗 使用端点：${env.S3_ENDPOINT || '默认 AWS S3'}`)
+    logger.main.info(`🌐 自定义域名：${env.S3_CUSTOM_DOMAIN || '未设置'}`)
+    logger.main.info(`🪣 存储桶：${env.S3_BUCKET_NAME}`)
+    logger.main.info(`📂 前缀：${env.S3_PREFIX || '无前缀'}`)
 
     // 读取现有的 manifest（如果存在）
-    const existingManifest = isForceMode ? [] : await loadExistingManifest()
+    const existingManifest =
+      isForceMode || isForceManifest ? [] : await loadExistingManifest()
     const existingManifestMap = new Map(
       existingManifest.map((item) => [item.s3Key, item]),
     )
 
-    console.info(`现有 manifest 包含 ${existingManifest.length} 张照片`)
+    logger.main.info(`现有 manifest 包含 ${existingManifest.length} 张照片`)
 
     // 列出 S3 中的所有图片文件
     const listCommand = new ListObjectsV2Command({
@@ -614,7 +818,7 @@ async function buildManifest(): Promise<void> {
       return SUPPORTED_FORMATS.has(ext)
     })
 
-    console.info(`S3 中找到 ${imageObjects.length} 张照片`)
+    logger.main.info(`S3 中找到 ${imageObjects.length} 张照片`)
 
     // 创建 S3 中存在的图片 key 集合，用于检测已删除的图片
     const s3ImageKeys = new Set(
@@ -631,91 +835,162 @@ async function buildManifest(): Promise<void> {
     async function processPhoto(
       obj: _Object,
       index: number,
+      workerId: number,
     ): Promise<{
       item: PhotoManifestItem | null
       type: 'processed' | 'skipped' | 'new' | 'failed'
     }> {
       const key = obj.Key
       if (!key) {
-        console.warn(`跳过没有 Key 的对象`)
+        logger.image.warn(`跳过没有 Key 的对象`)
         return { item: null, type: 'failed' }
       }
 
       const photoId = path.basename(key, path.extname(key))
       const existingItem = existingManifestMap.get(key)
 
-      console.info(`处理照片 ${index + 1}/${imageObjects.length}: ${key}`)
+      // 创建 worker 专用的 logger
+      const workerLogger = {
+        image: logger.worker(workerId).withTag('IMAGE'),
+        s3: logger.worker(workerId).withTag('S3'),
+        thumbnail: logger.worker(workerId).withTag('THUMBNAIL'),
+        blurhash: logger.worker(workerId).withTag('BLURHASH'),
+        exif: logger.worker(workerId).withTag('EXIF'),
+      }
+
+      workerLogger.image.info(`📸 [${index + 1}/${imageObjects.length}] ${key}`)
 
       // 检查是否需要更新
-      if (!isForceMode && existingItem && !needsUpdate(existingItem, obj)) {
-        // 检查缩略图是否存在，如果不存在则需要重新处理
+      if (
+        !isForceMode &&
+        !isForceManifest &&
+        existingItem &&
+        !needsUpdate(existingItem, obj)
+      ) {
+        // 检查缩略图是否存在，如果不存在或强制刷新缩略图则需要重新处理
         const hasThumbnail = await thumbnailExists(photoId)
-        if (hasThumbnail) {
-          console.info(`照片未更新且缩略图存在，跳过处理: ${key}`)
+        if (hasThumbnail && !isForceThumbnails) {
+          workerLogger.image.info(`⏭️ 跳过处理 (未更新且缩略图存在): ${key}`)
           return { item: existingItem, type: 'skipped' }
         } else {
-          console.info(`照片未更新但缩略图缺失，重新生成缩略图: ${key}`)
+          if (isForceThumbnails) {
+            workerLogger.image.info(`🔄 强制重新生成缩略图：${key}`)
+          } else {
+            workerLogger.image.info(
+              `🔄 重新生成缩略图 (文件未更新但缩略图缺失): ${key}`,
+            )
+          }
         }
       }
 
       // 需要处理的照片（新照片、更新的照片或缺失缩略图的照片）
       const isNewPhoto = !existingItem
       if (isNewPhoto) {
-        console.info(`新照片: ${key}`)
+        workerLogger.image.info(`🆕 新照片：${key}`)
       } else {
-        console.info(`更新照片: ${key}`)
+        workerLogger.image.info(`🔄 更新照片：${key}`)
       }
 
       try {
         // 获取图片数据
-        const rawImageBuffer = await getImageFromS3(key)
+        const rawImageBuffer = await getImageFromS3(key, workerLogger.s3)
         if (!rawImageBuffer) return { item: null, type: 'failed' }
 
         // 预处理图片（处理 HEIC/HEIF 格式）
         let imageBuffer: Buffer
         try {
-          imageBuffer = await preprocessImageBuffer(rawImageBuffer, key)
+          imageBuffer = await preprocessImageBuffer(
+            rawImageBuffer,
+            key,
+            workerLogger.image,
+          )
         } catch (error) {
-          console.error(`预处理图片失败 ${key}:`, error)
+          workerLogger.image.error(`预处理图片失败：${key}`, error)
           return { item: null, type: 'failed' }
         }
 
-        // 获取图片元数据
-        const metadata = await getImageMetadata(imageBuffer)
+        // 创建 Sharp 实例，复用于多个操作
+        const sharpInstance = sharp(imageBuffer)
+
+        // 获取图片元数据（复用 Sharp 实例）
+        const metadata = await getImageMetadataWithSharp(
+          sharpInstance,
+          workerLogger.image,
+        )
         if (!metadata) return { item: null, type: 'failed' }
 
         // 如果是增量更新且已有 blurhash，可以复用
+        let thumbnailUrl: string | null = null
+        let thumbnailBuffer: Buffer | null = null
         let blurhash: string | null = null
-        if (!isForceMode && existingItem?.blurhash) {
+
+        if (
+          !isForceMode &&
+          !isForceThumbnails &&
+          existingItem?.blurhash &&
+          (await thumbnailExists(photoId))
+        ) {
+          // 复用现有的缩略图和 blurhash
           blurhash = existingItem.blurhash
-          console.info(`复用现有 blurhash: ${photoId}`)
-        } else {
-          blurhash = await generateBlurhash(imageBuffer)
+          workerLogger.blurhash.info(`复用现有 blurhash: ${photoId}`)
+
+          try {
+            const thumbnailPath = path.join(
+              __dirname,
+              '../public/thumbnails',
+              `${photoId}.webp`,
+            )
+            thumbnailBuffer = await fs.readFile(thumbnailPath)
+            thumbnailUrl = `/thumbnails/${photoId}.webp`
+            workerLogger.thumbnail.info(`复用现有缩略图：${photoId}`)
+          } catch (error) {
+            workerLogger.thumbnail.warn(
+              `读取现有缩略图失败，重新生成：${photoId}`,
+              error,
+            )
+            // 继续执行生成逻辑
+          }
+        }
+
+        // 如果没有复用成功，则生成缩略图和 blurhash
+        if (!thumbnailUrl || !thumbnailBuffer || !blurhash) {
+          const result = await generateThumbnailAndBlurhash(
+            imageBuffer,
+            photoId,
+            metadata.width,
+            metadata.height,
+            isForceMode || isForceThumbnails,
+            {
+              thumbnail: workerLogger.thumbnail,
+              blurhash: workerLogger.blurhash,
+            },
+          )
+
+          thumbnailUrl = result.thumbnailUrl
+          thumbnailBuffer = result.thumbnailBuffer
+          blurhash = result.blurhash
         }
 
         // 如果是增量更新且已有 EXIF 数据，可以复用
         let exifData: Exif | null = null
-        if (!isForceMode && existingItem?.exif) {
+        if (!isForceMode && !isForceManifest && existingItem?.exif) {
           exifData = existingItem.exif
-          console.info(`复用现有 EXIF 数据: ${photoId}`)
+          workerLogger.exif.info(`复用现有 EXIF 数据：${photoId}`)
         } else {
           // 传入原始 buffer 以便在转换后的图片缺少 EXIF 时回退
           const ext = path.extname(key).toLowerCase()
           const originalBuffer = HEIC_FORMATS.has(ext)
             ? rawImageBuffer
             : undefined
-          exifData = await extractExifData(imageBuffer, originalBuffer)
+          exifData = await extractExifData(
+            imageBuffer,
+            originalBuffer,
+            workerLogger.exif,
+          )
         }
 
         // 提取照片信息（在获取 EXIF 数据之后，以便使用 DateTimeOriginal）
-        const photoInfo = extractPhotoInfo(key, exifData)
-
-        // 生成缩略图（会自动检查是否需要重新生成）
-        const thumbnailUrl = await generateThumbnail(
-          imageBuffer,
-          photoId,
-          isForceMode,
-        )
+        const photoInfo = extractPhotoInfo(key, exifData, workerLogger.image)
 
         const aspectRatio = metadata.width / metadata.height
 
@@ -739,9 +1014,10 @@ async function buildManifest(): Promise<void> {
           exif: exifData,
         }
 
+        workerLogger.image.success(`✅ 处理完成：${key}`)
         return { item: photoItem, type: isNewPhoto ? 'new' : 'processed' }
       } catch (error) {
-        console.error(`处理照片失败 ${key}:`, error)
+        workerLogger.image.error(`❌ 处理失败：${key}`, error)
         return { item: null, type: 'failed' }
       }
     }
@@ -751,34 +1027,59 @@ async function buildManifest(): Promise<void> {
       type: 'processed' | 'skipped' | 'new' | 'failed'
     }[] = Array.from({ length: imageObjects.length })
 
-    console.info(`开始并发处理照片，工作池模式，并发数: ${concurrencyLimit}`)
+    logger.main.info(
+      `开始并发处理照片，工作池模式，并发数：${concurrencyLimit}`,
+    )
 
     // 创建任务队列
     let taskIndex = 0
     const totalTasks = imageObjects.length
 
     // Worker 函数
-    async function worker(): Promise<void> {
+    async function worker(workerId: number): Promise<void> {
+      const workerLogger = logger.worker(workerId)
+      workerLogger.start(`Worker ${workerId} 启动`)
+
+      let processedByWorker = 0
+
       while (taskIndex < totalTasks) {
         const currentIndex = taskIndex++
         if (currentIndex >= totalTasks) break
 
         const obj = imageObjects[currentIndex]
-        console.info(
-          `Worker 开始处理照片 ${currentIndex + 1}/${totalTasks}: ${obj.Key}`,
+        workerLogger.info(
+          `开始处理照片 ${currentIndex + 1}/${totalTasks}: ${obj.Key}`,
         )
 
-        const result = await processPhoto(obj, currentIndex)
-        results[currentIndex] = result
+        const startTime = Date.now()
+        const result = await processPhoto(obj, currentIndex, workerId)
+        const duration = Date.now() - startTime
 
-        console.info(
-          `Worker 完成照片 ${currentIndex + 1}/${totalTasks}: ${obj.Key} (${result.type})`,
+        results[currentIndex] = result
+        processedByWorker++
+
+        const statusIcon =
+          {
+            processed: '✅',
+            skipped: '⏭️',
+            new: '🆕',
+            failed: '❌',
+          }[result.type] || '❓'
+
+        workerLogger.info(
+          `${statusIcon} 完成照片 ${currentIndex + 1}/${totalTasks}: ${obj.Key} (${result.type}) - ${duration}ms`,
         )
       }
+
+      workerLogger.success(
+        `Worker ${workerId} 完成，处理了 ${processedByWorker} 张照片`,
+      )
     }
 
     // 启动工作池
-    const workers = Array.from({ length: concurrencyLimit }, () => worker())
+    const workers = Array.from({ length: concurrencyLimit }, (_, i) =>
+      worker(i + 1),
+    )
     await Promise.all(workers)
 
     // 统计结果并添加到 manifest
@@ -805,13 +1106,13 @@ async function buildManifest(): Promise<void> {
     }
 
     // 检测并处理已删除的图片
-    if (!isForceMode && existingManifest.length > 0) {
-      console.info('检查已删除的图片...')
+    if (!isForceMode && !isForceManifest && existingManifest.length > 0) {
+      logger.main.info('🔍 检查已删除的图片...')
 
       for (const existingItem of existingManifest) {
         // 如果现有 manifest 中的图片在 S3 中不存在了
         if (!s3ImageKeys.has(existingItem.s3Key)) {
-          console.info(`检测到已删除的图片: ${existingItem.s3Key}`)
+          logger.main.info(`🗑️ 检测到已删除的图片：${existingItem.s3Key}`)
           deletedCount++
 
           // 删除对应的缩略图文件
@@ -822,10 +1123,10 @@ async function buildManifest(): Promise<void> {
               `${existingItem.id}.webp`,
             )
             await fs.unlink(thumbnailPath)
-            console.info(`已删除缩略图: ${existingItem.id}.webp`)
+            logger.fs.info(`🗑️ 已删除缩略图：${existingItem.id}.webp`)
           } catch (error) {
             // 缩略图可能已经不存在，忽略错误
-            console.warn(`删除缩略图失败 ${existingItem.id}.webp:`, error)
+            logger.fs.warn(`删除缩略图失败：${existingItem.id}.webp`, error)
           }
         }
       }
@@ -845,15 +1146,25 @@ async function buildManifest(): Promise<void> {
     await fs.mkdir(path.dirname(manifestPath), { recursive: true })
     await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2))
 
-    console.info(`✅ 成功生成 manifest，包含 ${manifest.length} 张照片`)
-    console.info(`📊 统计信息:`)
-    console.info(`   - 新增照片: ${newCount}`)
-    console.info(`   - 处理照片: ${processedCount}`)
-    console.info(`   - 跳过照片: ${skippedCount}`)
-    console.info(`   - 删除照片: ${deletedCount}`)
-    console.info(`📁 Manifest 保存至: ${manifestPath}`)
+    // 计算总处理时间
+    const totalDuration = Date.now() - startTime
+    const durationSeconds = Math.round(totalDuration / 1000)
+    const durationMinutes = Math.floor(durationSeconds / 60)
+    const remainingSeconds = durationSeconds % 60
+
+    logger.main.success(`🎉 Manifest 构建完成!`)
+    logger.main.info(`📊 处理统计:`)
+    logger.main.info(`   📸 总照片数：${manifest.length}`)
+    logger.main.info(`   🆕 新增照片：${newCount}`)
+    logger.main.info(`   🔄 处理照片：${processedCount}`)
+    logger.main.info(`   ⏭️ 跳过照片：${skippedCount}`)
+    logger.main.info(`   🗑️ 删除照片：${deletedCount}`)
+    logger.main.info(
+      `   ⏱️ 总耗时：${durationMinutes > 0 ? `${durationMinutes}分${remainingSeconds}秒` : `${durationSeconds}秒`}`,
+    )
+    logger.fs.info(`📁 Manifest 保存至：${manifestPath}`)
   } catch (error) {
-    console.error('构建 manifest 失败:', error)
+    logger.main.error('❌ 构建 manifest 失败：', error)
     throw error
   }
 }
