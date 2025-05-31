@@ -15,6 +15,8 @@ import {
 } from '~/icons'
 import type { PhotoManifest } from '~/types/photo'
 
+import { MotionButtonBase } from '../button'
+
 export const ExifPanel: FC<{
   currentPhoto: PhotoManifest
   exifData: Exif | null
@@ -100,12 +102,20 @@ export const ExifPanel: FC<{
               <h4 className="my-2 text-sm font-medium text-white/80">标签</h4>
               <div className="flex flex-wrap gap-1.5">
                 {currentPhoto.tags.map((tag) => (
-                  <span
+                  <MotionButtonBase
+                    type="button"
+                    onClick={() => {
+                      window.open(
+                        `/?tags=${tag}`,
+                        '_blank',
+                        'noopener,noreferrer',
+                      )
+                    }}
                     key={tag}
-                    className="bg-material-medium inline-flex items-center rounded-full px-2 py-1 text-xs text-white/90 backdrop-blur-sm"
+                    className="bg-material-medium hover:bg-material-thin inline-flex cursor-pointer items-center rounded-full px-2 py-1 text-xs text-white/90 backdrop-blur-sm"
                   >
                     {tag}
-                  </span>
+                  </MotionButtonBase>
                 ))}
               </div>
             </div>
