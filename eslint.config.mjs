@@ -7,7 +7,7 @@ export default defineConfig(
     lessOpinionated: true,
     preferESM: false,
     react: true,
-    tailwindCSS: false,
+    tailwindCSS: true,
   },
   {
     settings: {

@@ -1,10 +1,17 @@
-import clsx from 'clsx'
 import { useAtom, useAtomValue } from 'jotai'
 import { m } from 'motion/react'
 import { useCallback, useMemo, useRef } from 'react'
 
 import { gallerySettingAtom } from '~/atoms/app'
 import { Button } from '~/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '~/components/ui/dropdown-menu'
 import { photoLoader } from '~/data/photos'
 import { usePhotos, usePhotoViewer } from '~/hooks/usePhotoViewer'
 import type { PhotoManifest } from '~/types/photo'
@@ -160,45 +167,45 @@ const numberFormatter = new Intl.NumberFormat('zh-CN')
 const MasonryHeaderMasonryItem = ({ width }: { width: number }) => {
   const [gallerySetting, setGallerySetting] = useAtom(gallerySettingAtom)
 
-  const toggleSortOrder = () => {
+  const setSortOrder = (order: 'asc' | 'desc') => {
     setGallerySetting({
       ...gallerySetting,
-      sortOrder: gallerySetting.sortOrder === 'asc' ? 'desc' : 'asc',
+      sortOrder: order,
     })
   }
 
   return (
     <div
-      className="w-full overflow-hidden rounded-2xl shadow-2xl backdrop-blur-xl border border-border bg-material-medium"
+      className="border-border bg-material-medium w-full overflow-hidden rounded-2xl border shadow-2xl backdrop-blur-xl"
       style={{ width }}
     >
       <div className="relative">
         {/* Decorative gradient bar */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-accent" />
+        <div className="to-accent absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-500" />
 
         {/* Decorative corner elements */}
-        <div className="absolute -left-1 -top-1 block size-3 border-l-2 border-t-2 border-blue-500" />
-        <div className="absolute -right-1 -top-1 block size-3 border-r-2 border-t-2 border-blue-500" />
+        <div className="absolute -top-1 -left-1 block size-3 border-t-2 border-l-2 border-blue-500" />
+        <div className="absolute -top-1 -right-1 block size-3 border-t-2 border-r-2 border-blue-500" />
 
-        <div className="p-6 relative">
+        <div className="relative p-6">
           {/* Main header section */}
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-4 shrink-0">
-              <div className="size-12 rounded-full bg-gradient-to-br from-blue-500 to-accent flex items-center justify-center shadow-lg">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex shrink-0 items-center gap-4">
+              <div className="to-accent flex size-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 shadow-lg">
                 <i className="i-mingcute-camera-2-line size-6 text-white" />
               </div>
               <div>
-                <p className="text-sm text-text-secondary mt-1">
+                <p className="text-text-secondary mt-1 text-sm">
                   {numberFormatter.format(data?.length || 0)} 张照片
                 </p>
-                <p className="text-sm text-text-secondary">Innei's Gallery</p>
+                <p className="text-text-secondary text-sm">Innei's Gallery</p>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
-                className="rounded-full p-2 bg-fill hover:bg-fill-hover transition-colors"
+                className="bg-fill hover:bg-fill-hover rounded-full p-2 transition-colors"
                 onClick={() =>
                   window.open(
                     'https://github.com/Innei/photo-gallery',
@@ -209,37 +216,64 @@ const MasonryHeaderMasonryItem = ({ width }: { width: number }) => {
               >
                 <i className="i-mingcute-github-line size-4" />
               </Button>
-              <Button
-                variant="ghost"
-                className="rounded-full px-4 py-2 bg-fill"
-                onClick={toggleSortOrder}
-              >
-                <i
-                  className={clsx(
-                    'size-4 mr-2 transition-transform duration-200',
-                    gallerySetting.sortOrder === 'asc'
-                      ? 'i-mingcute-sort-ascending-line'
-                      : 'i-mingcute-sort-descending-line',
-                  )}
-                />
-                <span className="text-sm font-medium">
-                  {gallerySetting.sortOrder === 'asc' ? '升序' : '降序'}
-                </span>
-              </Button>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="bg-fill hover:bg-fill-hover rounded-full p-2 transition-colors"
+                  >
+                    {gallerySetting.sortOrder === 'desc' ? (
+                      <i className="i-mingcute-sort-descending-line size-4" />
+                    ) : (
+                      <i className="i-mingcute-sort-ascending-line size-4" />
+                    )}
+                  </Button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuLabel>根据拍摄日期排序</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => setSortOrder('desc')}
+                    className={
+                      gallerySetting.sortOrder === 'desc' ? 'bg-accent/10' : ''
+                    }
+                  >
+                    <i className="i-mingcute-sort-descending-line mr-2 size-4" />
+                    <span>最新优先</span>
+                    {gallerySetting.sortOrder === 'desc' && (
+                      <i className="i-mingcute-check-line text-accent ml-auto size-4" />
+                    )}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => setSortOrder('asc')}
+                    className={
+                      gallerySetting.sortOrder === 'asc' ? 'bg-accent/10' : ''
+                    }
+                  >
+                    <i className="i-mingcute-sort-ascending-line mr-2 size-4" />
+                    <span>最早优先</span>
+                    {gallerySetting.sortOrder === 'asc' && (
+                      <i className="i-mingcute-check-line text-accent ml-auto size-4" />
+                    )}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
 
           {/* Separator line */}
-          <div className="h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-material-medium to-transparent mb-4" />
+          <div className="dark:via-material-medium mb-4 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
 
           {/* Bottom info section */}
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
-              <i className="i-mingcute-calendar-line size-4 text-text-secondary" />
+              <i className="i-mingcute-calendar-line text-text-secondary size-4" />
               <span className="text-text-secondary">构建于</span>
             </div>
 
-            <div className="flex items-center gap-2 text-text-secondary">
+            <div className="text-text-secondary flex items-center gap-2">
               <i className="i-tabler-calendar size-4" />
               <span>
                 {new Date(BUILT_DATE).toLocaleDateString(undefined, {

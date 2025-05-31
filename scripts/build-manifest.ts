@@ -24,7 +24,22 @@ const __dirname = path.dirname(__filename)
 const args = process.argv.slice(2)
 const isForceMode = args.includes('--force')
 
+// 解析 --worker 参数
+let concurrencyLimit = 10 // 默认并发数
+const workerIndex = args.indexOf('--worker')
+if (workerIndex !== -1 && workerIndex + 1 < args.length) {
+  const workerValue = Number(args[workerIndex + 1])
+  if (!Number.isNaN(workerValue) && workerValue > 0) {
+    concurrencyLimit = workerValue
+  } else {
+    console.warn(
+      `无效的 --worker 参数值: ${args[workerIndex + 1]}，使用默认值 ${concurrencyLimit}`,
+    )
+  }
+}
+
 console.info(`运行模式: ${isForceMode ? '全量更新' : '增量更新'}`)
+console.info(`并发数: ${concurrencyLimit}`)
 
 // 创建 S3 客户端
 const s3ClientConfig: S3ClientConfig = {
@@ -454,7 +469,30 @@ function extractPhotoInfo(key: string, exifData?: Exif | null): PhotoInfo {
   let title = fileName
   let dateTaken = new Date().toISOString()
   let views = 0
-  const tags: string[] = []
+  let tags: string[] = []
+
+  // 从目录路径中提取 tags
+  const dirPath = path.dirname(key)
+  if (dirPath && dirPath !== '.' && dirPath !== '/') {
+    // 移除前缀（如果有的话）
+    let relativePath = dirPath
+    if (env.S3_PREFIX && dirPath.startsWith(env.S3_PREFIX)) {
+      relativePath = dirPath.slice(env.S3_PREFIX.length)
+    }
+
+    // 清理路径分隔符
+    relativePath = relativePath.replaceAll(/^\/+|\/+$/g, '')
+
+    if (relativePath) {
+      // 分割路径并过滤空字符串
+      const pathParts = relativePath
+        .split('/')
+        .filter((part) => part.trim() !== '')
+      tags = pathParts.map((part) => part.trim())
+
+      console.info(`从路径 "${dirPath}" 提取到标签: [${tags.join(', ')}]`)
+    }
+  }
 
   // 优先使用 EXIF 中的 DateTimeOriginal
   if (exifData?.Photo?.DateTimeOriginal) {
@@ -708,14 +746,12 @@ async function buildManifest(): Promise<void> {
       }
     }
 
-    // 工作池模式并发处理照片，限制并发数为 5
-    const CONCURRENCY_LIMIT = 5
     const results: {
       item: PhotoManifestItem | null
       type: 'processed' | 'skipped' | 'new' | 'failed'
     }[] = Array.from({ length: imageObjects.length })
 
-    console.info(`开始并发处理照片，工作池模式，并发数: ${CONCURRENCY_LIMIT}`)
+    console.info(`开始并发处理照片，工作池模式，并发数: ${concurrencyLimit}`)
 
     // 创建任务队列
     let taskIndex = 0
@@ -742,7 +778,7 @@ async function buildManifest(): Promise<void> {
     }
 
     // 启动工作池
-    const workers = Array.from({ length: CONCURRENCY_LIMIT }, () => worker())
+    const workers = Array.from({ length: concurrencyLimit }, () => worker())
     await Promise.all(workers)
 
     // 统计结果并添加到 manifest
