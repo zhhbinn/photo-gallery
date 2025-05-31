@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { useEffect, useRef } from 'react'
 import { Outlet, useParams, useSearchParams } from 'react-router'
@@ -12,14 +13,23 @@ export const Component = () => {
   useStateRestoreFromUrl()
   useSyncStateToUrl()
   useSyncStateToUrl()
+  const { isOpen } = usePhotoViewer()
 
   return (
-    <ScrollArea rootClassName="h-screen w-full" viewportClassName="size-full">
-      <div className="p-4">
-        <MasonryRoot />
-        <Outlet />
-      </div>
-    </ScrollArea>
+    <>
+      <ScrollArea
+        rootClassName={clsx(
+          'h-screen w-full transition-opacity duration-300',
+          isOpen ? 'pointer-events-none opacity-0' : 'opacity-100',
+        )}
+        viewportClassName="size-full"
+      >
+        <div className="p-4">
+          <MasonryRoot />
+        </div>
+      </ScrollArea>
+      <Outlet />
+    </>
   )
 }
 

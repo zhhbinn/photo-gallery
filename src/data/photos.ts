@@ -78,6 +78,13 @@ class PhotoLoader {
     } else {
       this.photos = PhotosManifest as unknown as PhotoManifest[]
     }
+
+    // 为没有标签的照片添加"未分类"标签
+    this.photos = this.photos.map((photo) => ({
+      ...photo,
+      tags: photo.tags && photo.tags.length > 0 ? photo.tags : ['未分类'],
+    }))
+
     this.photos.forEach((photo) => {
       this.photoMap[photo.id] = photo
     })
@@ -107,7 +114,8 @@ class PhotoLoader {
       tags.push('室内')
     }
 
-    return [...new Set(tags)] // 去重
+    // 如果没有生成任何标签，返回"未分类"
+    return tags.length > 0 ? [...new Set(tags)] : ['未分类']
   }
 
   getPhotos() {

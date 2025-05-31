@@ -94,6 +94,23 @@ export const ExifPanel: FC<{
             </div>
           </div>
 
+          {/* 标签信息 */}
+          {currentPhoto.tags && currentPhoto.tags.length > 0 && (
+            <div>
+              <h4 className="my-2 text-sm font-medium text-white/80">标签</h4>
+              <div className="flex flex-wrap gap-1.5">
+                {currentPhoto.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="bg-material-medium inline-flex items-center rounded-full px-2 py-1 text-xs text-white/90 backdrop-blur-sm"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
           {formattedExifData && (
             <Fragment>
               {(formattedExifData.camera || formattedExifData.lens) && (
