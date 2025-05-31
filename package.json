@@ -18,7 +18,6 @@
     "lint": "eslint --fix",
     "prepare": "simple-git-hooks",
     "serve": "vite preview",
-    "test:s3": "node scripts/test-s3.js",
     "test:svg-font": "tsx scripts/test-svg-text.ts"
   },
   "dependencies": {

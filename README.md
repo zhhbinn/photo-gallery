@@ -46,12 +46,6 @@ pnpm run build:manifest
 pnpm run build:manifest -- --force
 ```
 
-### 测试 S3 连接
-
-```bash
-pnpm run test:s3
-```
-
 ### 构建生产版本
 
 ```bash
