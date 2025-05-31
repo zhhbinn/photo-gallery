@@ -1,3 +1,6 @@
+import { rmSync } from 'node:fs'
+import path from 'node:path'
+
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
@@ -8,6 +11,13 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 import { siteConfig } from './config/site.config'
 import PKG from './package.json'
 import { ogImagePlugin } from './plugins/og-image-plugin'
+
+if (process.env.CI) {
+  rmSync(path.join(process.cwd(), 'src/pages/(debug)'), {
+    recursive: true,
+    force: true,
+  })
+}
 
 const ReactCompilerConfig = {
   /* ... */

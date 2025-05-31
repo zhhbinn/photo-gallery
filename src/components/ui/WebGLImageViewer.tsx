@@ -125,11 +125,14 @@ class WebGLImageViewerEngine {
 
   // LOD levels configuration
   private readonly LOD_LEVELS = [
-    { scale: 0.25, maxViewportScale: 0.5 }, // LOD 0: 1/4 resolution for very zoomed out
-    { scale: 0.5, maxViewportScale: 1 }, // LOD 1: 1/2 resolution for zoomed out
-    { scale: 1, maxViewportScale: 2 }, // LOD 2: full resolution for normal view
-    { scale: 2, maxViewportScale: 4 }, // LOD 3: 2x resolution for zoomed in
-    { scale: 4, maxViewportScale: Infinity }, // LOD 4: 4x resolution for very zoomed in
+    { scale: 0.125, maxViewportScale: 0.25 }, // LOD 0: 1/8 resolution for very zoomed out
+    { scale: 0.25, maxViewportScale: 0.5 }, // LOD 1: 1/4 resolution for zoomed out
+    { scale: 0.5, maxViewportScale: 1 }, // LOD 2: 1/2 resolution for normal view
+    { scale: 1, maxViewportScale: 2 }, // LOD 3: full resolution for normal view
+    { scale: 2, maxViewportScale: 4 }, // LOD 4: 2x resolution for zoomed in
+    { scale: 4, maxViewportScale: 8 }, // LOD 5: 4x resolution for very zoomed in
+    { scale: 8, maxViewportScale: 16 }, // LOD 6: 8x resolution for extreme zoom
+    { scale: 16, maxViewportScale: Infinity }, // LOD 7: 16x resolution for maximum detail
   ]
 
   // Configuration
@@ -247,11 +250,11 @@ class WebGLImageViewerEngine {
     const rect = this.canvas.getBoundingClientRect()
     const devicePixelRatio = window.devicePixelRatio || 1
 
-    // 使用设备像素比来提高清晰度，特别是在高DPI屏幕上
+    // 使用设备像素比来提高清晰度，特别是在高 DPI 屏幕上
     this.canvasWidth = rect.width
     this.canvasHeight = rect.height
 
-    // 设置实际的canvas像素尺寸，考虑设备像素比
+    // 设置实际的 canvas 像素尺寸，考虑设备像素比
     const actualWidth = Math.round(rect.width * devicePixelRatio)
     const actualHeight = Math.round(rect.height * devicePixelRatio)
 
@@ -263,7 +266,7 @@ class WebGLImageViewerEngine {
       // 窗口大小改变时，需要重新约束缩放倍数和位置
       this.constrainScaleAndPosition()
       this.render()
-      // canvas尺寸变化时也需要检查LOD更新
+      // canvas 尺寸变化时也需要检查 LOD 更新
       this.debouncedLODUpdate()
       // 通知缩放变化
       this.notifyZoomChange()
@@ -384,10 +387,10 @@ class WebGLImageViewerEngine {
     // 清理现有的 LOD 纹理
     this.cleanupLODTextures()
 
-    // 创建基础 LOD 纹理（LOD 2: 原始分辨率）
-    this.createLODTexture(2)
-    this.currentLOD = 2
-    this.texture = this.lodTextures.get(2) || null
+    // 创建基础 LOD 纹理（LOD 3: 原始分辨率）
+    this.createLODTexture(3)
+    this.currentLOD = 3
+    this.texture = this.lodTextures.get(3) || null
   }
 
   private createLODTexture(lodLevel: number): WebGLTexture | null {
@@ -413,10 +416,43 @@ class WebGLImageViewerEngine {
         Math.round(this.originalImage.height * lodConfig.scale),
       )
 
-      // 确保不超过 WebGL 最大纹理尺寸
-      const maxSize = Math.min(this.maxTextureSize, 4096) // 设置合理的上限
-      const finalWidth = Math.min(lodWidth, maxSize)
-      const finalHeight = Math.min(lodHeight, maxSize)
+      // 动态计算合理的纹理尺寸上限
+      // 对于超高分辨率图片，允许更大的纹理尺寸
+
+      // 基于视口大小和设备像素比动态调整最大纹理尺寸
+      let { maxTextureSize } = this
+
+      // 对于高 LOD 级别，允许更大的纹理尺寸
+      if (lodConfig.scale >= 4) {
+        // 对于 4x 及以上的 LOD，使用更大的纹理尺寸限制
+        maxTextureSize = Math.min(this.maxTextureSize, 16384)
+      } else if (lodConfig.scale >= 2) {
+        // 对于 2x LOD，使用中等纹理尺寸限制
+        maxTextureSize = Math.min(this.maxTextureSize, 8192)
+      } else if (lodConfig.scale >= 1) {
+        // 对于 1x LOD，使用标准纹理尺寸限制
+        maxTextureSize = Math.min(this.maxTextureSize, 8192)
+      } else {
+        // 对于低分辨率 LOD，使用较小的纹理尺寸限制以节省内存
+        maxTextureSize = Math.min(this.maxTextureSize, 4096)
+      }
+
+      // 确保纹理尺寸不超过限制，但优先保持宽高比
+      let finalWidth = lodWidth
+      let finalHeight = lodHeight
+
+      if (lodWidth > maxTextureSize || lodHeight > maxTextureSize) {
+        const aspectRatio = lodWidth / lodHeight
+        if (aspectRatio > 1) {
+          // 宽图
+          finalWidth = maxTextureSize
+          finalHeight = Math.round(maxTextureSize / aspectRatio)
+        } else {
+          // 高图
+          finalHeight = maxTextureSize
+          finalWidth = Math.round(maxTextureSize * aspectRatio)
+        }
+      }
 
       // 创建离屏 canvas
       const offscreenCanvas = document.createElement('canvas')
@@ -426,12 +462,16 @@ class WebGLImageViewerEngine {
       offscreenCanvas.height = finalHeight
 
       // 根据 LOD 级别选择渲染质量
-      if (lodConfig.scale >= 1) {
-        // 高分辨率 LOD，使用高质量渲染
+      if (lodConfig.scale >= 2) {
+        // 高分辨率 LOD，使用最高质量渲染
+        offscreenCtx.imageSmoothingEnabled = true
+        offscreenCtx.imageSmoothingQuality = 'high'
+      } else if (lodConfig.scale >= 1) {
+        // 原始分辨率 LOD，使用高质量渲染
         offscreenCtx.imageSmoothingEnabled = true
         offscreenCtx.imageSmoothingQuality = 'high'
       } else {
-        // 低分辨率 LOD，使用快速渲染
+        // 低分辨率 LOD，使用中等质量渲染以提高性能
         offscreenCtx.imageSmoothingEnabled = true
         offscreenCtx.imageSmoothingQuality = 'medium'
       }
@@ -462,17 +502,13 @@ class WebGLImageViewerEngine {
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
 
-      // 根据 LOD 级别选择过滤方式
-      if (lodConfig.scale >= 2) {
-        // 高分辨率纹理，使用线性过滤获得平滑效果
+      // 根据 LOD 级别和图像特性选择过滤方式
+      if (lodConfig.scale >= 4) {
+        // 超高分辨率纹理，使用线性过滤获得最佳质量
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-      } else if (lodConfig.scale < 1) {
-        // 低分辨率纹理，使用线性过滤避免锯齿
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-      } else {
-        // 原始分辨率，根据图像类型选择
+      } else if (lodConfig.scale >= 1) {
+        // 原始及以上分辨率，根据图像类型选择
         const isPixelArt =
           this.originalImage.width < 512 || this.originalImage.height < 512
         if (isPixelArt) {
@@ -482,6 +518,10 @@ class WebGLImageViewerEngine {
           gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
           gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
         }
+      } else {
+        // 低分辨率纹理，使用线性过滤避免锯齿
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
       }
 
       // 上传纹理数据
@@ -506,7 +546,7 @@ class WebGLImageViewerEngine {
       this.lodTextures.set(lodLevel, texture)
 
       console.info(
-        `Created LOD ${lodLevel} texture: ${finalWidth}×${finalHeight} (scale: ${lodConfig.scale})`,
+        `Created LOD ${lodLevel} texture: ${finalWidth}×${finalHeight} (scale: ${lodConfig.scale}, original: ${lodWidth}×${lodHeight})`,
       )
       return texture
     } catch (error) {
@@ -529,12 +569,26 @@ class WebGLImageViewerEngine {
   }
 
   private selectOptimalLOD(): number {
-    if (!this.originalImage) return 2 // 默认使用原始分辨率
+    if (!this.originalImage) return 3 // 默认使用原始分辨率
 
     const fitToScreenScale = this.getFitToScreenScale()
     const relativeScale = this.scale / fitToScreenScale
 
-    // 根据当前的视口缩放选择最佳的 LOD 级别
+    // 对于超高分辨率图片，当显示原始尺寸或更大时，需要更高的LOD
+    if (this.scale >= 1) {
+      // 原始尺寸或更大，根据实际显示需求选择 LOD
+      if (this.scale >= 8) {
+        return 7 // 16x LOD for extreme zoom
+      } else if (this.scale >= 4) {
+        return 6 // 8x LOD for very high zoom
+      } else if (this.scale >= 2) {
+        return 5 // 4x LOD for high zoom
+      } else if (this.scale >= 1) {
+        return 4 // 2x LOD for original size and above
+      }
+    }
+
+    // 对于小于原始尺寸的情况，使用原有逻辑
     for (let i = 0; i < this.LOD_LEVELS.length; i++) {
       if (relativeScale <= this.LOD_LEVELS[i].maxViewportScale) {
         return i
@@ -567,7 +621,31 @@ class WebGLImageViewerEngine {
       this.currentLOD = optimalLOD
       this.texture = targetTexture
       console.info(`Switched to LOD ${optimalLOD}`)
+
+      // 预加载相邻的LOD级别以提供更流畅的体验
+      this.preloadAdjacentLODs(optimalLOD)
     }
+  }
+
+  private preloadAdjacentLODs(currentLOD: number) {
+    // 异步预加载相邻的LOD级别
+    setTimeout(() => {
+      // 预加载下一个更高质量的 LOD
+      if (currentLOD < this.LOD_LEVELS.length - 1) {
+        const nextLOD = currentLOD + 1
+        if (!this.lodTextures.has(nextLOD)) {
+          this.createLODTexture(nextLOD)
+        }
+      }
+
+      // 预加载下一个更低质量的LOD（用于快速缩小）
+      if (currentLOD > 0) {
+        const prevLOD = currentLOD - 1
+        if (!this.lodTextures.has(prevLOD)) {
+          this.createLODTexture(prevLOD)
+        }
+      }
+    }, 100) // 延迟 100ms 以避免阻塞主要渲染
   }
 
   private debouncedLODUpdate() {
@@ -676,14 +754,14 @@ class WebGLImageViewerEngine {
       this.translateY = this.targetTranslateY
       this.render()
       this.notifyZoomChange()
-      // 动画完成后触发LOD更新
+      // 动画完成后触发 LOD 更新
       this.debouncedLODUpdate()
     }
   }
 
   private createMatrix(): Float32Array {
     // Create transformation matrix
-    // 保持所有计算基于CSS尺寸，设备像素比的影响已经在canvas尺寸设置中处理
+    // 保持所有计算基于 CSS 尺寸，设备像素比的影响已经在 canvas 尺寸设置中处理
     const scaleX = (this.imageWidth * this.scale) / this.canvasWidth
     const scaleY = (this.imageHeight * this.scale) / this.canvasHeight
 
@@ -744,13 +822,19 @@ class WebGLImageViewerEngine {
     // 首先约束缩放倍数
     const fitToScreenScale = this.getFitToScreenScale()
     const absoluteMinScale = fitToScreenScale * this.config.minScale
-    const absoluteMaxScale = fitToScreenScale * this.config.maxScale
+
+    // 计算原图1x尺寸对应的绝对缩放值
+    const originalSizeScale = 1 // 原图1x尺寸
+
+    // 确保maxScale不会阻止用户查看原图1x尺寸
+    const userMaxScale = fitToScreenScale * this.config.maxScale
+    const effectiveMaxScale = Math.max(userMaxScale, originalSizeScale)
 
     // 如果当前缩放超出范围，调整到合理范围内
     if (this.scale < absoluteMinScale) {
       this.scale = absoluteMinScale
-    } else if (this.scale > absoluteMaxScale) {
-      this.scale = absoluteMaxScale
+    } else if (this.scale > effectiveMaxScale) {
+      this.scale = effectiveMaxScale
     }
 
     // 然后约束位置
@@ -783,7 +867,7 @@ class WebGLImageViewerEngine {
 
     const { gl } = this
 
-    // 确保视口设置正确，使用实际的canvas像素尺寸
+    // 确保视口设置正确，使用实际的 canvas 像素尺寸
     gl.viewport(0, 0, this.canvas.width, this.canvas.height)
 
     // 清除为完全透明
@@ -818,6 +902,11 @@ class WebGLImageViewerEngine {
     const fitToScreenScale = this.getFitToScreenScale()
     const relativeScale = this.scale / fitToScreenScale
 
+    // 计算有效的最大缩放值
+    const originalSizeScale = 1
+    const userMaxScale = fitToScreenScale * this.config.maxScale
+    const effectiveMaxScale = Math.max(userMaxScale, originalSizeScale)
+
     this.onDebugUpdate({
       scale: this.scale,
       relativeScale,
@@ -828,6 +917,9 @@ class WebGLImageViewerEngine {
       canvasSize: { width: this.canvasWidth, height: this.canvasHeight },
       imageSize: { width: this.imageWidth, height: this.imageHeight },
       fitToScreenScale,
+      userMaxScale,
+      effectiveMaxScale,
+      originalSizeScale,
       renderCount: performance.now(),
       maxTextureSize: this.maxTextureSize,
     })
@@ -949,13 +1041,19 @@ class WebGLImageViewerEngine {
     if (this.config.doubleClick.mode === 'toggle') {
       const fitToScreenScale = this.getFitToScreenScale()
       const absoluteMinScale = fitToScreenScale * this.config.minScale
-      const absoluteMaxScale = fitToScreenScale * this.config.maxScale
+
+      // 计算原图1x尺寸对应的绝对缩放值
+      const originalSizeScale = 1 // 原图1x尺寸
+
+      // 确保maxScale不会阻止用户查看原图1x尺寸
+      const userMaxScale = fitToScreenScale * this.config.maxScale
+      const effectiveMaxScale = Math.max(userMaxScale, originalSizeScale)
 
       if (this.isOriginalSize) {
         // Animate to fit-to-screen 1x (适应页面大小) with click position as center
         const targetScale = Math.max(
           absoluteMinScale,
-          Math.min(absoluteMaxScale, fitToScreenScale),
+          Math.min(effectiveMaxScale, fitToScreenScale),
         )
 
         // Calculate zoom point relative to current transform
@@ -975,9 +1073,10 @@ class WebGLImageViewerEngine {
         this.isOriginalSize = false
       } else {
         // Animate to original size 1x (原图原始大小) with click position as center
+        // 确保能够缩放到原图1x尺寸，即使超出用户设置的maxScale
         const targetScale = Math.max(
           absoluteMinScale,
-          Math.min(absoluteMaxScale, 1),
+          Math.min(effectiveMaxScale, originalSizeScale),
         ) // 1x = 原图原始大小
 
         // Calculate zoom point relative to current transform
@@ -1099,10 +1198,16 @@ class WebGLImageViewerEngine {
 
     // 将相对缩放比例转换为绝对缩放比例进行限制
     const absoluteMinScale = fitToScreenScale * this.config.minScale
-    const absoluteMaxScale = fitToScreenScale * this.config.maxScale
+
+    // 计算原图 1x 尺寸对应的绝对缩放值
+    const originalSizeScale = 1 // 原图 1x 尺寸
+
+    // 确保 maxScale 不会阻止用户查看原图 1x 尺寸
+    const userMaxScale = fitToScreenScale * this.config.maxScale
+    const effectiveMaxScale = Math.max(userMaxScale, originalSizeScale)
 
     // Limit zoom
-    if (newScale < absoluteMinScale || newScale > absoluteMaxScale) return
+    if (newScale < absoluteMinScale || newScale > effectiveMaxScale) return
 
     if (animated && this.config.smooth) {
       // Calculate zoom point relative to current transform
@@ -1138,13 +1243,13 @@ class WebGLImageViewerEngine {
       const response = await fetch(this.originalImageSrc)
       const blob = await response.blob()
 
-      // 检查浏览器是否支持剪贴板API
+      // 检查浏览器是否支持剪贴板 API
       if (!navigator.clipboard || !navigator.clipboard.write) {
         console.warn('Clipboard API not supported')
         return
       }
 
-      // 创建ClipboardItem并写入剪贴板
+      // 创建 ClipboardItem 并写入剪贴板
       const clipboardItem = new ClipboardItem({
         [blob.type]: blob,
       })
@@ -1192,7 +1297,7 @@ class WebGLImageViewerEngine {
       this.renderThrottleId = null
     }
 
-    // 清理LOD更新防抖相关的资源
+    // 清理 LOD 更新防抖相关的资源
     if (this.lodUpdateDebounceId !== null) {
       clearTimeout(this.lodUpdateDebounceId)
       this.lodUpdateDebounceId = null
@@ -1277,6 +1382,9 @@ export const WebGLImageViewer = ({
     canvasSize: { width: 0, height: 0 },
     imageSize: { width: 0, height: 0 },
     fitToScreenScale: 1,
+    userMaxScale: 1,
+    effectiveMaxScale: 1,
+    originalSizeScale: 1,
     renderCount: 0,
     maxTextureSize: 0,
   })
@@ -1420,6 +1528,13 @@ export const WebGLImageViewer = ({
           </div>
           <div>Max Texture Size: {debugInfo.maxTextureSize}</div>
           <div>Fit Scale: {debugInfo.fitToScreenScale.toFixed(3)}</div>
+          <div>User Max Scale: {debugInfo.userMaxScale.toFixed(3)}</div>
+          <div>
+            Effective Max Scale: {debugInfo.effectiveMaxScale.toFixed(3)}
+          </div>
+          <div>
+            Original Size Scale: {debugInfo.originalSizeScale.toFixed(3)}
+          </div>
         </div>
       )}
     </div>
