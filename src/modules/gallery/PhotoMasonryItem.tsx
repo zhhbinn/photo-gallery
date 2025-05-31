@@ -99,7 +99,7 @@ export const PhotoMasonryItem = ({
 
   return (
     <m.div
-      className="relative w-full overflow-hidden rounded-lg bg-fill-quaternary group cursor-pointer"
+      className="bg-fill-quaternary group relative w-full cursor-pointer overflow-hidden rounded-lg"
       style={{
         width,
         height: calculatedHeight,
@@ -135,7 +135,7 @@ export const PhotoMasonryItem = ({
 
       {/* 错误状态 */}
       {imageError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-fill-quaternary text-text-tertiary">
+        <div className="bg-fill-quaternary text-text-tertiary absolute inset-0 flex items-center justify-center">
           <div className="text-center">
             <i className="i-mingcute-image-line text-2xl" />
             <p className="mt-2 text-sm">Loaded error</p>
@@ -147,15 +147,15 @@ export const PhotoMasonryItem = ({
       {imageLoaded && (
         <div className="pointer-events-none">
           {/* 渐变背景 - 独立的层 */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
           {/* 内容层 - 独立的层以支持 backdrop-filter */}
           <div className="absolute inset-x-0 bottom-0 p-4 text-white ">
-            <h3 className="text-sm font-medium truncate mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <h3 className="mb-2 truncate text-sm font-medium opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               {data.title}
             </h3>
             {data.description && (
-              <p className="text-sm text-white/80 mb-3 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <p className="mb-3 line-clamp-2 text-sm text-white/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 {data.description}
               </p>
             )}
@@ -163,7 +163,7 @@ export const PhotoMasonryItem = ({
             {/* EXIF 信息网格 */}
             <div className="grid grid-cols-2 gap-2 text-xs">
               {exifData.focalLength35mm && (
-                <div className="flex items-center gap-1.5 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-md rounded-md px-2 py-1">
+                <div className="flex items-center gap-1.5 rounded-md bg-white/10 px-2 py-1 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100">
                   <StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens className="text-white/70" />
                   <span className="text-white/90">
                     {exifData.focalLength35mm}mm
@@ -172,21 +172,21 @@ export const PhotoMasonryItem = ({
               )}
 
               {exifData.aperture && (
-                <div className="flex items-center gap-1.5 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-md rounded-md px-2 py-1">
+                <div className="flex items-center gap-1.5 rounded-md bg-white/10 px-2 py-1 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100">
                   <TablerAperture className="text-white/70" />
                   <span className="text-white/90">{exifData.aperture}</span>
                 </div>
               )}
 
               {exifData.shutterSpeed && (
-                <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/10 backdrop-blur-md rounded-md px-2 py-1">
+                <div className="flex items-center gap-1.5 rounded-md bg-white/10 px-2 py-1 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100">
                   <MaterialSymbolsShutterSpeed className="text-white/70" />
                   <span className="text-white/90">{exifData.shutterSpeed}</span>
                 </div>
               )}
 
               {exifData.iso && (
-                <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/10 backdrop-blur-md rounded-md px-2 py-1">
+                <div className="flex items-center gap-1.5 rounded-md bg-white/10 px-2 py-1 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100">
                   <CarbonIsoOutline className="text-white/70" />
                   <span className="text-white/90">ISO {exifData.iso}</span>
                 </div>

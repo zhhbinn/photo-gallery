@@ -10,10 +10,19 @@ const currentIndexAtom = atom(0)
 const triggerElementAtom = atom<HTMLElement | null>(null)
 const data = photoLoader.getPhotos()
 export const usePhotos = () => {
-  const { sortOrder } = useAtomValue(gallerySettingAtom)
+  const { sortOrder, selectedTags } = useAtomValue(gallerySettingAtom)
 
   const masonryItems = useMemo(() => {
-    const sortedPhotos = data.toSorted((a, b) => {
+    // 首先根据 tags 筛选
+    let filteredPhotos = data
+    if (selectedTags.length > 0) {
+      filteredPhotos = data.filter((photo) =>
+        selectedTags.some((tag) => photo.tags.includes(tag)),
+      )
+    }
+
+    // 然后排序
+    const sortedPhotos = filteredPhotos.toSorted((a, b) => {
       let aDateStr = ''
       let bDateStr = ''
 
@@ -35,7 +44,7 @@ export const usePhotos = () => {
     })
 
     return sortedPhotos
-  }, [sortOrder])
+  }, [sortOrder, selectedTags])
   return masonryItems
 }
 export const usePhotoViewer = () => {

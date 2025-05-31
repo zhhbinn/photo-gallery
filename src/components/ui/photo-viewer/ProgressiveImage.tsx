@@ -195,8 +195,8 @@ export const ProgressiveImage = ({
           className,
         )}
       >
-        <div className="text-center text-text-secondary">
-          <i className="i-mingcute-image-line text-4xl mb-2" />
+        <div className="text-text-secondary text-center">
+          <i className="i-mingcute-image-line mb-2 text-4xl" />
           <p className="text-sm">图片加载失败</p>
         </div>
       </div>
@@ -215,7 +215,7 @@ export const ProgressiveImage = ({
           key={thumbnailSrc}
           alt={alt}
           transition={Spring.presets.smooth}
-          className="absolute inset-0 w-full h-full object-contain"
+          className="absolute inset-0 h-full w-full object-contain"
           animate={thumbnailAnimateController}
           onLoad={handleThumbnailLoad}
         />
@@ -225,7 +225,7 @@ export const ProgressiveImage = ({
         <WebGLImageViewer
           ref={transformRef}
           src={blobSrc}
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 h-full w-full"
           initialScale={1}
           minScale={minZoom}
           maxScale={maxZoom}
@@ -239,9 +239,9 @@ export const ProgressiveImage = ({
 
       {/* 备用图片（当 WebGL 不可用时） */}
       {!canUseWebGL && highResLoaded && blobSrc && (
-        <div className="absolute inset-0 flex-col gap-2 flex items-center justify-center bg-black/20 z-10 pointer-events-none">
-          <i className="i-mingcute-warning-line text-4xl mb-2" />
-          <span className="text-white text-sm text-center">
+        <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-black/20">
+          <i className="i-mingcute-warning-line mb-2 text-4xl" />
+          <span className="text-center text-sm text-white">
             WebGL 不可用，无法渲染图片
           </span>
         </div>
@@ -251,7 +251,7 @@ export const ProgressiveImage = ({
       <AnimatePresence>
         {!highResLoaded && !error && isCurrentImage && (
           <m.div
-            className="absolute bottom-4 right-4 px-3 py-2 rounded-xl bg-black/80 backdrop-blur-sm border border-white/10 z-10 pointer-events-none"
+            className="pointer-events-none absolute right-4 bottom-4 z-10 rounded-xl border border-white/10 bg-black/80 px-3 py-2 backdrop-blur-sm"
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
@@ -259,9 +259,9 @@ export const ProgressiveImage = ({
           >
             <div className="flex items-center gap-3 text-white">
               <div className="relative">
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
               </div>
-              <div className="flex flex-col gap-0.5 min-w-0">
+              <div className="flex min-w-0 flex-col gap-0.5">
                 {isConverting ? (
                   <p className="text-xs font-medium text-white">转换中...</p>
                 ) : (
@@ -290,7 +290,7 @@ export const ProgressiveImage = ({
 
       {/* 缩放提示 */}
 
-      <div className="absolute bottom-4 duration-200 opacity-0 group-hover:opacity-50 left-1/2 transform -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-1 rounded pointer-events-none z-20">
+      <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded bg-black/50 px-2 py-1 text-xs text-white opacity-0 duration-200 group-hover:opacity-50">
         双击或双指缩放
       </div>
     </div>

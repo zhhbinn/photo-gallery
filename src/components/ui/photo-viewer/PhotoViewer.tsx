@@ -235,7 +235,7 @@ export const PhotoViewer = ({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={Spring.presets.smooth}
-              className="fixed inset-0 bg-material-opaque"
+              className="bg-material-opaque fixed inset-0"
             />
             <m.div
               key={currentPhoto.blurhash}
@@ -266,17 +266,17 @@ export const PhotoViewer = ({
             style={{ touchAction: isMobile ? 'manipulation' : 'none' }}
           >
             <div
-              className={`size-full flex ${isMobile ? 'flex-col' : 'flex-row'}`}
+              className={`flex size-full ${isMobile ? 'flex-col' : 'flex-row'}`}
             >
-              <div className="flex-1 flex-col flex min-w-0 min-h-0 z-[1]">
-                <div className="flex flex-1 min-w-0 relative group min-h-0">
+              <div className="z-[1] flex min-h-0 min-w-0 flex-1 flex-col">
+                <div className="group relative flex min-h-0 min-w-0 flex-1">
                   {/* 顶部工具栏 */}
                   <m.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className={`absolute ${isMobile ? 'top-2 left-2 right-2' : 'top-4 left-4 right-4'} z-30 flex items-center justify-between`}
+                    className={`absolute ${isMobile ? 'top-2 right-2 left-2' : 'top-4 right-4 left-4'} z-30 flex items-center justify-between`}
                   >
                     {/* 左侧工具按钮 */}
                     <div className="flex items-center gap-2">
@@ -284,7 +284,7 @@ export const PhotoViewer = ({
                       {isMobile && (
                         <button
                           type="button"
-                          className={`size-8 flex items-center justify-center rounded-full text-white bg-material-ultra-thick backdrop-blur-2xl hover:bg-black/40 duration-200 ${showExifPanel ? 'bg-accent' : ''}`}
+                          className={`bg-material-ultra-thick flex size-8 items-center justify-center rounded-full text-white backdrop-blur-2xl duration-200 hover:bg-black/40 ${showExifPanel ? 'bg-accent' : ''}`}
                           onClick={() => setShowExifPanel(!showExifPanel)}
                         >
                           <i className="i-mingcute-information-line" />
@@ -297,7 +297,7 @@ export const PhotoViewer = ({
                       {/* 分享按钮 */}
                       <button
                         type="button"
-                        className="size-8 flex items-center justify-center rounded-full text-white bg-material-ultra-thick backdrop-blur-2xl hover:bg-black/40 duration-200"
+                        className="bg-material-ultra-thick flex size-8 items-center justify-center rounded-full text-white backdrop-blur-2xl duration-200 hover:bg-black/40"
                         onClick={handleShare}
                         title="分享链接"
                       >
@@ -307,7 +307,7 @@ export const PhotoViewer = ({
                       {/* 关闭按钮 */}
                       <button
                         type="button"
-                        className="size-8 flex items-center justify-center rounded-full text-white bg-material-ultra-thick backdrop-blur-2xl hover:bg-black/40 duration-200"
+                        className="bg-material-ultra-thick flex size-8 items-center justify-center rounded-full text-white backdrop-blur-2xl duration-200 hover:bg-black/40"
                         onClick={onClose}
                       >
                         <i className="i-mingcute-close-line" />
@@ -338,7 +338,7 @@ export const PhotoViewer = ({
                     onSlideChange={(swiper) => {
                       onIndexChange(swiper.activeIndex)
                     }}
-                    className="w-full h-full"
+                    className="h-full w-full"
                     style={{ touchAction: isMobile ? 'pan-x' : 'pan-y' }}
                   >
                     {photos.map((photo, index) => {
@@ -354,7 +354,7 @@ export const PhotoViewer = ({
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
                             transition={{ duration: 0.3 }}
-                            className="relative w-full h-full flex items-center justify-center"
+                            className="relative flex h-full w-full items-center justify-center"
                           >
                             <ProgressiveImage
                               isCurrentImage={isCurrentImage}
@@ -367,7 +367,7 @@ export const PhotoViewer = ({
                               height={
                                 isCurrentImage ? imageSize.height : undefined
                               }
-                              className="w-full h-full object-contain"
+                              className="h-full w-full object-contain"
                               enablePan={
                                 isCurrentImage
                                   ? !isMobile || isImageZoomed
@@ -388,7 +388,7 @@ export const PhotoViewer = ({
                   {currentIndex > 0 && (
                     <button
                       type="button"
-                      className={`swiper-button-prev-custom absolute ${isMobile ? 'left-2' : 'left-4'} top-1/2 -translate-y-1/2 z-20 flex items-center justify-center ${isMobile ? 'size-8' : 'size-10'} text-white bg-material-medium rounded-full backdrop-blur-sm hover:bg-black/40 group-hover:opacity-100 opacity-0 duration-200`}
+                      className={`swiper-button-prev-custom absolute ${isMobile ? 'left-2' : 'left-4'} top-1/2 z-20 flex -translate-y-1/2 items-center justify-center ${isMobile ? 'size-8' : 'size-10'} bg-material-medium rounded-full text-white opacity-0 backdrop-blur-sm duration-200 group-hover:opacity-100 hover:bg-black/40`}
                       onClick={handlePrevious}
                     >
                       <i
@@ -400,7 +400,7 @@ export const PhotoViewer = ({
                   {currentIndex < photos.length - 1 && (
                     <button
                       type="button"
-                      className={`swiper-button-next-custom absolute ${isMobile ? 'right-2' : 'right-4'} top-1/2 -translate-y-1/2 z-20 flex items-center justify-center ${isMobile ? 'size-8' : 'size-10'} text-white bg-material-medium rounded-full backdrop-blur-sm hover:bg-black/40 group-hover:opacity-100 opacity-0 duration-200`}
+                      className={`swiper-button-next-custom absolute ${isMobile ? 'right-2' : 'right-4'} top-1/2 z-20 flex -translate-y-1/2 items-center justify-center ${isMobile ? 'size-8' : 'size-10'} bg-material-medium rounded-full text-white opacity-0 backdrop-blur-sm duration-200 group-hover:opacity-100 hover:bg-black/40`}
                     >
                       <i
                         className={`i-mingcute-right-line ${isMobile ? 'text-lg' : 'text-xl'}`}

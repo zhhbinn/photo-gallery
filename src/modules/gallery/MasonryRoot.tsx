@@ -6,6 +6,7 @@ import { gallerySettingAtom } from '~/atoms/app'
 import { Button } from '~/components/ui/button'
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -30,7 +31,7 @@ type MasonryItemType = PhotoManifest | MasonryHeaderItem
 const FIRST_SCREEN_ITEMS_COUNT = 15
 
 export const MasonryRoot = () => {
-  const { sortOrder } = useAtomValue(gallerySettingAtom)
+  const { sortOrder, selectedTags } = useAtomValue(gallerySettingAtom)
   const hasAnimatedRef = useRef(false)
 
   const photos = usePhotos()
@@ -40,7 +41,7 @@ export const MasonryRoot = () => {
   return (
     <div>
       <Masonry<MasonryItemType>
-        key={sortOrder}
+        key={`${sortOrder}-${selectedTags.join(',')}`}
         items={useMemo(() => [MasonryHeaderItem.default, ...photos], [photos])}
         render={useCallback(
           (props) => (
@@ -164,6 +165,7 @@ export const MasonryItem = ({
 }
 
 const numberFormatter = new Intl.NumberFormat('zh-CN')
+const allTags = photoLoader.getAllTags()
 const MasonryHeaderMasonryItem = ({ width }: { width: number }) => {
   const [gallerySetting, setGallerySetting] = useAtom(gallerySettingAtom)
 
@@ -171,6 +173,24 @@ const MasonryHeaderMasonryItem = ({ width }: { width: number }) => {
     setGallerySetting({
       ...gallerySetting,
       sortOrder: order,
+    })
+  }
+
+  const toggleTag = (tag: string) => {
+    const newSelectedTags = gallerySetting.selectedTags.includes(tag)
+      ? gallerySetting.selectedTags.filter((t) => t !== tag)
+      : [...gallerySetting.selectedTags, tag]
+
+    setGallerySetting({
+      ...gallerySetting,
+      selectedTags: newSelectedTags,
+    })
+  }
+
+  const clearAllTags = () => {
+    setGallerySetting({
+      ...gallerySetting,
+      selectedTags: [],
     })
   }
 
@@ -217,6 +237,61 @@ const MasonryHeaderMasonryItem = ({ width }: { width: number }) => {
                 <i className="i-mingcute-github-line size-4" />
               </Button>
 
+              {/* 标签筛选按钮 */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="bg-fill hover:bg-fill-hover relative rounded-full p-2 transition-colors"
+                    title="标签筛选"
+                  >
+                    <i className="i-mingcute-tag-line size-4" />
+                    {gallerySetting.selectedTags.length > 0 && (
+                      <span className="bg-accent absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-xs text-white">
+                        {gallerySetting.selectedTags.length}
+                      </span>
+                    )}
+                  </Button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent
+                  align="end"
+                  className="max-h-80 w-56 overflow-y-auto"
+                >
+                  <DropdownMenuLabel className="flex items-center justify-between">
+                    <span>标签筛选</span>
+                    {gallerySetting.selectedTags.length > 0 && (
+                      <Button
+                        variant="ghost"
+                        size="xs"
+                        onClick={clearAllTags}
+                        className="h-6 px-2 text-xs"
+                      >
+                        清除全部
+                      </Button>
+                    )}
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+
+                  {allTags.length === 0 ? (
+                    <div className="text-text-secondary px-2 py-3 text-center text-sm">
+                      暂无标签
+                    </div>
+                  ) : (
+                    allTags.map((tag) => (
+                      <DropdownMenuCheckboxItem
+                        key={tag}
+                        checked={gallerySetting.selectedTags.includes(tag)}
+                        onCheckedChange={() => toggleTag(tag)}
+                      >
+                        {tag}
+                      </DropdownMenuCheckboxItem>
+                    ))
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* 排序按钮 */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button

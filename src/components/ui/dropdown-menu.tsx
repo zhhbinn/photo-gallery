@@ -114,6 +114,38 @@ const DropdownMenuItem = ({
 )
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName
 
+const DropdownMenuCheckboxItem = ({
+  ref,
+  className,
+  children,
+  checked,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem> & {
+  ref?: React.Ref<React.ElementRef<
+    typeof DropdownMenuPrimitive.CheckboxItem
+  > | null>
+}) => (
+  <DropdownMenuPrimitive.CheckboxItem
+    ref={ref}
+    className={clsxm(
+      'cursor-menu relative flex select-none items-center rounded-[5px] py-1.5 pl-2 pr-2 text-sm outline-none transition-colors',
+      'focus:bg-accent/10 focus:text-accent data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      className,
+    )}
+    checked={checked}
+    {...props}
+  >
+    {children}
+    <span className="ml-auto flex size-3.5 items-center justify-center">
+      <DropdownMenuPrimitive.ItemIndicator className="ml-1 flex items-center justify-center">
+        <i className="i-mingcute-check-line size-4" />
+      </DropdownMenuPrimitive.ItemIndicator>
+    </span>
+  </DropdownMenuPrimitive.CheckboxItem>
+)
+DropdownMenuCheckboxItem.displayName =
+  DropdownMenuPrimitive.CheckboxItem.displayName
+
 const DropdownMenuLabel = ({
   ref,
   className,
@@ -154,6 +186,7 @@ DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
 
 export {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,

@@ -5,4 +5,5 @@ export type GallerySortOrder = 'asc' | 'desc'
 export const gallerySettingAtom = atom({
   sortBy: 'date' as GallerySortBy,
   sortOrder: 'desc' as GallerySortOrder,
+  selectedTags: [] as string[],
 })

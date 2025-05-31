@@ -27,9 +27,9 @@ export const ExifPanel: FC<{
     <m.div
       className={`${
         isMobile
-          ? 'fixed bottom-0 left-0 right-0 max-h-[60vh] w-full rounded-t-2xl exif-panel-mobile'
+          ? 'exif-panel-mobile fixed right-0 bottom-0 left-0 max-h-[60vh] w-full rounded-t-2xl'
           : 'w-80 shrink-0'
-      } bg-material-medium text-white z-10 backdrop-blur-3xl flex flex-col`}
+      } bg-material-medium z-10 flex flex-col text-white backdrop-blur-3xl`}
       initial={{
         opacity: 0,
         ...(isMobile ? { y: 100 } : { x: 100 }),
@@ -44,14 +44,14 @@ export const ExifPanel: FC<{
       }}
       transition={{ duration: 0.3 }}
     >
-      <div className="flex items-center justify-between mb-4 p-4 pb-0 shrink-0">
+      <div className="mb-4 flex shrink-0 items-center justify-between p-4 pb-0">
         <h3 className={`${isMobile ? 'text-base' : 'text-lg'} font-semibold`}>
           图片信息
         </h3>
         {isMobile && onClose && (
           <button
             type="button"
-            className="size-6 flex items-center justify-center rounded-full text-white/70 hover:text-white hover:bg-white/10 duration-200"
+            className="flex size-6 items-center justify-center rounded-full text-white/70 duration-200 hover:bg-white/10 hover:text-white"
             onClick={onClose}
           >
             <i className="i-mingcute-close-line text-sm" />
@@ -65,7 +65,7 @@ export const ExifPanel: FC<{
       >
         <div className={`space-y-${isMobile ? '3' : '4'}`}>
           <div>
-            <h4 className="text-sm font-medium text-white/80 mb-2">基本信息</h4>
+            <h4 className="mb-2 text-sm font-medium text-white/80">基本信息</h4>
             <div className="space-y-1 text-sm">
               <Row label="文件名" value={currentPhoto.title} />
               <Row
@@ -98,7 +98,7 @@ export const ExifPanel: FC<{
             <Fragment>
               {(formattedExifData.camera || formattedExifData.lens) && (
                 <div>
-                  <h4 className="text-sm font-medium text-white/80 my-2">
+                  <h4 className="my-2 text-sm font-medium text-white/80">
                     设备信息
                   </h4>
                   <div className="space-y-1 text-sm">
@@ -138,13 +138,13 @@ export const ExifPanel: FC<{
               )}
 
               <div>
-                <h4 className="text-sm font-medium text-white/80 my-2">
+                <h4 className="my-2 text-sm font-medium text-white/80">
                   拍摄参数
                 </h4>
                 <div className={`grid grid-cols-2 gap-3`}>
                   {formattedExifData.focalLength35mm && (
-                    <div className="flex items-center gap-2 bg-white/10 rounded-md px-2 py-1">
-                      <StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens className="text-white/70 text-sm" />
+                    <div className="flex items-center gap-2 rounded-md bg-white/10 px-2 py-1">
+                      <StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens className="text-sm text-white/70" />
                       <span className="text-xs">
                         {formattedExifData.focalLength35mm}mm
                       </span>
@@ -152,8 +152,8 @@ export const ExifPanel: FC<{
                   )}
 
                   {formattedExifData.aperture && (
-                    <div className="flex items-center gap-2 bg-white/10 rounded-md px-2 py-1">
-                      <TablerAperture className="text-white/70 text-sm" />
+                    <div className="flex items-center gap-2 rounded-md bg-white/10 px-2 py-1">
+                      <TablerAperture className="text-sm text-white/70" />
                       <span className="text-xs">
                         {formattedExifData.aperture}
                       </span>
@@ -161,8 +161,8 @@ export const ExifPanel: FC<{
                   )}
 
                   {formattedExifData.shutterSpeed && (
-                    <div className="flex items-center gap-2 bg-white/10 rounded-md px-2 py-1">
-                      <MaterialSymbolsShutterSpeed className="text-white/70 text-sm" />
+                    <div className="flex items-center gap-2 rounded-md bg-white/10 px-2 py-1">
+                      <MaterialSymbolsShutterSpeed className="text-sm text-white/70" />
                       <span className="text-xs">
                         {formattedExifData.shutterSpeed}
                       </span>
@@ -170,8 +170,8 @@ export const ExifPanel: FC<{
                   )}
 
                   {formattedExifData.iso && (
-                    <div className="flex items-center gap-2 bg-white/10 rounded-md px-2 py-1">
-                      <CarbonIsoOutline className="text-white/70 text-sm" />
+                    <div className="flex items-center gap-2 rounded-md bg-white/10 px-2 py-1">
+                      <CarbonIsoOutline className="text-sm text-white/70" />
                       <span className="text-xs">
                         ISO {formattedExifData.iso}
                       </span>
@@ -179,8 +179,8 @@ export const ExifPanel: FC<{
                   )}
 
                   {formattedExifData.exposureBias && (
-                    <div className="flex items-center gap-2 bg-white/10 rounded-md px-2 py-1">
-                      <MaterialSymbolsExposure className="text-white/70 text-sm" />
+                    <div className="flex items-center gap-2 rounded-md bg-white/10 px-2 py-1">
+                      <MaterialSymbolsExposure className="text-sm text-white/70" />
                       <span className="text-xs">
                         {formattedExifData.exposureBias}
                       </span>
@@ -196,7 +196,7 @@ export const ExifPanel: FC<{
                 formattedExifData.lightSource ||
                 formattedExifData.flash) && (
                 <div>
-                  <h4 className="text-sm font-medium text-white/80 my-2">
+                  <h4 className="my-2 text-sm font-medium text-white/80">
                     拍摄模式
                   </h4>
                   <div className="space-y-1 text-sm">
@@ -284,7 +284,7 @@ export const ExifPanel: FC<{
 
               {formattedExifData.fujiRecipe && (
                 <div>
-                  <h4 className="text-sm font-medium text-white/80 my-2">
+                  <h4 className="my-2 text-sm font-medium text-white/80">
                     富士胶片模拟
                   </h4>
                   <div className="space-y-1 text-sm">
@@ -395,7 +395,7 @@ export const ExifPanel: FC<{
               )}
               {formattedExifData.gps && (
                 <div>
-                  <h4 className="text-sm font-medium text-white/80 my-2">
+                  <h4 className="my-2 text-sm font-medium text-white/80">
                     位置信息
                   </h4>
                   <div className="space-y-1 text-sm">
@@ -412,7 +412,7 @@ export const ExifPanel: FC<{
                         href={`https://uri.amap.com/marker?position=${formattedExifData.gps.longitude},${formattedExifData.gps.latitude}&name=拍摄位置`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-blue hover:text-blue-300 transition-colors text-xs underline"
+                        className="text-blue inline-flex items-center gap-1 text-xs underline transition-colors hover:text-blue-300"
                       >
                         在高德地图中查看
                         <i className="i-mingcute-external-link-line" />
@@ -431,7 +431,7 @@ export const ExifPanel: FC<{
                 formattedExifData.focalPlaneXResolution ||
                 formattedExifData.focalPlaneYResolution) && (
                 <div>
-                  <h4 className="text-sm font-medium text-white/80 my-2">
+                  <h4 className="my-2 text-sm font-medium text-white/80">
                     技术参数
                   </h4>
                   <div className="space-y-1 text-sm">

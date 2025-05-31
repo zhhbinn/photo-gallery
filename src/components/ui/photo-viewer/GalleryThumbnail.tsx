@@ -66,7 +66,7 @@ export const GalleryThumbnail: FC<{
 
   return (
     <m.div
-      className="z-10 shrink-0 backdrop-blur-3xl bg-material-medium pb-safe"
+      className="bg-material-medium pb-safe z-10 shrink-0 backdrop-blur-3xl"
       initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 100 }}
@@ -95,7 +95,7 @@ export const GalleryThumbnail: FC<{
               <img
                 src={photo.thumbnailUrl}
                 alt={photo.title}
-                className="w-full h-full object-cover"
+                className="h-full w-full object-cover"
               />
             </button>
           ))}
