@@ -497,9 +497,9 @@ export const ProgressiveImage = ({
           onMouseLeave={handleBadgeMouseLeave}
         >
           {isConvertingVideo ? (
-            <div className="px-1">
+            <div className="flex items-center gap-1 px-1">
               <i className="i-mingcute-loading-line animate-spin" />
-              <span>转换中</span>
+              <span>实况视频转换中</span>
             </div>
           ) : (
             <>
