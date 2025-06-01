@@ -9,9 +9,7 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu'
 import { photoLoader } from '~/data/photos'
@@ -41,36 +39,34 @@ export const MasonryRoot = () => {
   const photoViewer = usePhotoViewer()
 
   return (
-    <div>
-      <Masonry<MasonryItemType>
-        key={`${sortOrder}-${selectedTags.join(',')}`}
-        items={useMemo(() => [MasonryHeaderItem.default, ...photos], [photos])}
-        render={useCallback(
-          (props) => (
-            <MasonryItem
-              {...props}
-              onPhotoClick={photoViewer.openViewer}
-              photos={photos}
-              hasAnimated={hasAnimatedRef.current}
-              onAnimationComplete={() => {
-                hasAnimatedRef.current = true
-              }}
-            />
-          ),
-          [photoViewer.openViewer, photos],
-        )}
-        columnWidth={300}
-        columnGutter={16}
-        rowGutter={16}
-        itemHeightEstimate={400}
-        itemKey={useTypeScriptHappyCallback((data, _index) => {
-          if (data instanceof MasonryHeaderItem) {
-            return 'header'
-          }
-          return (data as PhotoManifest).id
-        }, [])}
-      />
-    </div>
+    <Masonry<MasonryItemType>
+      key={`${sortOrder}-${selectedTags.join(',')}`}
+      items={useMemo(() => [MasonryHeaderItem.default, ...photos], [photos])}
+      render={useCallback(
+        (props) => (
+          <MasonryItem
+            {...props}
+            onPhotoClick={photoViewer.openViewer}
+            photos={photos}
+            hasAnimated={hasAnimatedRef.current}
+            onAnimationComplete={() => {
+              hasAnimatedRef.current = true
+            }}
+          />
+        ),
+        [photoViewer.openViewer, photos],
+      )}
+      columnWidth={300}
+      columnGutter={4}
+      rowGutter={4}
+      itemHeightEstimate={400}
+      itemKey={useTypeScriptHappyCallback((data, _index) => {
+        if (data instanceof MasonryHeaderItem) {
+          return 'header'
+        }
+        return (data as PhotoManifest).id
+      }, [])}
+    />
   )
 }
 
@@ -148,11 +144,6 @@ export const MasonryItem = ({
         variants={shouldAnimate ? itemVariants : undefined}
         initial={shouldAnimate ? 'hidden' : 'visible'}
         animate="visible"
-        layout
-        whileHover={{
-          scale: 1.02,
-          transition: { duration: 0.2 },
-        }}
       >
         <PhotoMasonryItem
           data={data as PhotoManifest}
@@ -198,171 +189,146 @@ const MasonryHeaderMasonryItem = ({ width }: { width: number }) => {
 
   return (
     <div
-      className="border-border bg-material-medium w-full overflow-hidden rounded-2xl border shadow-2xl backdrop-blur-xl"
+      className="overflow-hidden border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
       style={{ width }}
     >
-      <div className="relative">
-        {/* Decorative gradient bar */}
-        <div className="to-accent absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-500" />
+      {/* Header section with clean typography */}
+      <div className="px-6 pt-8 pb-6 text-center">
+        <div className="from-accent to-accent/80 mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br shadow-lg">
+          <i className="i-mingcute-camera-2-line text-2xl text-white" />
+        </div>
 
-        {/* Decorative corner elements */}
-        <div className="absolute -top-1 -left-1 block size-3 border-t-2 border-l-2 border-blue-500" />
-        <div className="absolute -top-1 -right-1 block size-3 border-t-2 border-r-2 border-blue-500" />
+        <h2 className="mb-1 text-2xl font-semibold text-gray-900 dark:text-white">
+          {siteConfig.name}
+        </h2>
 
-        <div className="relative p-6">
-          {/* Main header section */}
-          <div className="mb-4 flex items-center justify-between">
-            <div className="flex shrink-0 items-center gap-4">
-              <div className="to-accent flex size-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 shadow-lg">
-                <i className="i-mingcute-camera-2-line size-6 text-white" />
-              </div>
-              <div>
-                <p className="text-text-secondary mt-1 text-sm">
-                  {numberFormatter.format(data?.length || 0)} 张照片
-                </p>
-                <p className="text-text-secondary text-sm">{siteConfig.name}</p>
-              </div>
-            </div>
+        <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+          {numberFormatter.format(data?.length || 0)} 张照片
+        </p>
+      </div>
 
-            <div className="flex items-center gap-2">
-              {siteConfig.extra.accessRepo && (
-                <Button
-                  variant="ghost"
-                  className="bg-fill hover:bg-fill-hover rounded-full p-2 transition-colors"
-                  onClick={() =>
-                    window.open(
-                      'https://github.com/Innei/photo-gallery',
-                      '_blank',
-                    )
-                  }
-                  title="查看 GitHub 仓库"
-                >
-                  <i className="i-mingcute-github-line size-4" />
-                </Button>
+      {/* Controls section */}
+      <div className="px-6 pb-6">
+        <div className="flex items-center justify-center gap-3">
+          {siteConfig.extra.accessRepo && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-10 w-10 rounded-full border-0 bg-gray-100 transition-all duration-200 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+              onClick={() =>
+                window.open('https://github.com/Innei/photo-gallery', '_blank')
+              }
+              title="查看 GitHub 仓库"
+            >
+              <i className="i-mingcute-github-line text-base text-gray-600 dark:text-gray-300" />
+            </Button>
+          )}
+
+          {/* 标签筛选按钮 */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="relative h-10 w-10 rounded-full border-0 bg-gray-100 transition-all duration-200 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+                title="标签筛选"
+              >
+                <i className="i-mingcute-tag-line text-base text-gray-600 dark:text-gray-300" />
+                {gallerySetting.selectedTags.length > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-xs font-medium text-white shadow-sm">
+                    {gallerySetting.selectedTags.length}
+                  </span>
+                )}
+              </Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align="center" className="w-64">
+              <DropdownMenuLabel className="relative">
+                <span>标签筛选</span>
+                {gallerySetting.selectedTags.length > 0 && (
+                  <Button
+                    variant="ghost"
+                    size="xs"
+                    onClick={clearAllTags}
+                    className="absolute top-0 right-0 h-6 rounded-md px-2 text-xs"
+                  >
+                    清除
+                  </Button>
+                )}
+              </DropdownMenuLabel>
+
+              {allTags.length === 0 ? (
+                <div className="px-3 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                  暂无标签
+                </div>
+              ) : (
+                <div className="max-h-64 overflow-y-auto">
+                  {allTags.map((tag) => (
+                    <DropdownMenuCheckboxItem
+                      key={tag}
+                      checked={gallerySetting.selectedTags.includes(tag)}
+                      onCheckedChange={() => toggleTag(tag)}
+                    >
+                      {tag}
+                    </DropdownMenuCheckboxItem>
+                  ))}
+                </div>
               )}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
-              {/* 标签筛选按钮 */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="bg-fill hover:bg-fill-hover relative rounded-full p-2 transition-colors"
-                    title="标签筛选"
-                  >
-                    <i className="i-mingcute-tag-line size-4" />
-                    {gallerySetting.selectedTags.length > 0 && (
-                      <span className="bg-accent absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-xs text-white">
-                        {gallerySetting.selectedTags.length}
-                      </span>
-                    )}
-                  </Button>
-                </DropdownMenuTrigger>
+          {/* 排序按钮 */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-10 w-10 rounded-full border-0 bg-gray-100 transition-all duration-200 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+                title="排序方式"
+              >
+                {gallerySetting.sortOrder === 'desc' ? (
+                  <i className="i-mingcute-sort-descending-line text-base text-gray-600 dark:text-gray-300" />
+                ) : (
+                  <i className="i-mingcute-sort-ascending-line text-base text-gray-600 dark:text-gray-300" />
+                )}
+              </Button>
+            </DropdownMenuTrigger>
 
-                <DropdownMenuContent
-                  align="end"
-                  className="max-h-80 w-56 overflow-y-auto"
-                >
-                  <DropdownMenuLabel className="flex items-center justify-between">
-                    <span>标签筛选</span>
-                    {gallerySetting.selectedTags.length > 0 && (
-                      <Button
-                        variant="ghost"
-                        size="xs"
-                        onClick={clearAllTags}
-                        className="h-6 px-2 text-xs"
-                      >
-                        清除全部
-                      </Button>
-                    )}
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
+            <DropdownMenuContent align="center" className="w-48">
+              <DropdownMenuLabel>排序方式</DropdownMenuLabel>
 
-                  {allTags.length === 0 ? (
-                    <div className="text-text-secondary px-2 py-3 text-center text-sm">
-                      暂无标签
-                    </div>
-                  ) : (
-                    allTags.map((tag) => (
-                      <DropdownMenuCheckboxItem
-                        key={tag}
-                        checked={gallerySetting.selectedTags.includes(tag)}
-                        onCheckedChange={() => toggleTag(tag)}
-                      >
-                        {tag}
-                      </DropdownMenuCheckboxItem>
-                    ))
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <DropdownMenuCheckboxItem
+                onClick={() => setSortOrder('desc')}
+                icon={<i className="i-mingcute-sort-descending-line" />}
+                checked={gallerySetting.sortOrder === 'desc'}
+              >
+                <span>最新优先</span>
+              </DropdownMenuCheckboxItem>
 
-              {/* 排序按钮 */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="bg-fill hover:bg-fill-hover rounded-full p-2 transition-colors"
-                  >
-                    {gallerySetting.sortOrder === 'desc' ? (
-                      <i className="i-mingcute-sort-descending-line size-4" />
-                    ) : (
-                      <i className="i-mingcute-sort-ascending-line size-4" />
-                    )}
-                  </Button>
-                </DropdownMenuTrigger>
+              <DropdownMenuCheckboxItem
+                onClick={() => setSortOrder('asc')}
+                icon={<i className="i-mingcute-sort-ascending-line" />}
+                checked={gallerySetting.sortOrder === 'asc'}
+              >
+                <span>最早优先</span>
+              </DropdownMenuCheckboxItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
 
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuLabel>根据拍摄日期排序</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() => setSortOrder('desc')}
-                    className={
-                      gallerySetting.sortOrder === 'desc' ? 'bg-accent/10' : ''
-                    }
-                  >
-                    <i className="i-mingcute-sort-descending-line mr-2 size-4" />
-                    <span>最新优先</span>
-                    {gallerySetting.sortOrder === 'desc' && (
-                      <i className="i-mingcute-check-line text-accent ml-auto size-4" />
-                    )}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => setSortOrder('asc')}
-                    className={
-                      gallerySetting.sortOrder === 'asc' ? 'bg-accent/10' : ''
-                    }
-                  >
-                    <i className="i-mingcute-sort-ascending-line mr-2 size-4" />
-                    <span>最早优先</span>
-                    {gallerySetting.sortOrder === 'asc' && (
-                      <i className="i-mingcute-check-line text-accent ml-auto size-4" />
-                    )}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
-
-          {/* Separator line */}
-          <div className="dark:via-material-medium mb-4 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
-
-          {/* Bottom info section */}
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center gap-2">
-              <i className="i-mingcute-calendar-line text-text-secondary size-4" />
-              <span className="text-text-secondary">构建于</span>
-            </div>
-
-            <div className="text-text-secondary flex items-center gap-2">
-              <i className="i-tabler-calendar size-4" />
-              <span>
-                {new Date(BUILT_DATE).toLocaleDateString(undefined, {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </span>
-            </div>
-          </div>
+      {/* Footer with build date */}
+      <div className="border-t border-gray-100 bg-gray-50 px-6 py-4 dark:border-gray-800 dark:bg-gray-800/50">
+        <div className="flex items-center justify-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+          <i className="i-mingcute-calendar-line text-sm" />
+          <span>
+            构建于{' '}
+            {new Date(BUILT_DATE).toLocaleDateString('zh-CN', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </span>
         </div>
       </div>
     </div>
