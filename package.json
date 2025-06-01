@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "vite build",
-    "build:manifest": "tsx scripts/build-manifest.ts",
+    "build:manifest": "tsx src/core/cli.ts",
     "build:og": "tsx scripts/generate-og-image.ts",
     "cleanup:og": "tsx scripts/cleanup-og-images.ts",
     "dev": "vite --host",
