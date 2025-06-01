@@ -13,6 +13,7 @@ import {
   StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens,
   TablerAperture,
 } from '~/icons'
+import { getImageFormat } from '~/lib/image-utils'
 import type { PhotoManifest } from '~/types/photo'
 
 import { MotionButtonBase } from '../button'
@@ -24,6 +25,11 @@ export const ExifPanel: FC<{
   onClose?: () => void
 }> = ({ currentPhoto, exifData, isMobile = false, onClose }) => {
   const formattedExifData = formatExifData(exifData)
+
+  // 使用通用的图片格式提取函数
+  const imageFormat = getImageFormat(
+    currentPhoto.originalUrl || currentPhoto.s3Key || '',
+  )
 
   return (
     <m.div
@@ -66,10 +72,12 @@ export const ExifPanel: FC<{
         viewportClassName="px-4 pb-4"
       >
         <div className={`space-y-${isMobile ? '3' : '4'}`}>
+          {/* 基本信息和标签 - 合并到一个 section */}
           <div>
             <h4 className="mb-2 text-sm font-medium text-white/80">基本信息</h4>
             <div className="space-y-1 text-sm">
               <Row label="文件名" value={currentPhoto.title} />
+              <Row label="格式" value={imageFormat} />
               <Row
                 label="尺寸"
                 value={`${currentPhoto.width} × ${currentPhoto.height}`}
@@ -94,32 +102,32 @@ export const ExifPanel: FC<{
                 <Row label="拍摄时间" value={formattedExifData.dateTime} />
               )}
             </div>
-          </div>
 
-          {/* 标签信息 */}
-          {currentPhoto.tags && currentPhoto.tags.length > 0 && (
-            <div>
-              <h4 className="my-2 text-sm font-medium text-white/80">标签</h4>
-              <div className="flex flex-wrap gap-1.5">
-                {currentPhoto.tags.map((tag) => (
-                  <MotionButtonBase
-                    type="button"
-                    onClick={() => {
-                      window.open(
-                        `/?tags=${tag}`,
-                        '_blank',
-                        'noopener,noreferrer',
-                      )
-                    }}
-                    key={tag}
-                    className="bg-material-medium hover:bg-material-thin inline-flex cursor-pointer items-center rounded-full px-2 py-1 text-xs text-white/90 backdrop-blur-sm"
-                  >
-                    {tag}
-                  </MotionButtonBase>
-                ))}
+            {/* 标签信息 - 移到基本信息 section 内 */}
+            {currentPhoto.tags && currentPhoto.tags.length > 0 && (
+              <div className="mt-3">
+                <div className="mb-2 text-sm text-white/80">标签</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {currentPhoto.tags.map((tag) => (
+                    <MotionButtonBase
+                      type="button"
+                      onClick={() => {
+                        window.open(
+                          `/?tags=${tag}`,
+                          '_blank',
+                          'noopener,noreferrer',
+                        )
+                      }}
+                      key={tag}
+                      className="bg-material-medium hover:bg-material-thin inline-flex cursor-pointer items-center rounded-full px-2 py-1 text-xs text-white/90 backdrop-blur-sm"
+                    >
+                      {tag}
+                    </MotionButtonBase>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
           {formattedExifData && (
             <Fragment>
@@ -780,7 +788,7 @@ const formatExifData = (exif: Exif | null) => {
       ? colorSpaceMap[photo.ColorSpace] || `未知 (${photo.ColorSpace})`
       : null
 
-  // GPS信息
+  // GPS 信息
   let gpsInfo: {
     latitude: string | undefined
     longitude: string | undefined

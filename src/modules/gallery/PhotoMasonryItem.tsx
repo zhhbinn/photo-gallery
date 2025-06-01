@@ -9,6 +9,7 @@ import {
   StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens,
   TablerAperture,
 } from '~/icons'
+import { getImageFormat } from '~/lib/image-utils'
 import type { PhotoManifest } from '~/types/photo'
 
 import styles from './photo.module.css'
@@ -97,6 +98,9 @@ export const PhotoMasonryItem = ({
 
   const exifData = formatExifData()
 
+  // 使用通用的图片格式提取函数
+  const imageFormat = getImageFormat(data.originalUrl || data.s3Key || '')
+
   return (
     <m.div
       className="bg-fill-quaternary group relative w-full cursor-pointer overflow-hidden rounded-lg"
@@ -151,14 +155,42 @@ export const PhotoMasonryItem = ({
 
           {/* 内容层 - 独立的层以支持 backdrop-filter */}
           <div className="absolute inset-x-0 bottom-0 p-4 text-white ">
-            <h3 className="mb-2 truncate text-sm font-medium opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              {data.title}
-            </h3>
-            {data.description && (
-              <p className="mb-3 line-clamp-2 text-sm text-white/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                {data.description}
-              </p>
-            )}
+            {/* 基本信息和标签 section */}
+            <div className="mb-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <h3 className="mb-2 truncate text-sm font-medium">
+                {data.title}
+              </h3>
+              {data.description && (
+                <p className="mb-2 line-clamp-2 text-sm text-white/80">
+                  {data.description}
+                </p>
+              )}
+
+              {/* 基本信息 */}
+              <div className="mb-2 flex flex-wrap gap-2 text-xs text-white/80">
+                <span>{imageFormat}</span>
+                <span>•</span>
+                <span>
+                  {data.width} × {data.height}
+                </span>
+                <span>•</span>
+                <span>{(data.size / 1024 / 1024).toFixed(1)}MB</span>
+              </div>
+
+              {/* Tags */}
+              {data.tags && data.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {data.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full bg-white/20 px-2 py-0.5 text-xs text-white/90 backdrop-blur-sm"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {/* EXIF 信息网格 */}
             <div className="grid grid-cols-2 gap-2 text-xs">

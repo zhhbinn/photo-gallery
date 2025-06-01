@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useImperativeHandle,
   useMemo,
@@ -139,7 +140,7 @@ class WebGLImageViewerEngine {
   private config: Required<WebGLImageViewerProps>
   private onZoomChange?: (originalScale: number, relativeScale: number) => void
   private onImageCopied?: () => void
-  private onDebugUpdate?: (debugInfo: any) => void
+  private onDebugUpdate?: React.RefObject<(debugInfo: any) => void>
 
   // Bound event handlers for proper cleanup
   private boundHandleMouseDown: (e: MouseEvent) => void
@@ -182,14 +183,12 @@ class WebGLImageViewerEngine {
   constructor(
     canvas: HTMLCanvasElement,
     config: Required<WebGLImageViewerProps>,
-    onZoomChange?: (originalScale: number, relativeScale: number) => void,
-    onImageCopied?: () => void,
-    onDebugUpdate?: (debugInfo: any) => void,
+    onDebugUpdate?: React.RefObject<(debugInfo: any) => void>,
   ) {
     this.canvas = canvas
     this.config = config
-    this.onZoomChange = onZoomChange
-    this.onImageCopied = onImageCopied
+    this.onZoomChange = config.onZoomChange
+    this.onImageCopied = config.onImageCopied
     this.onDebugUpdate = onDebugUpdate
 
     const gl = canvas.getContext('webgl', {
@@ -677,9 +676,9 @@ class WebGLImageViewerEngine {
     this.isOriginalSize = false
   }
 
-  // Easing function for smooth animation
-  private easeInOutCubic(t: number): number {
-    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+  // Easing function for smooth animation - more realistic physics-based easing
+  private easeOutQuart(t: number): number {
+    return 1 - Math.pow(1 - t, 4)
   }
 
   private startAnimation(
@@ -693,7 +692,7 @@ class WebGLImageViewerEngine {
     this.animationDuration =
       animationTime ||
       (this.config.smooth
-        ? this.config.velocityAnimation.animationTime * 1000
+        ? 300 // Updated to 300ms for more realistic timing
         : 0)
     this.startScale = this.scale
     this.targetScale = targetScale
@@ -728,7 +727,7 @@ class WebGLImageViewerEngine {
     const elapsed = now - this.animationStartTime
     const progress = Math.min(elapsed / this.animationDuration, 1)
     const easedProgress = this.config.smooth
-      ? this.easeInOutCubic(progress)
+      ? this.easeOutQuart(progress)
       : progress
 
     // Interpolate scale and translation
@@ -907,7 +906,7 @@ class WebGLImageViewerEngine {
     const userMaxScale = fitToScreenScale * this.config.maxScale
     const effectiveMaxScale = Math.max(userMaxScale, originalSizeScale)
 
-    this.onDebugUpdate({
+    this.onDebugUpdate.current({
       scale: this.scale,
       relativeScale,
       translateX: this.translateX,
@@ -1372,22 +1371,8 @@ export const WebGLImageViewer = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const viewerRef = useRef<WebGLImageViewerEngine | null>(null)
-  const [debugInfo, setDebugInfo] = useState({
-    scale: 1,
-    relativeScale: 1,
-    translateX: 0,
-    translateY: 0,
-    currentLOD: 0,
-    lodLevels: 0,
-    canvasSize: { width: 0, height: 0 },
-    imageSize: { width: 0, height: 0 },
-    fitToScreenScale: 1,
-    userMaxScale: 1,
-    effectiveMaxScale: 1,
-    originalSizeScale: 1,
-    renderCount: 0,
-    maxTextureSize: 0,
-  })
+
+  const setDebugInfo = useRef((() => {}) as (debugInfo: any) => void)
 
   const config: Required<WebGLImageViewerProps> = useMemo(
     () => ({
@@ -1451,8 +1436,7 @@ export const WebGLImageViewer = ({
       webGLImageViewerEngine = new WebGLImageViewerEngine(
         canvasRef.current,
         config,
-        onZoomChange,
-        onImageCopied,
+
         debug ? setDebugInfo : undefined,
       )
       webGLImageViewerEngine.loadImage(src).catch(console.error)
@@ -1464,7 +1448,7 @@ export const WebGLImageViewer = ({
     return () => {
       webGLImageViewerEngine?.destroy()
     }
-  }, [src, config, onZoomChange, onImageCopied])
+  }, [src, config, debug])
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -1485,57 +1469,13 @@ export const WebGLImageViewer = ({
         }}
       />
       {debug && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '10px',
-            left: '10px',
-            background: 'rgba(0, 0, 0, 0.8)',
-            color: 'white',
-            padding: '10px',
-            borderRadius: '4px',
-            fontSize: '12px',
-            fontFamily: 'monospace',
-            lineHeight: '1.4',
-            pointerEvents: 'none',
-            zIndex: 1000,
-            minWidth: '200px',
+        <DebugInfo
+          ref={(e) => {
+            if (e) {
+              setDebugInfo.current = e.updateDebugInfo
+            }
           }}
-        >
-          <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-            WebGL Debug Info
-          </div>
-          <div>Scale: {debugInfo.scale.toFixed(3)}</div>
-          <div>Relative Scale: {debugInfo.relativeScale.toFixed(3)}</div>
-          <div>
-            Translate: ({debugInfo.translateX.toFixed(1)},{' '}
-            {debugInfo.translateY.toFixed(1)})
-          </div>
-          <div>
-            Canvas CSS: {debugInfo.canvasSize.width}×
-            {debugInfo.canvasSize.height}
-          </div>
-          <div>
-            Canvas Actual: {canvasRef.current?.width || 0}×
-            {canvasRef.current?.height || 0}
-          </div>
-          <div>Device Pixel Ratio: {window.devicePixelRatio || 1}</div>
-          <div>
-            Image: {debugInfo.imageSize.width}×{debugInfo.imageSize.height}
-          </div>
-          <div>
-            Current LOD: {debugInfo.currentLOD} / {debugInfo.lodLevels - 1}
-          </div>
-          <div>Max Texture Size: {debugInfo.maxTextureSize}</div>
-          <div>Fit Scale: {debugInfo.fitToScreenScale.toFixed(3)}</div>
-          <div>User Max Scale: {debugInfo.userMaxScale.toFixed(3)}</div>
-          <div>
-            Effective Max Scale: {debugInfo.effectiveMaxScale.toFixed(3)}
-          </div>
-          <div>
-            Original Size Scale: {debugInfo.originalSizeScale.toFixed(3)}
-          </div>
-        </div>
+        />
       )}
     </div>
   )
@@ -1544,3 +1484,82 @@ export const WebGLImageViewer = ({
 WebGLImageViewer.displayName = 'WebGLImageViewer'
 
 export type { WebGLImageViewerProps, WebGLImageViewerRef }
+
+const DebugInfo = ({
+  ref,
+}: {
+  ref: React.Ref<{ updateDebugInfo: (debugInfo: any) => void }>
+}) => {
+  const [debugInfo, setDebugInfo] = useState({
+    scale: 1,
+    relativeScale: 1,
+    translateX: 0,
+    translateY: 0,
+    currentLOD: 0,
+    lodLevels: 0,
+    canvasSize: { width: 0, height: 0 },
+    imageSize: { width: 0, height: 0 },
+    fitToScreenScale: 1,
+    userMaxScale: 1,
+    effectiveMaxScale: 1,
+    originalSizeScale: 1,
+    renderCount: 0,
+    maxTextureSize: 0,
+  })
+
+  useImperativeHandle(
+    ref,
+    useCallback(
+      () => ({
+        updateDebugInfo: (debugInfo: any) => {
+          setDebugInfo(debugInfo)
+        },
+      }),
+      [],
+    ),
+  )
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: '10px',
+        left: '10px',
+        background: 'rgba(0, 0, 0, 0.8)',
+        color: 'white',
+        padding: '10px',
+        borderRadius: '4px',
+        fontSize: '12px',
+        fontFamily: 'monospace',
+        lineHeight: '1.4',
+        pointerEvents: 'none',
+        zIndex: 1000,
+        minWidth: '200px',
+      }}
+    >
+      <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        WebGL Debug Info
+      </div>
+      <div>Scale: {debugInfo.scale.toFixed(3)}</div>
+      <div>Relative Scale: {debugInfo.relativeScale.toFixed(3)}</div>
+      <div>
+        Translate: ({debugInfo.translateX.toFixed(1)},{' '}
+        {debugInfo.translateY.toFixed(1)})
+      </div>
+      <div>
+        Canvas Size: {debugInfo.canvasSize.width}×{debugInfo.canvasSize.height}
+      </div>
+      <div>Device Pixel Ratio: {window.devicePixelRatio || 1}</div>
+      <div>
+        Image: {debugInfo.imageSize.width}×{debugInfo.imageSize.height}
+      </div>
+      <div>
+        Current LOD: {debugInfo.currentLOD} / {debugInfo.lodLevels - 1}
+      </div>
+      <div>Max Texture Size: {debugInfo.maxTextureSize}</div>
+      <div>Fit Scale: {debugInfo.fitToScreenScale.toFixed(3)}</div>
+      <div>User Max Scale: {debugInfo.userMaxScale.toFixed(3)}</div>
+      <div>Effective Max Scale: {debugInfo.effectiveMaxScale.toFixed(3)}</div>
+      <div>Original Size Scale: {debugInfo.originalSizeScale.toFixed(3)}</div>
+    </div>
+  )
+}
