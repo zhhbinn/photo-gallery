@@ -15,6 +15,7 @@ import {
 } from '~/components/ui/dropdown-menu'
 import { photoLoader } from '~/data/photos'
 import { usePhotos, usePhotoViewer } from '~/hooks/usePhotoViewer'
+import { useTypeScriptHappyCallback } from '~/hooks/useTypeScriptCallback'
 import type { PhotoManifest } from '~/types/photo'
 
 import { Masonry } from './Masonic'
@@ -61,12 +62,12 @@ export const MasonryRoot = () => {
         columnGutter={16}
         rowGutter={16}
         itemHeightEstimate={400}
-        itemKey={(data, _index) => {
+        itemKey={useTypeScriptHappyCallback((data, _index) => {
           if (data instanceof MasonryHeaderItem) {
             return 'header'
           }
           return (data as PhotoManifest).id
-        }}
+        }, [])}
       />
     </div>
   )
