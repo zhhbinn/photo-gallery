@@ -276,7 +276,7 @@ export const PhotoViewer = ({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className={`absolute ${isMobile ? 'top-2 right-2 left-2' : 'top-4 right-4 left-4'} z-30 flex items-center justify-between`}
+                    className={`pointer-events-none absolute ${isMobile ? 'top-2 right-2 left-2' : 'top-4 right-4 left-4'} z-30 flex items-center justify-between`}
                   >
                     {/* 左侧工具按钮 */}
                     <div className="flex items-center gap-2">
@@ -284,7 +284,7 @@ export const PhotoViewer = ({
                       {isMobile && (
                         <button
                           type="button"
-                          className={`bg-material-ultra-thick flex size-8 items-center justify-center rounded-full text-white backdrop-blur-2xl duration-200 hover:bg-black/40 ${showExifPanel ? 'bg-accent' : ''}`}
+                          className={`bg-material-ultra-thick pointer-events-auto flex size-8 items-center justify-center rounded-full text-white backdrop-blur-2xl duration-200 hover:bg-black/40 ${showExifPanel ? 'bg-accent' : ''}`}
                           onClick={() => setShowExifPanel(!showExifPanel)}
                         >
                           <i className="i-mingcute-information-line" />
@@ -297,7 +297,7 @@ export const PhotoViewer = ({
                       {/* 分享按钮 */}
                       <button
                         type="button"
-                        className="bg-material-ultra-thick flex size-8 items-center justify-center rounded-full text-white backdrop-blur-2xl duration-200 hover:bg-black/40"
+                        className="bg-material-ultra-thick pointer-events-auto flex size-8 items-center justify-center rounded-full text-white backdrop-blur-2xl duration-200 hover:bg-black/40"
                         onClick={handleShare}
                         title="分享链接"
                       >
@@ -307,7 +307,7 @@ export const PhotoViewer = ({
                       {/* 关闭按钮 */}
                       <button
                         type="button"
-                        className="bg-material-ultra-thick flex size-8 items-center justify-center rounded-full text-white backdrop-blur-2xl duration-200 hover:bg-black/40"
+                        className="bg-material-ultra-thick pointer-events-auto flex size-8 items-center justify-center rounded-full text-white backdrop-blur-2xl duration-200 hover:bg-black/40"
                         onClick={onClose}
                       >
                         <i className="i-mingcute-close-line" />
@@ -377,6 +377,9 @@ export const PhotoViewer = ({
                               onZoomChange={
                                 isCurrentImage ? handleZoomChange : undefined
                               }
+                              // Live Photo props
+                              isLivePhoto={photo.isLivePhoto}
+                              livePhotoVideoUrl={photo.livePhotoVideoUrl}
                             />
                           </m.div>
                         </SwiperSlide>

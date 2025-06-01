@@ -10,6 +10,8 @@ interface LoadingState {
   loadingProgress: number
   loadedBytes: number
   totalBytes: number
+  conversionMessage?: string // 视频转换消息
+  codecInfo?: string // 编码器信息
 }
 
 interface LoadingIndicatorRef {
@@ -24,6 +26,8 @@ const initialLoadingState: LoadingState = {
   loadingProgress: 0,
   loadedBytes: 0,
   totalBytes: 0,
+  conversionMessage: undefined,
+  codecInfo: undefined,
 }
 
 export const LoadingIndicator = ({
@@ -66,7 +70,19 @@ export const LoadingIndicator = ({
             </div>
             <div className="flex min-w-0 flex-col gap-0.5">
               {loadingState.isConverting ? (
-                <p className="text-xs font-medium text-white">转换中...</p>
+                <>
+                  <p className="text-xs font-medium text-white">
+                    {loadingState.conversionMessage || '转换中...'}
+                  </p>
+                  {loadingState.codecInfo && (
+                    <p className="text-xs text-white/70">
+                      {loadingState.codecInfo}
+                    </p>
+                  )}
+                  <span className="text-xs text-white/60">
+                    {Math.round(loadingState.loadingProgress)}%
+                  </span>
+                </>
               ) : (
                 <>
                   <div className="flex items-center gap-2">

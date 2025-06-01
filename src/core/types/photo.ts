@@ -31,6 +31,9 @@ export interface PhotoManifestItem {
   lastModified: string
   size: number
   exif: Exif | null
+  isLivePhoto?: boolean
+  livePhotoVideoUrl?: string
+  livePhotoVideoS3Key?: string
 }
 
 export interface ProcessPhotoResult {

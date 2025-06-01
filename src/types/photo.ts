@@ -17,4 +17,7 @@ export interface PhotoManifest {
   lastModified: string
   size: number
   exif: Exif & { FujiRecipe?: ReturnType<typeof getRecipe> }
+  isLivePhoto?: boolean
+  livePhotoVideoUrl?: string
+  livePhotoVideoS3Key?: string
 }

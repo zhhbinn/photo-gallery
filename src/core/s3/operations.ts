@@ -87,6 +87,67 @@ export async function listImagesFromS3(): Promise<_Object[]> {
   return imageObjects
 }
 
+// 列出 S3 中的所有文件（包括图片和视频）
+export async function listAllFilesFromS3(): Promise<_Object[]> {
+  const listCommand = new ListObjectsV2Command({
+    Bucket: env.S3_BUCKET_NAME,
+    Prefix: env.S3_PREFIX,
+    MaxKeys: 1000,
+  })
+
+  const listResponse = await s3Client.send(listCommand)
+  return listResponse.Contents || []
+}
+
+// 检测 live photo 配对
+export function detectLivePhotos(allObjects: _Object[]): Map<string, _Object> {
+  const livePhotoMap = new Map<string, _Object>() // image key -> video object
+
+  // 按目录和基础文件名分组所有文件
+  const fileGroups = new Map<string, _Object[]>()
+
+  for (const obj of allObjects) {
+    if (!obj.Key) continue
+
+    const dir = path.dirname(obj.Key)
+    const basename = path.basename(obj.Key, path.extname(obj.Key))
+    const groupKey = `${dir}/${basename}`
+
+    if (!fileGroups.has(groupKey)) {
+      fileGroups.set(groupKey, [])
+    }
+    fileGroups.get(groupKey)!.push(obj)
+  }
+
+  // 在每个分组中寻找图片+视频配对
+  for (const files of fileGroups.values()) {
+    let imageFile: _Object | null = null
+    let videoFile: _Object | null = null
+
+    for (const file of files) {
+      if (!file.Key) continue
+
+      const ext = path.extname(file.Key).toLowerCase()
+
+      // 检查是否为支持的图片格式
+      if (SUPPORTED_FORMATS.has(ext)) {
+        imageFile = file
+      }
+      // 检查是否为 .mov 视频文件
+      else if (ext === '.mov') {
+        videoFile = file
+      }
+    }
+
+    // 如果找到配对，记录为 live photo
+    if (imageFile && videoFile && imageFile.Key) {
+      livePhotoMap.set(imageFile.Key, videoFile)
+    }
+  }
+
+  return livePhotoMap
+}
+
 // 生成 S3 公共 URL
 export function generateS3Url(key: string): string {
   const bucketName = env.S3_BUCKET_NAME

@@ -41,6 +41,7 @@ export async function processPhoto(
   workerId: number,
   totalImages: number,
   existingManifestMap: Map<string, PhotoManifestItem>,
+  livePhotoMap: Map<string, _Object>,
   options: PhotoProcessorOptions,
   logger: Logger,
 ): Promise<ProcessPhotoResult> {
@@ -201,6 +202,20 @@ export async function processPhoto(
 
     const aspectRatio = metadata.width / metadata.height
 
+    // 检查是否为 live photo
+    const livePhotoVideo = livePhotoMap.get(key)
+    const isLivePhoto = !!livePhotoVideo
+    let livePhotoVideoUrl: string | undefined
+    let livePhotoVideoS3Key: string | undefined
+
+    if (isLivePhoto && livePhotoVideo?.Key) {
+      livePhotoVideoS3Key = livePhotoVideo.Key
+      livePhotoVideoUrl = generateS3Url(livePhotoVideo.Key)
+      workerLoggers.image.info(
+        `📱 检测到 Live Photo：${key} -> ${livePhotoVideo.Key}`,
+      )
+    }
+
     const photoItem: PhotoManifestItem = {
       id: photoId,
       title: photoInfo.title,
@@ -218,6 +233,10 @@ export async function processPhoto(
       lastModified: obj.LastModified?.toISOString() || new Date().toISOString(),
       size: obj.Size || 0,
       exif: exifData,
+      // Live Photo 相关字段
+      isLivePhoto,
+      livePhotoVideoUrl,
+      livePhotoVideoS3Key,
     }
 
     workerLoggers.image.success(`✅ 处理完成：${key}`)

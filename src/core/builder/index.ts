@@ -7,7 +7,11 @@ import {
 } from '../manifest/manager.js'
 import type { PhotoProcessorOptions } from '../photo/processor.js'
 import { processPhoto } from '../photo/processor.js'
-import { listImagesFromS3 } from '../s3/operations.js'
+import {
+  detectLivePhotos,
+  listAllFilesFromS3,
+  listImagesFromS3,
+} from '../s3/operations.js'
 import type { PhotoManifestItem, ProcessPhotoResult } from '../types/photo.js'
 import { WorkerPool } from '../worker/pool.js'
 
@@ -40,13 +44,21 @@ export async function buildManifest(options: BuilderOptions): Promise<void> {
 
     logger.main.info(`现有 manifest 包含 ${existingManifest.length} 张照片`)
 
+    // 列出 S3 中的所有文件（包括图片和视频）
+    const allObjects = await listAllFilesFromS3()
+    logger.main.info(`S3 中找到 ${allObjects.length} 个文件`)
+
+    // 检测 live photo 配对
+    const livePhotoMap = detectLivePhotos(allObjects)
+    logger.main.info(`检测到 ${livePhotoMap.size} 个 Live Photo`)
+
     // 列出 S3 中的所有图片文件
     const imageObjects = await listImagesFromS3()
     logger.main.info(`S3 中找到 ${imageObjects.length} 张照片`)
 
     // 创建 S3 中存在的图片 key 集合，用于检测已删除的图片
     const validKeys = imageObjects.map((obj) => obj.Key).filter(Boolean)
-    const s3ImageKeys = new Set(validKeys)
+    const s3ImageKeys = new Set(validKeys) as Set<string>
 
     const manifest: PhotoManifestItem[] = []
     let processedCount = 0
@@ -79,6 +91,7 @@ export async function buildManifest(options: BuilderOptions): Promise<void> {
           workerId,
           imageObjects.length,
           existingManifestMap,
+          livePhotoMap,
           processorOptions,
           logger,
         )
