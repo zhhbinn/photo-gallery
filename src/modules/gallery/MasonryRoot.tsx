@@ -1,3 +1,4 @@
+import { siteConfig } from '@config'
 import { useAtom, useAtomValue } from 'jotai'
 import { m } from 'motion/react'
 import { useCallback, useMemo, useRef } from 'react'
@@ -219,24 +220,26 @@ const MasonryHeaderMasonryItem = ({ width }: { width: number }) => {
                 <p className="text-text-secondary mt-1 text-sm">
                   {numberFormatter.format(data?.length || 0)} 张照片
                 </p>
-                <p className="text-text-secondary text-sm">Innei's Gallery</p>
+                <p className="text-text-secondary text-sm">{siteConfig.name}</p>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                className="bg-fill hover:bg-fill-hover rounded-full p-2 transition-colors"
-                onClick={() =>
-                  window.open(
-                    'https://github.com/Innei/photo-gallery',
-                    '_blank',
-                  )
-                }
-                title="查看 GitHub 仓库"
-              >
-                <i className="i-mingcute-github-line size-4" />
-              </Button>
+              {siteConfig.extra.accessRepo && (
+                <Button
+                  variant="ghost"
+                  className="bg-fill hover:bg-fill-hover rounded-full p-2 transition-colors"
+                  onClick={() =>
+                    window.open(
+                      'https://github.com/Innei/photo-gallery',
+                      '_blank',
+                    )
+                  }
+                  title="查看 GitHub 仓库"
+                >
+                  <i className="i-mingcute-github-line size-4" />
+                </Button>
+              )}
 
               {/* 标签筛选按钮 */}
               <DropdownMenu>
