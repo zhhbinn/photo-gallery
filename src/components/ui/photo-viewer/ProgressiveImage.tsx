@@ -1,4 +1,4 @@
-import { AnimatePresence, m, useAnimationControls } from 'motion/react'
+import { m, useAnimationControls } from 'motion/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { clsxm } from '~/lib/cn'
@@ -12,6 +12,8 @@ import { Spring } from '~/lib/spring'
 
 import type { WebGLImageViewerRef } from '../WebGLImageViewer'
 import { WebGLImageViewer } from '../WebGLImageViewer'
+import type { LoadingIndicatorRef } from './LoadingIndicator'
+import { LoadingIndicator } from './LoadingIndicator'
 
 const canUseWebGL = (() => {
   const canvas = document.createElement('canvas')
@@ -56,28 +58,22 @@ export const ProgressiveImage = ({
   const [blobSrc, setBlobSrc] = useState<string | null>(null)
   const [highResLoaded, setHighResLoaded] = useState(false)
   const [error, setError] = useState(false)
-  const [loadingProgress, setLoadingProgress] = useState(0)
-  const [loadedBytes, setLoadedBytes] = useState(0)
-  const [totalBytes, setTotalBytes] = useState(0)
-  const [isHeicFormat, setIsHeicFormat] = useState(false)
-  const [isConverting, setIsConverting] = useState(false)
 
   const thumbnailRef = useRef<HTMLImageElement>(null)
 
   const transformRef = useRef<WebGLImageViewerRef>(null)
   const thumbnailAnimateController = useAnimationControls()
   const convertedUrlRef = useRef<string | null>(null)
+  const loadingIndicatorRef = useRef<LoadingIndicatorRef>(null)
 
   // Reset states when image changes
   useEffect(() => {
     setHighResLoaded(false)
     setBlobSrc(null)
     setError(false)
-    setLoadingProgress(0)
-    setLoadedBytes(0)
-    setTotalBytes(0)
-    setIsHeicFormat(false)
-    setIsConverting(false)
+
+    // Reset loading indicator
+    loadingIndicatorRef.current?.resetLoadingState()
 
     // Clean up previous converted URL
     if (convertedUrlRef.current) {
@@ -94,6 +90,11 @@ export const ProgressiveImage = ({
   useEffect(() => {
     if (highResLoaded || error || !isCurrentImage) return
 
+    // Show loading indicator
+    loadingIndicatorRef.current?.updateLoadingState({
+      isVisible: true,
+    })
+
     let upperXHR: XMLHttpRequest | null = null
 
     const delayToLoadTimer = setTimeout(async () => {
@@ -109,18 +110,31 @@ export const ProgressiveImage = ({
             const shouldHeicTransformed =
               !isBrowserSupportHeic() && (await detectHeicFormat(blob))
 
-            setIsHeicFormat(shouldHeicTransformed)
+            // Update loading indicator with HEIC format info
+            loadingIndicatorRef.current?.updateLoadingState({
+              isHeicFormat: shouldHeicTransformed,
+              loadingProgress: 100,
+              loadedBytes: blob.size,
+              totalBytes: blob.size,
+            })
 
             if (shouldHeicTransformed) {
               // 如果是 HEIC 格式，进行转换
-              setIsConverting(true)
+              loadingIndicatorRef.current?.updateLoadingState({
+                isConverting: true,
+              })
+
               try {
                 const conversionResult = await convertHeicImage(blob)
 
                 convertedUrlRef.current = conversionResult.url
                 setBlobSrc(conversionResult.url)
                 setHighResLoaded(true)
-                setIsConverting(false)
+
+                // Hide loading indicator
+                loadingIndicatorRef.current?.updateLoadingState({
+                  isVisible: false,
+                })
 
                 console.info(
                   `HEIC converted: ${(blob.size / 1024).toFixed(1)}KB → ${(conversionResult.convertedSize / 1024).toFixed(1)}KB`,
@@ -128,7 +142,12 @@ export const ProgressiveImage = ({
               } catch (conversionError) {
                 console.error('HEIC conversion failed:', conversionError)
                 setError(true)
-                setIsConverting(false)
+
+                // Hide loading indicator on error
+                loadingIndicatorRef.current?.updateLoadingState({
+                  isVisible: false,
+                })
+
                 onError?.()
               }
             } else {
@@ -137,6 +156,11 @@ export const ProgressiveImage = ({
 
               setBlobSrc(url)
               setHighResLoaded(true)
+
+              // Hide loading indicator
+              loadingIndicatorRef.current?.updateLoadingState({
+                isVisible: false,
+              })
             }
           } catch (detectionError) {
             console.error('Format detection failed:', detectionError)
@@ -145,6 +169,11 @@ export const ProgressiveImage = ({
 
             setBlobSrc(url)
             setHighResLoaded(true)
+
+            // Hide loading indicator
+            loadingIndicatorRef.current?.updateLoadingState({
+              isVisible: false,
+            })
           }
         }
       }
@@ -152,14 +181,25 @@ export const ProgressiveImage = ({
       xhr.onprogress = (e) => {
         if (e.lengthComputable) {
           const progress = (e.loaded / e.total) * 100
-          setLoadingProgress(progress)
-          setLoadedBytes(e.loaded)
-          setTotalBytes(e.total)
+
+          // Update loading progress
+          loadingIndicatorRef.current?.updateLoadingState({
+            loadingProgress: progress,
+            loadedBytes: e.loaded,
+            totalBytes: e.total,
+          })
+
           onProgress?.(progress)
         }
       }
       xhr.onerror = () => {
         setError(true)
+
+        // Hide loading indicator on error
+        loadingIndicatorRef.current?.updateLoadingState({
+          isVisible: false,
+        })
+
         onError?.()
       }
       xhr.send()
@@ -248,45 +288,7 @@ export const ProgressiveImage = ({
       )}
 
       {/* 加载指示器 */}
-      <AnimatePresence>
-        {!highResLoaded && !error && isCurrentImage && (
-          <m.div
-            className="pointer-events-none absolute right-4 bottom-4 z-10 rounded-xl border border-white/10 bg-black/80 px-3 py-2 backdrop-blur-sm"
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            transition={Spring.presets.snappy}
-          >
-            <div className="flex items-center gap-3 text-white">
-              <div className="relative">
-                <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-              </div>
-              <div className="flex min-w-0 flex-col gap-0.5">
-                {isConverting ? (
-                  <p className="text-xs font-medium text-white">转换中...</p>
-                ) : (
-                  <>
-                    <div className="flex items-center gap-2">
-                      <p className="text-xs font-medium text-white">
-                        {isHeicFormat ? 'HEIC' : '加载中'}
-                      </p>
-                      <span className="text-xs text-white/60">
-                        {Math.round(loadingProgress)}%
-                      </span>
-                    </div>
-                    {totalBytes > 0 && (
-                      <p className="text-xs text-white/70 tabular-nums">
-                        {(loadedBytes / 1024 / 1024).toFixed(1)}MB /{' '}
-                        {(totalBytes / 1024 / 1024).toFixed(1)}MB
-                      </p>
-                    )}
-                  </>
-                )}
-              </div>
-            </div>
-          </m.div>
-        )}
-      </AnimatePresence>
+      <LoadingIndicator ref={loadingIndicatorRef} />
 
       {/* 缩放提示 */}
 
