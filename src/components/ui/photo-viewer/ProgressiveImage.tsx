@@ -1,6 +1,12 @@
 import { m, useAnimationControls } from 'motion/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { toast } from 'sonner'
 
+import {
+  MenuItemSeparator,
+  MenuItemText,
+  useShowContextMenu,
+} from '~/atoms/context-menu'
 import { clsxm } from '~/lib/cn'
 import { isMobileDevice } from '~/lib/device-viewport'
 import { canUseWebGL } from '~/lib/feature'
@@ -290,6 +296,8 @@ export const ProgressiveImage = ({
     }
   }, [])
 
+  const showContextMenu = useShowContextMenu()
+
   if (error) {
     return (
       <div
@@ -340,6 +348,96 @@ export const ProgressiveImage = ({
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           onTouchMove={handleTouchMove}
+          onContextMenu={(e) =>
+            showContextMenu(
+              [
+                new MenuItemText({
+                  label: '复制图片',
+                  click: async () => {
+                    const loadingToast = toast.loading('正在复制图片...')
+
+                    try {
+                      // Create a canvas to convert the image to PNG
+                      const img = new Image()
+                      img.crossOrigin = 'anonymous'
+
+                      await new Promise((resolve, reject) => {
+                        img.onload = resolve
+                        img.onerror = reject
+                        img.src = blobSrc
+                      })
+
+                      const canvas = document.createElement('canvas')
+                      const ctx = canvas.getContext('2d')
+                      canvas.width = img.naturalWidth
+                      canvas.height = img.naturalHeight
+
+                      ctx?.drawImage(img, 0, 0)
+
+                      // Convert to PNG blob
+                      await new Promise<void>((resolve, reject) => {
+                        canvas.toBlob(async (pngBlob) => {
+                          try {
+                            if (pngBlob) {
+                              await navigator.clipboard.write([
+                                new ClipboardItem({
+                                  'image/png': pngBlob,
+                                }),
+                              ])
+                              resolve()
+                            } else {
+                              reject(
+                                new Error('Failed to convert image to PNG'),
+                              )
+                            }
+                          } catch (error) {
+                            reject(error)
+                          }
+                        }, 'image/png')
+                      })
+
+                      toast.dismiss(loadingToast)
+                      toast.success('图片已复制到剪贴板')
+                    } catch (error) {
+                      console.error('Failed to copy image:', error)
+
+                      // Fallback: try to copy the original blob
+                      try {
+                        const blob = await fetch(blobSrc).then((res) =>
+                          res.blob(),
+                        )
+                        await navigator.clipboard.write([
+                          new ClipboardItem({
+                            [blob.type]: blob,
+                          }),
+                        ])
+                        toast.dismiss(loadingToast)
+                        toast.success('图片已复制到剪贴板')
+                      } catch (fallbackError) {
+                        console.error(
+                          'Fallback copy also failed:',
+                          fallbackError,
+                        )
+                        toast.dismiss(loadingToast)
+                        toast.error('复制图片失败，请稍后重试')
+                      }
+                    }
+                  },
+                }),
+                MenuItemSeparator.default,
+                new MenuItemText({
+                  label: '下载图片',
+                  click: () => {
+                    const a = document.createElement('a')
+                    a.href = blobSrc
+                    a.download = alt
+                    a.click()
+                  },
+                }),
+              ],
+              e,
+            )
+          }
         />
       )}
 

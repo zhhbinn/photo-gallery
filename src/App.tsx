@@ -1,7 +1,9 @@
-import { Analytics } from '@vercel/analytics/next'
+import { inject } from '@vercel/analytics'
 import { Outlet } from 'react-router'
 
 import { RootProviders } from './providers/root-providers'
+
+inject()
 
 function App() {
   return (
@@ -9,7 +11,6 @@ function App() {
       <div className="h-svh">
         <Outlet />
       </div>
-      <Analytics />
     </RootProviders>
   )
 }
