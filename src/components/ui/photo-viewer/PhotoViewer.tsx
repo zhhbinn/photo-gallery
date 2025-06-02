@@ -11,6 +11,7 @@ import type { Swiper as SwiperType } from 'swiper'
 import { Keyboard, Navigation, Virtual } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
+import { PassiveFragment } from '~/components/common/PassiveFragmenet'
 import { useMobile } from '~/hooks/useMobile'
 import { Spring } from '~/lib/spring'
 import type { PhotoManifest } from '~/types/photo'
@@ -219,7 +220,7 @@ export const PhotoViewer = ({
       {/* 交叉溶解的 Blurhash 背景 */}
       <AnimatePresence mode="popLayout">
         {isOpen && (
-          <>
+          <PassiveFragment>
             <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -245,7 +246,7 @@ export const PhotoViewer = ({
                 className="size-fill"
               />
             </m.div>
-          </>
+          </PassiveFragment>
         )}
       </AnimatePresence>
       <AnimatePresence>
