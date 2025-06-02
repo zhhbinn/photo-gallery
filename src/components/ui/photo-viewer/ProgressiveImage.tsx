@@ -491,7 +491,7 @@ export const ProgressiveImage = ({
         <div
           className={clsxm(
             'absolute z-50 flex items-center space-x-1 rounded-xl bg-black/50 px-1 py-1 text-xs text-white cursor-pointer transition-all duration-200 hover:bg-black/70',
-            import.meta.env.DEV ? 'top-16 right-4' : 'top-4 left-4',
+            import.meta.env.DEV ? 'top-16 right-4' : 'top-12 lg:top-4 left-4',
           )}
           onMouseEnter={handleBadgeMouseEnter}
           onMouseLeave={handleBadgeMouseLeave}
