@@ -9,25 +9,12 @@ import {
   StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens,
   TablerAperture,
 } from '~/icons'
+import { isMobileDevice, isSafari } from '~/lib/device-viewport'
 import { ImageLoaderManager } from '~/lib/image-loader-manager'
 import { getImageFormat } from '~/lib/image-utils'
 import type { PhotoManifest } from '~/types/photo'
 
 import styles from './photo.module.css'
-
-const isSafari =
-  /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)
-
-const isMobileDevice = (() => {
-  if (typeof window === 'undefined') return false
-  return (
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent,
-    ) ||
-    // 现代检测方式：支持触摸且屏幕较小
-    ('ontouchstart' in window && window.screen.width < 1024)
-  )
-})()
 
 export const PhotoMasonryItem = ({
   data,

@@ -7,6 +7,7 @@ import { Toaster } from '~/components/ui/sonner'
 import { jotaiStore } from '~/lib/jotai'
 import { queryClient } from '~/lib/query-client'
 
+import { EventProvider } from './event-provider'
 import { SettingSync } from './setting-sync'
 import { StableRouterProvider } from './stable-router-provider'
 
@@ -23,6 +24,7 @@ export const RootProviders: FC<PropsWithChildren> = ({ children }) => (
     >
       <QueryClientProvider client={queryClient}>
         <Provider store={jotaiStore}>
+          <EventProvider />
           <StableRouterProvider />
           <SettingSync />
           {children}

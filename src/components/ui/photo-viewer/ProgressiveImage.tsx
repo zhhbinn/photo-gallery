@@ -2,6 +2,8 @@ import { m, useAnimationControls } from 'motion/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { clsxm } from '~/lib/cn'
+import { isMobileDevice } from '~/lib/device-viewport'
+import { canUseWebGL } from '~/lib/feature'
 import { ImageLoaderManager } from '~/lib/image-loader-manager'
 import { Spring } from '~/lib/spring'
 import { isWebCodecsSupported } from '~/lib/video-converter'
@@ -10,23 +12,6 @@ import type { WebGLImageViewerRef } from '../WebGLImageViewer'
 import { WebGLImageViewer } from '../WebGLImageViewer'
 import type { LoadingIndicatorRef } from './LoadingIndicator'
 import { LoadingIndicator } from './LoadingIndicator'
-
-const canUseWebGL = (() => {
-  const canvas = document.createElement('canvas')
-  const gl = canvas.getContext('webgl')
-  return gl !== null
-})()
-
-const isMobileDevice = (() => {
-  if (typeof window === 'undefined') return false
-  return (
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent,
-    ) ||
-    // 现代检测方式：支持触摸且屏幕较小
-    ('ontouchstart' in window && window.screen.width < 1024)
-  )
-})()
 
 interface ProgressiveImageProps {
   src: string

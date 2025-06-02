@@ -1,3 +1,5 @@
+import { isSafari } from './device-viewport'
+
 interface ConversionProgress {
   isConverting: boolean
   progress: number
@@ -277,11 +279,6 @@ function isBrowserSupportMov(): boolean {
 
   // 检测是否支持 MOV 容器格式
   const canPlayMov = video.canPlayType('video/quicktime')
-
-  // 检测 User Agent 来识别 Safari
-  const isSafari =
-    /(?:^|[^a-z])safari(?:[^a-z]|$)/i.test(navigator.userAgent) &&
-    !/chrome|android/i.test(navigator.userAgent)
 
   // Safari 通常原生支持 MOV
   if (isSafari) {
