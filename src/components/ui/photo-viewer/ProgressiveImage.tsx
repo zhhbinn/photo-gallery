@@ -79,43 +79,6 @@ export const ProgressiveImage = ({
   const longPressTimerRef = useRef<NodeJS.Timeout | null>(null)
   const [isLongPressing, setIsLongPressing] = useState(false)
 
-  // Reset states when image changes
-  useEffect(() => {
-    setHighResLoaded(false)
-    setBlobSrc(null)
-    setError(false)
-    setIsPlayingLivePhoto(false)
-    setLivePhotoVideoLoaded(false)
-
-    setIsConvertingVideo(false)
-    setConversionMethod('')
-    setIsLongPressing(false)
-
-    // Reset loading indicator
-    loadingIndicatorRef.current?.resetLoadingState()
-
-    // Clean up previous image loader manager
-    if (imageLoaderManagerRef.current) {
-      imageLoaderManagerRef.current.cleanup()
-      imageLoaderManagerRef.current = null
-    }
-
-    // Clean up timers
-    if (hoverTimerRef.current) {
-      clearTimeout(hoverTimerRef.current)
-      hoverTimerRef.current = null
-    }
-    if (longPressTimerRef.current) {
-      clearTimeout(longPressTimerRef.current)
-      longPressTimerRef.current = null
-    }
-
-    // Reset transform when image changes
-    if (transformRef.current) {
-      transformRef.current.resetView()
-    }
-  }, [src])
-
   useEffect(() => {
     if (highResLoaded || error || !isCurrentImage) return
 
@@ -123,6 +86,35 @@ export const ProgressiveImage = ({
     const imageLoaderManager = new ImageLoaderManager()
     imageLoaderManagerRef.current = imageLoaderManager
 
+    function cleanup() {
+      setHighResLoaded(false)
+      setBlobSrc(null)
+      setError(false)
+      setIsPlayingLivePhoto(false)
+      setLivePhotoVideoLoaded(false)
+
+      setIsConvertingVideo(false)
+      setConversionMethod('')
+      setIsLongPressing(false)
+
+      // Reset loading indicator
+      loadingIndicatorRef.current?.resetLoadingState()
+
+      // Clean up timers
+      if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current)
+        hoverTimerRef.current = null
+      }
+      if (longPressTimerRef.current) {
+        clearTimeout(longPressTimerRef.current)
+        longPressTimerRef.current = null
+      }
+
+      // Reset transform when image changes
+      if (transformRef.current) {
+        transformRef.current.resetView()
+      }
+    }
     const loadImage = async () => {
       try {
         const result = await imageLoaderManager.loadImage(src, {
@@ -173,7 +165,7 @@ export const ProgressiveImage = ({
         setError(true)
       }
     }
-
+    cleanup()
     loadImage()
 
     return () => {
