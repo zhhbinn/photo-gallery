@@ -1,10 +1,4 @@
 import {
-  convertHeicImage,
-  detectHeicFormat,
-  isBrowserSupportHeic,
-  revokeConvertedUrl,
-} from '~/lib/heic-converter'
-import {
   convertMovToMp4,
   isVideoConversionSupported,
   needsVideoConversion,
@@ -156,6 +150,11 @@ export class ImageLoaderManager {
     const { onError: _onError, onLoadingStateUpdate } = callbacks
 
     try {
+      // 动态导入 heic-converter 模块
+      const { detectHeicFormat, isBrowserSupportHeic } = await import(
+        '~/lib/heic-converter'
+      )
+
       // 检测是否为 HEIC 格式
       const shouldHeicTransformed =
         !isBrowserSupportHeic() && (await detectHeicFormat(blob))
@@ -192,6 +191,9 @@ export class ImageLoaderManager {
     })
 
     try {
+      // 动态导入 heic-converter 模块
+      const { convertHeicImage } = await import('~/lib/heic-converter')
+
       const conversionResult = await convertHeicImage(blob)
 
       this.convertedUrlRef = conversionResult.url
@@ -345,7 +347,12 @@ export class ImageLoaderManager {
 
     // 清理转换后的 URL
     if (this.convertedUrlRef) {
-      revokeConvertedUrl(this.convertedUrlRef)
+      // 动态导入 revokeConvertedUrl 函数
+      import('~/lib/heic-converter')
+        .then(({ revokeConvertedUrl }) => {
+          revokeConvertedUrl(this.convertedUrlRef!)
+        })
+        .catch(console.error)
       this.convertedUrlRef = null
     }
   }
