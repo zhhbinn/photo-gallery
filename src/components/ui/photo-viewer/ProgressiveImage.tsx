@@ -2,19 +2,9 @@ import { m, useAnimationControls } from 'motion/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { clsxm } from '~/lib/cn'
-import {
-  convertHeicImage,
-  detectHeicFormat,
-  isBrowserSupportHeic,
-  revokeConvertedUrl,
-} from '~/lib/heic-converter'
+import { ImageLoaderManager } from '~/lib/image-loader-manager'
 import { Spring } from '~/lib/spring'
-import {
-  convertMovToMp4,
-  isVideoConversionSupported,
-  isWebCodecsSupported,
-  needsVideoConversion,
-} from '~/lib/video-converter'
+import { isWebCodecsSupported } from '~/lib/video-converter'
 
 import type { WebGLImageViewerRef } from '../WebGLImageViewer'
 import { WebGLImageViewer } from '../WebGLImageViewer'
@@ -77,9 +67,7 @@ export const ProgressiveImage = ({
   // Live Photo 相关状态
   const [isPlayingLivePhoto, setIsPlayingLivePhoto] = useState(false)
   const [livePhotoVideoLoaded, setLivePhotoVideoLoaded] = useState(false)
-  const [convertedVideoUrl, setConvertedVideoUrl] = useState<string | null>(
-    null,
-  )
+
   const [isConvertingVideo, setIsConvertingVideo] = useState(false)
   const [conversionMethod, setConversionMethod] = useState<string>('')
 
@@ -87,8 +75,8 @@ export const ProgressiveImage = ({
   const videoRef = useRef<HTMLVideoElement>(null)
   const transformRef = useRef<WebGLImageViewerRef>(null)
   const thumbnailAnimateController = useAnimationControls()
-  const convertedUrlRef = useRef<string | null>(null)
   const loadingIndicatorRef = useRef<LoadingIndicatorRef>(null)
+  const imageLoaderManagerRef = useRef<ImageLoaderManager | null>(null)
 
   // Live Photo hover 相关
   const hoverTimerRef = useRef<NodeJS.Timeout | null>(null)
@@ -100,22 +88,17 @@ export const ProgressiveImage = ({
     setError(false)
     setIsPlayingLivePhoto(false)
     setLivePhotoVideoLoaded(false)
-    setConvertedVideoUrl(null)
+
     setIsConvertingVideo(false)
     setConversionMethod('')
 
     // Reset loading indicator
     loadingIndicatorRef.current?.resetLoadingState()
 
-    // Clean up previous converted URL
-    if (convertedUrlRef.current) {
-      revokeConvertedUrl(convertedUrlRef.current)
-      convertedUrlRef.current = null
-    }
-
-    // Clean up converted video URL
-    if (convertedVideoUrl) {
-      URL.revokeObjectURL(convertedVideoUrl)
+    // Clean up previous image loader manager
+    if (imageLoaderManagerRef.current) {
+      imageLoaderManagerRef.current.cleanup()
+      imageLoaderManagerRef.current = null
     }
 
     // Reset transform when image changes
@@ -127,218 +110,65 @@ export const ProgressiveImage = ({
   useEffect(() => {
     if (highResLoaded || error || !isCurrentImage) return
 
-    // Show loading indicator
-    loadingIndicatorRef.current?.updateLoadingState({
-      isVisible: true,
-    })
+    // Create new image loader manager
+    const imageLoaderManager = new ImageLoaderManager()
+    imageLoaderManagerRef.current = imageLoaderManager
 
-    let upperXHR: XMLHttpRequest | null = null
-
-    const delayToLoadTimer = setTimeout(async () => {
-      const xhr = new XMLHttpRequest()
-      xhr.open('GET', src)
-      xhr.responseType = 'blob'
-      xhr.onload = async () => {
-        if (xhr.status === 200) {
-          const blob = xhr.response
-
-          try {
-            // 检测是否为 HEIC 格式
-            const shouldHeicTransformed =
-              !isBrowserSupportHeic() && (await detectHeicFormat(blob))
-
-            // Update loading indicator with HEIC format info
-            loadingIndicatorRef.current?.updateLoadingState({
-              isHeicFormat: shouldHeicTransformed,
-              loadingProgress: 100,
-              loadedBytes: blob.size,
-              totalBytes: blob.size,
-            })
-
-            if (shouldHeicTransformed) {
-              // 如果是 HEIC 格式，进行转换
-              loadingIndicatorRef.current?.updateLoadingState({
-                isConverting: true,
-              })
-
-              try {
-                const conversionResult = await convertHeicImage(blob)
-
-                convertedUrlRef.current = conversionResult.url
-                setBlobSrc(conversionResult.url)
-                setHighResLoaded(true)
-
-                // Hide loading indicator
-                loadingIndicatorRef.current?.updateLoadingState({
-                  isVisible: false,
-                })
-
-                console.info(
-                  `HEIC converted: ${(blob.size / 1024).toFixed(1)}KB → ${(conversionResult.convertedSize / 1024).toFixed(1)}KB`,
-                )
-              } catch (conversionError) {
-                console.error('HEIC conversion failed:', conversionError)
-                setError(true)
-
-                // Hide loading indicator on error
-                loadingIndicatorRef.current?.updateLoadingState({
-                  isVisible: false,
-                })
-
-                onError?.()
-              }
-            } else {
-              // 普通图片格式
-              const url = URL.createObjectURL(blob)
-
-              setBlobSrc(url)
-              setHighResLoaded(true)
-
-              // Hide loading indicator
-              loadingIndicatorRef.current?.updateLoadingState({
-                isVisible: false,
-              })
-            }
-
-            // 处理 Live Photo 视频（在图片加载完成后）
-            if (
-              isLivePhoto &&
-              livePhotoVideoUrl &&
-              !livePhotoVideoLoaded &&
-              !isConvertingVideo
-            ) {
-              const processLivePhotoVideo = async () => {
-                const video = videoRef.current
-                if (!video) return
-
-                try {
-                  // 检查是否需要转换
-                  if (needsVideoConversion(livePhotoVideoUrl)) {
-                    // 检查浏览器是否支持视频转换
-                    if (!isVideoConversionSupported()) {
-                      console.warn(
-                        'Video conversion not supported in this browser',
-                      )
-                      return
-                    }
-
-                    setIsConvertingVideo(true)
-
-                    // 更新加载指示器显示转换进度
-                    loadingIndicatorRef.current?.updateLoadingState({
-                      isVisible: true,
-                      isConverting: true,
-                      loadingProgress: 0,
-                    })
-
-                    console.info('Converting MOV video to MP4...')
-
-                    const result = await convertMovToMp4(
-                      livePhotoVideoUrl,
-                      (progress) => {
-                        loadingIndicatorRef.current?.updateLoadingState({
-                          isVisible: true,
-                          isConverting: progress.isConverting,
-                          loadingProgress: progress.progress,
-                          conversionMessage: progress.message,
-                          codecInfo: progress.message.includes('编码器')
-                            ? progress.message
-                            : undefined,
-                        })
-                      },
-                    )
-
-                    if (result.success && result.videoUrl) {
-                      setConvertedVideoUrl(result.videoUrl)
-                      setConversionMethod(result.method || 'unknown')
-                      video.src = result.videoUrl
-                      video.load()
-
-                      console.info(
-                        `Video conversion completed using ${result.method}. Size: ${result.convertedSize ? Math.round(result.convertedSize / 1024) : 'unknown'}KB`,
-                      )
-                    } else {
-                      console.error('Video conversion failed:', result.error)
-                    }
-
-                    setIsConvertingVideo(false)
-                    loadingIndicatorRef.current?.updateLoadingState({
-                      isVisible: false,
-                    })
-                  } else {
-                    // 直接使用原始视频
-                    video.src = livePhotoVideoUrl
-                    video.load()
-                  }
-
-                  const handleVideoCanPlay = () => {
-                    setLivePhotoVideoLoaded(true)
-                    video.removeEventListener(
-                      'canplaythrough',
-                      handleVideoCanPlay,
-                    )
-                  }
-
-                  video.addEventListener('canplaythrough', handleVideoCanPlay)
-                } catch (error) {
-                  console.error('Failed to process Live Photo video:', error)
-                  setIsConvertingVideo(false)
-                  loadingIndicatorRef.current?.updateLoadingState({
-                    isVisible: false,
-                  })
-                }
-              }
-
-              // 异步处理视频，不阻塞图片显示
-              processLivePhotoVideo()
-            }
-          } catch (detectionError) {
-            console.error('Format detection failed:', detectionError)
-            // 如果检测失败，按普通图片处理
-            const url = URL.createObjectURL(blob)
-
-            setBlobSrc(url)
-            setHighResLoaded(true)
-
-            // Hide loading indicator
-            loadingIndicatorRef.current?.updateLoadingState({
-              isVisible: false,
-            })
-          }
-        }
-      }
-
-      xhr.onprogress = (e) => {
-        if (e.lengthComputable) {
-          const progress = (e.loaded / e.total) * 100
-
-          // Update loading progress
-          loadingIndicatorRef.current?.updateLoadingState({
-            loadingProgress: progress,
-            loadedBytes: e.loaded,
-            totalBytes: e.total,
-          })
-
-          onProgress?.(progress)
-        }
-      }
-      xhr.onerror = () => {
-        setError(true)
-
-        // Hide loading indicator on error
-        loadingIndicatorRef.current?.updateLoadingState({
-          isVisible: false,
+    const loadImage = async () => {
+      try {
+        const result = await imageLoaderManager.loadImage(src, {
+          onProgress,
+          onError,
+          onLoadingStateUpdate: (state) => {
+            loadingIndicatorRef.current?.updateLoadingState(state)
+          },
         })
 
-        onError?.()
-      }
-      xhr.send()
+        setBlobSrc(result.blobSrc)
+        setHighResLoaded(true)
 
-      upperXHR = xhr
-    }, 300)
+        // 处理 Live Photo 视频（在图片加载完成后）
+        if (
+          isLivePhoto &&
+          livePhotoVideoUrl &&
+          !livePhotoVideoLoaded &&
+          !isConvertingVideo &&
+          videoRef.current
+        ) {
+          setIsConvertingVideo(true)
+
+          try {
+            const videoResult = await imageLoaderManager.processLivePhotoVideo(
+              livePhotoVideoUrl,
+              videoRef.current,
+              {
+                onLoadingStateUpdate: (state) => {
+                  loadingIndicatorRef.current?.updateLoadingState(state)
+                },
+              },
+            )
+
+            if (videoResult.conversionMethod) {
+              setConversionMethod(videoResult.conversionMethod)
+            }
+
+            setLivePhotoVideoLoaded(true)
+          } catch (videoError) {
+            console.error('Failed to process Live Photo video:', videoError)
+          } finally {
+            setIsConvertingVideo(false)
+          }
+        }
+      } catch (loadError) {
+        console.error('Failed to load image:', loadError)
+        setError(true)
+      }
+    }
+
+    loadImage()
+
     return () => {
-      clearTimeout(delayToLoadTimer)
-      upperXHR?.abort()
+      imageLoaderManager.cleanup()
     }
   }, [
     highResLoaded,
