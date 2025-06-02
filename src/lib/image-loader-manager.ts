@@ -35,6 +35,7 @@ export class ImageLoaderManager {
   private currentXHR: XMLHttpRequest | null = null
   private delayTimer: NodeJS.Timeout | null = null
   private convertedUrlRef: string | null = null
+  private regularBlobUrlRef: string | null = null
 
   async loadImage(
     src: string,
@@ -233,6 +234,9 @@ export class ImageLoaderManager {
     // 普通图片格式
     const url = URL.createObjectURL(blob)
 
+    // Store the URL reference for cleanup
+    this.regularBlobUrlRef = url
+
     // Hide loading indicator
     onLoadingStateUpdate?.({
       isVisible: false,
@@ -345,7 +349,7 @@ export class ImageLoaderManager {
       this.currentXHR = null
     }
 
-    // 清理转换后的 URL
+    // 清理转换后的 HEIC URL
     if (this.convertedUrlRef) {
       // 动态导入 revokeConvertedUrl 函数
       import('~/lib/heic-converter')
@@ -354,6 +358,16 @@ export class ImageLoaderManager {
         })
         .catch(console.error)
       this.convertedUrlRef = null
+    }
+
+    // 清理普通图片的 Blob URL
+    if (this.regularBlobUrlRef) {
+      try {
+        URL.revokeObjectURL(this.regularBlobUrlRef)
+      } catch (error) {
+        console.warn('Failed to revoke regular blob URL:', error)
+      }
+      this.regularBlobUrlRef = null
     }
   }
 
