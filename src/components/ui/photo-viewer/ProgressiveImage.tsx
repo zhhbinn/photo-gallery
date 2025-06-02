@@ -17,6 +17,17 @@ const canUseWebGL = (() => {
   return gl !== null
 })()
 
+const isMobileDevice = (() => {
+  if (typeof window === 'undefined') return false
+  return (
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    ) ||
+    // 现代检测方式：支持触摸且屏幕较小
+    ('ontouchstart' in window && window.screen.width < 1024)
+  )
+})()
+
 interface ProgressiveImageProps {
   src: string
   thumbnailSrc?: string
@@ -80,6 +91,8 @@ export const ProgressiveImage = ({
 
   // Live Photo hover 相关
   const hoverTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const longPressTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const [isLongPressing, setIsLongPressing] = useState(false)
 
   // Reset states when image changes
   useEffect(() => {
@@ -91,6 +104,7 @@ export const ProgressiveImage = ({
 
     setIsConvertingVideo(false)
     setConversionMethod('')
+    setIsLongPressing(false)
 
     // Reset loading indicator
     loadingIndicatorRef.current?.resetLoadingState()
@@ -99,6 +113,16 @@ export const ProgressiveImage = ({
     if (imageLoaderManagerRef.current) {
       imageLoaderManagerRef.current.cleanup()
       imageLoaderManagerRef.current = null
+    }
+
+    // Clean up timers
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current)
+      hoverTimerRef.current = null
+    }
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current)
+      longPressTimerRef.current = null
     }
 
     // Reset transform when image changes
@@ -239,6 +263,56 @@ export const ProgressiveImage = ({
     })
   }, [thumbnailAnimateController])
 
+  // Live Photo 长按处理（移动端）
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      if (
+        !isLivePhoto ||
+        !livePhotoVideoLoaded ||
+        isPlayingLivePhoto ||
+        isConvertingVideo ||
+        e.touches.length > 1 // 多指触摸不触发长按
+      )
+        return
+
+      longPressTimerRef.current = setTimeout(() => {
+        setIsLongPressing(true)
+        setIsPlayingLivePhoto(true)
+        const video = videoRef.current
+        if (video) {
+          video.currentTime = 0
+          video.play()
+        }
+      }, 500) // 500ms 长按延迟
+    },
+    [isLivePhoto, livePhotoVideoLoaded, isPlayingLivePhoto, isConvertingVideo],
+  )
+
+  const handleTouchEnd = useCallback(() => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current)
+      longPressTimerRef.current = null
+    }
+
+    if (isLongPressing && isPlayingLivePhoto) {
+      setIsLongPressing(false)
+      setIsPlayingLivePhoto(false)
+      const video = videoRef.current
+      if (video) {
+        video.pause()
+        video.currentTime = 0
+      }
+    }
+  }, [isLongPressing, isPlayingLivePhoto])
+
+  const handleTouchMove = useCallback(() => {
+    // 触摸移动时取消长按
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current)
+      longPressTimerRef.current = null
+    }
+  }, [])
+
   if (error) {
     return (
       <div
@@ -286,6 +360,9 @@ export const ProgressiveImage = ({
           smooth={true}
           onZoomChange={onTransformed}
           debug={import.meta.env.DEV}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onTouchMove={handleTouchMove}
         />
       )}
 
@@ -325,6 +402,7 @@ export const ProgressiveImage = ({
           )}
           onMouseEnter={handleBadgeMouseEnter}
           onMouseLeave={handleBadgeMouseLeave}
+          title={isMobileDevice ? '长按播放实况照片' : '悬浮播放实况照片'}
         >
           {isConvertingVideo ? (
             <div className="flex items-center gap-1 px-1">
@@ -353,7 +431,9 @@ export const ProgressiveImage = ({
         {isLivePhoto
           ? isConvertingVideo
             ? `正在使用 ${isWebCodecsSupported() ? 'WebCodecs' : 'FFmpeg'} 转换视频格式...`
-            : '悬浮在实况标识上播放 / 双击缩放'
+            : isMobileDevice
+              ? '长按播放实况照片 / 双击缩放'
+              : '悬浮实况标识播放 / 双击缩放'
           : '双击或双指缩放'}
       </div>
     </div>
