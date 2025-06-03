@@ -62,7 +62,6 @@ export interface BuilderConfig {
   }
 }
 
-// 默认配置
 export const defaultBuilderConfig: BuilderConfig = {
   storage: {
     provider: 's3',
@@ -113,5 +112,18 @@ export const builderConfig: BuilderConfig = {
   //   ...defaultBuilderConfig.logging,
   //   verbose: true,
   //   level: 'debug',
+  // },
+
+  // 如果要使用 GitHub 存储，取消注释下面的配置：
+  // storage: {
+  //   provider: 'github',
+  //   github: {
+  //     owner: 'your-username',
+  //     repo: 'your-photo-repo',
+  //     branch: 'main',
+  //     token: process.env.GITHUB_TOKEN,
+  //     path: 'photos',
+  //     useRawUrl: true,
+  //   },
   // },
 }

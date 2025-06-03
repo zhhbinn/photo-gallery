@@ -46,10 +46,9 @@ export interface StorageProvider {
   detectLivePhotos: (allObjects: StorageObject[]) => Map<string, StorageObject>
 }
 
-// 存储配置的通用接口
-export interface StorageConfig {
-  provider: 's3' // 目前只支持 S3，后续可扩展
-  bucket: string
+export type S3Config = {
+  provider: 's3'
+  bucket?: string
   region?: string
   endpoint?: string
   accessKeyId?: string
@@ -57,3 +56,14 @@ export interface StorageConfig {
   prefix?: string
   customDomain?: string
 }
+
+export type GitHubConfig = {
+  provider: 'github'
+  owner: string
+  repo: string
+  branch?: string
+  token?: string
+  path?: string
+  useRawUrl?: boolean
+}
+export type StorageConfig = S3Config | GitHubConfig

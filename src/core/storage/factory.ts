@@ -1,5 +1,6 @@
 import { env } from '../../../env.js'
 import type { StorageConfig, StorageProvider } from './interfaces'
+import { GitHubStorageProvider } from './providers/github-provider.js'
 import { S3StorageProvider } from './providers/s3-provider.js'
 
 export class StorageFactory {
@@ -12,6 +13,9 @@ export class StorageFactory {
     switch (config.provider) {
       case 's3': {
         return new S3StorageProvider(config)
+      }
+      case 'github': {
+        return new GitHubStorageProvider(config)
       }
       default: {
         throw new Error(`不支持的存储提供商：${config.provider}`)
