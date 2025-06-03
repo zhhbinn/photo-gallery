@@ -69,7 +69,6 @@
   "devDependencies": {
     "@egoist/tailwindcss-icons": "1.9.0",
     "@iconify-json/mingcute": "1.2.3",
-    "@innei/prettier": "^0.15.0",
     "@tailwindcss/container-queries": "0.1.1",
     "@tailwindcss/postcss": "4.1.8",
     "@tailwindcss/typography": "0.5.16",
@@ -83,7 +82,6 @@
     "postcss": "8.5.4",
     "postcss-import": "16.1.0",
     "postcss-js": "4.0.1",
-    "prettier": "3.5.3",
     "react-compiler-runtime": "19.1.0-rc.2",
     "simple-git-hooks": "2.13.0",
     "tailwind-scrollbar": "4.0.2",

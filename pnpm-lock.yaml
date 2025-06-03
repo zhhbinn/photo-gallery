@@ -18,6 +18,9 @@ importers:
         specifier: 3.25.49
         version: 3.25.49
     devDependencies:
+      '@innei/prettier':
+        specifier: 0.15.0
+        version: 0.15.0
       eslint:
         specifier: 9.28.0
         version: 9.28.0(jiti@2.4.2)
@@ -27,9 +30,15 @@ importers:
       lint-staged:
         specifier: 16.1.0
         version: 16.1.0
+      prettier:
+        specifier: 3.5.3
+        version: 3.5.3
       simple-git-hooks:
         specifier: 2.13.0
         version: 2.13.0
+      tailwindcss:
+        specifier: 4.1.8
+        version: 4.1.8
       tsx:
         specifier: 4.19.4
         version: 4.19.4
@@ -205,9 +214,6 @@ importers:
       '@iconify-json/mingcute':
         specifier: 1.2.3
         version: 1.2.3
-      '@innei/prettier':
-        specifier: ^0.15.0
-        version: 0.15.0
       '@tailwindcss/container-queries':
         specifier: 0.1.1
         version: 0.1.1(tailwindcss@4.1.8)
@@ -247,9 +253,6 @@ importers:
       postcss-js:
         specifier: 4.0.1
         version: 4.0.1(postcss@8.5.4)
-      prettier:
-        specifier: 3.5.3
-        version: 3.5.3
       react-compiler-runtime:
         specifier: 19.1.0-rc.2
         version: 19.1.0-rc.2(react@19.1.0)
@@ -5754,10 +5757,10 @@ snapshots:
   '@ianvs/prettier-plugin-sort-imports@4.3.1(prettier@3.5.3)':
     dependencies:
       '@babel/core': 7.27.1
-      '@babel/generator': 7.27.1
-      '@babel/parser': 7.27.2
+      '@babel/generator': 7.27.5
+      '@babel/parser': 7.27.5
       '@babel/traverse': 7.27.1
-      '@babel/types': 7.27.1
+      '@babel/types': 7.27.3
       prettier: 3.5.3
       semver: 7.7.2
     transitivePeerDependencies:
