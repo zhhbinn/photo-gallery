@@ -58,7 +58,7 @@ export const MasonryRoot = () => {
           ),
           [handleAnimationComplete, photoViewer.openViewer, photos],
         )}
-        columnWidth={isMobile ? 200 : 300}
+        columnWidth={isMobile ? 150 : 300}
         columnGutter={4}
         rowGutter={4}
         itemHeightEstimate={400}
