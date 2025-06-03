@@ -244,16 +244,30 @@ export class PhotoGalleryBuilder {
   }
 
   private logBuildStart(): void {
-    const endpoint = this.config.storage.endpoint || '默认 AWS S3'
-    const customDomain = this.config.storage.customDomain || '未设置'
-    const { bucket } = this.config.storage
-    const prefix = this.config.storage.prefix || '无前缀'
+    switch (this.config.storage.provider) {
+      case 's3': {
+        const endpoint = this.config.storage.endpoint || '默认 AWS S3'
+        const customDomain = this.config.storage.customDomain || '未设置'
+        const { bucket } = this.config.storage
+        const prefix = this.config.storage.prefix || '无前缀'
 
-    logger.main.info('🚀 开始从存储获取照片列表...')
-    logger.main.info(`🔗 使用端点：${endpoint}`)
-    logger.main.info(`🌐 自定义域名：${customDomain}`)
-    logger.main.info(`🪣 存储桶：${bucket}`)
-    logger.main.info(`📂 前缀：${prefix}`)
+        logger.main.info('🚀 开始从存储获取照片列表...')
+        logger.main.info(`🔗 使用端点：${endpoint}`)
+        logger.main.info(`🌐 自定义域名：${customDomain}`)
+        logger.main.info(`🪣 存储桶：${bucket}`)
+        logger.main.info(`📂 前缀：${prefix}`)
+        break
+      }
+      case 'github': {
+        const { owner, repo, branch, path } = this.config.storage
+        logger.main.info('🚀 开始从存储获取照片列表...')
+        logger.main.info(`� 仓库所有者：${owner}`)
+        logger.main.info(`� 仓库名称：${repo}`)
+        logger.main.info(`🌲 分支：${branch}`)
+        logger.main.info(`📂 路径：${path}`)
+        break
+      }
+    }
   }
 
   private logBuildResults(
@@ -294,16 +308,6 @@ export class PhotoGalleryBuilder {
    */
   getConfig(): BuilderConfig {
     return { ...this.config }
-  }
-
-  /**
-   * 更新存储配置
-   */
-  updateStorageConfig(
-    newStorageConfig: Partial<typeof this.config.storage>,
-  ): void {
-    this.config.storage = { ...this.config.storage, ...newStorageConfig }
-    this.storageManager = new StorageManager(this.config.storage)
   }
 }
 

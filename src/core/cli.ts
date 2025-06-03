@@ -52,13 +52,27 @@ async function main() {
     const config = defaultBuilder.getConfig()
     logger.main.info('🔧 当前配置：')
     logger.main.info(`   存储提供商：${config.storage.provider}`)
-    logger.main.info(`   存储桶：${config.storage.bucket}`)
-    logger.main.info(`   区域：${config.storage.region || '未设置'}`)
-    logger.main.info(`   端点：${config.storage.endpoint || '默认'}`)
-    logger.main.info(
-      `   自定义域名：${config.storage.customDomain || '未设置'}`,
-    )
-    logger.main.info(`   前缀：${config.storage.prefix || '无'}`)
+
+    switch (config.storage.provider) {
+      case 's3': {
+        logger.main.info(`   存储桶：${config.storage.bucket}`)
+        logger.main.info(`   区域：${config.storage.region || '未设置'}`)
+        logger.main.info(`   端点：${config.storage.endpoint || '默认'}`)
+        logger.main.info(
+          `   自定义域名：${config.storage.customDomain || '未设置'}`,
+        )
+        logger.main.info(`   前缀：${config.storage.prefix || '无'}`)
+        break
+      }
+      case 'github': {
+        logger.main.info(`   仓库所有者：${config.storage.owner}`)
+        logger.main.info(`   仓库名称：${config.storage.repo}`)
+        logger.main.info(`   分支：${config.storage.branch || 'main'}`)
+        logger.main.info(`   路径：${config.storage.path || '无'}`)
+        logger.main.info(`   使用原始 URL：${config.storage.useRawUrl || '否'}`)
+        break
+      }
+    }
     logger.main.info(`   默认并发数：${config.options.defaultConcurrency}`)
     logger.main.info(`   最大照片数：${config.options.maxPhotos}`)
     logger.main.info(
