@@ -22,7 +22,7 @@ class MasonryHeaderItem {
 
 type MasonryItemType = PhotoManifest | MasonryHeaderItem
 
-const FIRST_SCREEN_ITEMS_COUNT = 15
+const FIRST_SCREEN_ITEMS_COUNT = 30
 
 export const MasonryRoot = () => {
   const { sortOrder, selectedTags } = useAtomValue(gallerySettingAtom)
