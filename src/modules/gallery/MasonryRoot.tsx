@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { gallerySettingAtom } from '~/atoms/app'
 import { RootPortal } from '~/components/ui/portal'
 import { useScrollViewElement } from '~/components/ui/scroll-areas/hooks'
+import { useMobile } from '~/hooks/useMobile'
 import { usePhotos, usePhotoViewer } from '~/hooks/usePhotoViewer'
 import { useTypeScriptHappyCallback } from '~/hooks/useTypeScriptCallback'
 import { Spring } from '~/lib/spring'
@@ -31,12 +32,18 @@ export const MasonryRoot = () => {
 
   const photoViewer = usePhotoViewer()
 
+  const isMobile = useMobile()
+
   return (
     <div className="p-1 lg:p-0">
       <FloatingActionBar />
+      {isMobile && <MasonryHeaderMasonryItem className="mb-1" />}
       <Masonry<MasonryItemType>
         key={`${sortOrder}-${selectedTags.join(',')}`}
-        items={useMemo(() => [MasonryHeaderItem.default, ...photos], [photos])}
+        items={useMemo(
+          () => (isMobile ? photos : [MasonryHeaderItem.default, ...photos]),
+          [photos, isMobile],
+        )}
         render={useCallback(
           (props) => (
             <MasonryItem
@@ -51,7 +58,7 @@ export const MasonryRoot = () => {
           ),
           [photoViewer.openViewer, photos],
         )}
-        columnWidth={300}
+        columnWidth={isMobile ? 200 : 300}
         columnGutter={4}
         rowGutter={4}
         itemHeightEstimate={400}
@@ -123,16 +130,7 @@ export const MasonryItem = ({
   }
 
   if (data instanceof MasonryHeaderItem) {
-    return (
-      <m.div
-        variants={shouldAnimate ? itemVariants : undefined}
-        initial={shouldAnimate ? 'hidden' : 'visible'}
-        animate="visible"
-        onAnimationComplete={shouldAnimate ? onAnimationComplete : undefined}
-      >
-        <MasonryHeaderMasonryItem width={width} />
-      </m.div>
-    )
+    return <MasonryHeaderMasonryItem style={{ width }} />
   } else {
     return (
       <m.div
@@ -140,6 +138,7 @@ export const MasonryItem = ({
         variants={shouldAnimate ? itemVariants : undefined}
         initial={shouldAnimate ? 'hidden' : 'visible'}
         animate="visible"
+        onAnimationComplete={shouldAnimate ? onAnimationComplete : undefined}
       >
         <PhotoMasonryItem
           data={data as PhotoManifest}
