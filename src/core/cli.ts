@@ -322,7 +322,6 @@ async function main() {
   --force              强制重新处理所有照片
   --force-manifest     强制重新生成 manifest
   --force-thumbnails   强制重新生成缩略图
-  --worker <数量>      并发 worker 数量 (覆盖配置文件中的默认值)
   --config             显示当前配置信息
   --help, -h          显示帮助信息
 
@@ -330,7 +329,6 @@ async function main() {
   tsx src/core/cli.ts                           # 增量更新
   tsx src/core/cli.ts --force                   # 全量更新
   tsx src/core/cli.ts --force-thumbnails        # 强制重新生成缩略图
-  tsx src/core/cli.ts --worker 5                # 使用 5 个并发 worker
   tsx src/core/cli.ts --config                  # 显示配置信息
 
 配置：
@@ -399,7 +397,7 @@ async function main() {
     : '并发线程池'
 
   logger.main.info(`🚀 运行模式：${runMode}`)
-  logger.main.info(`⚡ 并发数：${finalConcurrency}`)
+  logger.main.info(`⚡ 最大并发数：${finalConcurrency}`)
   logger.main.info(`🔧 处理模式：${processingMode}`)
   logger.main.info(`🏗️ 使用构建器：PhotoGalleryBuilder (适配器模式)`)
 

@@ -129,7 +129,17 @@ export class ClusterPool<T> extends EventEmitter {
       silent: false,
     })
 
-    for (let i = 1; i <= this.concurrency; i++) {
+    // 根据任务数量和每个 worker 的并发能力决定启动多少个 worker
+    // 需要的 worker 数 = Math.ceil(总任务数 / 每个 worker 并发数)
+    // 但不能超过 concurrency 限制
+    const requiredWorkers = Math.ceil(this.totalTasks / this.workerConcurrency)
+    const workersToStart = Math.min(this.concurrency, requiredWorkers)
+
+    this.logger.main.info(
+      `计算 worker 数量：总任务 ${this.totalTasks}，每个 worker 并发 ${this.workerConcurrency}，需要 ${requiredWorkers} 个，实际启动 ${workersToStart} 个`,
+    )
+
+    for (let i = 1; i <= workersToStart; i++) {
       await this.createWorker(i)
     }
   }
@@ -426,10 +436,15 @@ export class ClusterPool<T> extends EventEmitter {
 
   private async waitForWorkersReady(): Promise<void> {
     return new Promise((resolve) => {
+      const requiredWorkers = Math.ceil(
+        this.totalTasks / this.workerConcurrency,
+      )
+      const expectedWorkers = Math.min(this.concurrency, requiredWorkers)
+
       const checkReady = () => {
-        if (this.readyWorkers.size >= this.concurrency) {
+        if (this.readyWorkers.size >= expectedWorkers) {
           this.logger.main.info(
-            `所有 ${this.concurrency} 个 worker 进程已准备就绪`,
+            `所有 ${expectedWorkers} 个 worker 进程已准备就绪`,
           )
           resolve()
         }
