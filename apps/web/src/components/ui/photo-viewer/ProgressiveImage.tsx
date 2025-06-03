@@ -1,3 +1,5 @@
+import type { WebGLImageViewerRef } from '@photo-gallery/webgl-viewer'
+import { WebGLImageViewer } from '@photo-gallery/webgl-viewer'
 import { m, useAnimationControls } from 'motion/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
@@ -8,14 +10,11 @@ import {
   useShowContextMenu,
 } from '~/atoms/context-menu'
 import { clsxm } from '~/lib/cn'
-import { isMobileDevice } from '~/lib/device-viewport'
 import { canUseWebGL } from '~/lib/feature'
 import { ImageLoaderManager } from '~/lib/image-loader-manager'
 import { Spring } from '~/lib/spring'
-import { isWebCodecsSupported } from '~/lib/video-converter'
 
-import type { WebGLImageViewerRef } from '@photo-gallery/webgl-viewer'
-import { WebGLImageViewer } from '@photo-gallery/webgl-viewer'
+import { LivePhoto } from './LivePhoto'
 import type { LoadingIndicatorRef } from './LoadingIndicator'
 import { LoadingIndicator } from './LoadingIndicator'
 
@@ -66,25 +65,11 @@ export const ProgressiveImage = ({
   const [highResLoaded, setHighResLoaded] = useState(false)
   const [error, setError] = useState(false)
 
-  // Live Photo 相关状态
-  const [isPlayingLivePhoto, setIsPlayingLivePhoto] = useState(false)
-  const [livePhotoVideoLoaded, setLivePhotoVideoLoaded] = useState(false)
-
-  const [isConvertingVideo, setIsConvertingVideo] = useState(false)
-  const [conversionMethod, setConversionMethod] = useState<string>('')
-
   const thumbnailRef = useRef<HTMLImageElement>(null)
-  const videoRef = useRef<HTMLVideoElement>(null)
   const transformRef = useRef<WebGLImageViewerRef>(null)
   const thumbnailAnimateController = useAnimationControls()
-  const videoAnimateController = useAnimationControls()
   const loadingIndicatorRef = useRef<LoadingIndicatorRef>(null)
   const imageLoaderManagerRef = useRef<ImageLoaderManager | null>(null)
-
-  // Live Photo hover 相关
-  const hoverTimerRef = useRef<NodeJS.Timeout | null>(null)
-  const longPressTimerRef = useRef<NodeJS.Timeout | null>(null)
-  const [isLongPressing, setIsLongPressing] = useState(false)
 
   useEffect(() => {
     if (highResLoaded || error || !isCurrentImage) return
@@ -97,34 +82,16 @@ export const ProgressiveImage = ({
       setHighResLoaded(false)
       setBlobSrc(null)
       setError(false)
-      setIsPlayingLivePhoto(false)
-      setLivePhotoVideoLoaded(false)
-
-      setIsConvertingVideo(false)
-      setConversionMethod('')
-      setIsLongPressing(false)
 
       // Reset loading indicator
       loadingIndicatorRef.current?.resetLoadingState()
-
-      // Clean up timers
-      if (hoverTimerRef.current) {
-        clearTimeout(hoverTimerRef.current)
-        hoverTimerRef.current = null
-      }
-      if (longPressTimerRef.current) {
-        clearTimeout(longPressTimerRef.current)
-        longPressTimerRef.current = null
-      }
 
       // Reset transform when image changes
       if (transformRef.current) {
         transformRef.current.resetView()
       }
-
-      // Reset video animation
-      videoAnimateController.set({ opacity: 0 })
     }
+
     const loadImage = async () => {
       try {
         const result = await imageLoaderManager.loadImage(src, {
@@ -137,129 +104,19 @@ export const ProgressiveImage = ({
 
         setBlobSrc(result.blobSrc)
         setHighResLoaded(true)
-
-        // 处理 Live Photo 视频（在图片加载完成后）
-        if (
-          isLivePhoto &&
-          livePhotoVideoUrl &&
-          !livePhotoVideoLoaded &&
-          !isConvertingVideo &&
-          videoRef.current
-        ) {
-          setIsConvertingVideo(true)
-
-          try {
-            const videoResult = await imageLoaderManager.processLivePhotoVideo(
-              livePhotoVideoUrl,
-              videoRef.current,
-              {
-                onLoadingStateUpdate: (state) => {
-                  loadingIndicatorRef.current?.updateLoadingState(state)
-                },
-              },
-            )
-
-            if (videoResult.conversionMethod) {
-              setConversionMethod(videoResult.conversionMethod)
-            }
-
-            setLivePhotoVideoLoaded(true)
-          } catch (videoError) {
-            console.error('Failed to process Live Photo video:', videoError)
-          } finally {
-            setIsConvertingVideo(false)
-          }
-        }
       } catch (loadError) {
         console.error('Failed to load image:', loadError)
         setError(true)
       }
     }
+
     cleanup()
     loadImage()
 
     return () => {
       imageLoaderManager.cleanup()
     }
-  }, [
-    highResLoaded,
-    error,
-    onProgress,
-    src,
-    onError,
-    isCurrentImage,
-    isLivePhoto,
-    livePhotoVideoUrl,
-    livePhotoVideoLoaded,
-    isConvertingVideo,
-  ])
-
-  // Live Photo hover 处理
-  const handleBadgeMouseEnter = useCallback(() => {
-    if (
-      !isLivePhoto ||
-      !livePhotoVideoLoaded ||
-      isPlayingLivePhoto ||
-      isConvertingVideo
-    )
-      return
-
-    hoverTimerRef.current = setTimeout(async () => {
-      setIsPlayingLivePhoto(true)
-
-      // 开始淡入动画
-      await videoAnimateController.start({
-        opacity: 1,
-        transition: { duration: 0.15, ease: 'easeOut' },
-      })
-
-      const video = videoRef.current
-      if (video) {
-        video.currentTime = 0
-        video.play()
-      }
-    }, 200) // 200ms hover 延迟
-  }, [
-    isLivePhoto,
-    livePhotoVideoLoaded,
-    isPlayingLivePhoto,
-    isConvertingVideo,
-    videoAnimateController,
-  ])
-
-  const handleBadgeMouseLeave = useCallback(async () => {
-    if (hoverTimerRef.current) {
-      clearTimeout(hoverTimerRef.current)
-      hoverTimerRef.current = null
-    }
-
-    if (isPlayingLivePhoto) {
-      const video = videoRef.current
-      if (video) {
-        video.pause()
-        video.currentTime = 0
-      }
-
-      // 开始淡出动画
-      await videoAnimateController.start({
-        opacity: 0,
-        transition: { duration: 0.2, ease: 'easeIn' },
-      })
-
-      setIsPlayingLivePhoto(false)
-    }
-  }, [isPlayingLivePhoto, videoAnimateController])
-
-  // 视频播放结束处理
-  const handleVideoEnded = useCallback(async () => {
-    // 播放结束时淡出
-    await videoAnimateController.start({
-      opacity: 0,
-      transition: { duration: 0.2, ease: 'easeIn' },
-    })
-
-    setIsPlayingLivePhoto(false)
-  }, [videoAnimateController])
+  }, [highResLoaded, error, onProgress, src, onError, isCurrentImage])
 
   const onTransformed = useCallback(
     (originalScale: number, relativeScale: number) => {
@@ -275,77 +132,6 @@ export const ProgressiveImage = ({
       opacity: 1,
     })
   }, [thumbnailAnimateController])
-
-  // Live Photo 长按处理（移动端）
-  const handleTouchStart = useCallback(
-    (e: React.TouchEvent) => {
-      if (
-        !isLivePhoto ||
-        !livePhotoVideoLoaded ||
-        isPlayingLivePhoto ||
-        isConvertingVideo ||
-        e.touches.length > 1 // 多指触摸不触发长按
-      )
-        return
-
-      longPressTimerRef.current = setTimeout(async () => {
-        setIsLongPressing(true)
-        setIsPlayingLivePhoto(true)
-
-        // 开始淡入动画
-        await videoAnimateController.start({
-          opacity: 1,
-          transition: { duration: 0.15, ease: 'easeOut' },
-        })
-
-        const video = videoRef.current
-        if (video) {
-          video.currentTime = 0
-          video.play()
-        }
-      }, 500) // 500ms 长按延迟
-    },
-    [
-      isLivePhoto,
-      livePhotoVideoLoaded,
-      isPlayingLivePhoto,
-      isConvertingVideo,
-      videoAnimateController,
-    ],
-  )
-
-  const handleTouchEnd = useCallback(async () => {
-    if (longPressTimerRef.current) {
-      clearTimeout(longPressTimerRef.current)
-      longPressTimerRef.current = null
-    }
-
-    if (isLongPressing && isPlayingLivePhoto) {
-      setIsLongPressing(false)
-
-      const video = videoRef.current
-      if (video) {
-        video.pause()
-        video.currentTime = 0
-      }
-
-      // 开始淡出动画
-      await videoAnimateController.start({
-        opacity: 0,
-        transition: { duration: 0.2, ease: 'easeIn' },
-      })
-
-      setIsPlayingLivePhoto(false)
-    }
-  }, [isLongPressing, isPlayingLivePhoto, videoAnimateController])
-
-  const handleTouchMove = useCallback(() => {
-    // 触摸移动时取消长按
-    if (longPressTimerRef.current) {
-      clearTimeout(longPressTimerRef.current)
-      longPressTimerRef.current = null
-    }
-  }, [])
 
   const showContextMenu = useShowContextMenu()
 
@@ -396,9 +182,6 @@ export const ProgressiveImage = ({
           smooth={true}
           onZoomChange={onTransformed}
           debug={import.meta.env.DEV}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-          onTouchMove={handleTouchMove}
           onContextMenu={(e) =>
             showContextMenu(
               [
@@ -492,16 +275,13 @@ export const ProgressiveImage = ({
         />
       )}
 
-      {/* Live Photo 视频 */}
-      {isLivePhoto && livePhotoVideoUrl && (
-        <m.video
-          ref={videoRef}
-          className="absolute inset-0 z-10 h-full w-full object-contain"
-          muted
-          playsInline
-          onEnded={handleVideoEnded}
-          initial={{ opacity: 0 }}
-          animate={videoAnimateController}
+      {/* Live Photo 组件 */}
+      {isLivePhoto && livePhotoVideoUrl && imageLoaderManagerRef.current && (
+        <LivePhoto
+          videoUrl={livePhotoVideoUrl}
+          imageLoaderManager={imageLoaderManagerRef.current}
+          loadingIndicatorRef={loadingIndicatorRef}
+          isCurrentImage={isCurrentImage}
         />
       )}
 
@@ -518,49 +298,12 @@ export const ProgressiveImage = ({
       {/* 加载指示器 */}
       <LoadingIndicator ref={loadingIndicatorRef} />
 
-      {/* Live Photo 标识 */}
-      {isLivePhoto && (
-        <div
-          className={clsxm(
-            'absolute z-50 flex items-center space-x-1 rounded-xl bg-black/50 px-1 py-1 text-xs text-white cursor-pointer transition-all duration-200 hover:bg-black/70',
-            import.meta.env.DEV ? 'top-16 right-4' : 'top-12 lg:top-4 left-4',
-          )}
-          onMouseEnter={handleBadgeMouseEnter}
-          onMouseLeave={handleBadgeMouseLeave}
-          title={isMobileDevice ? '长按播放实况照片' : '悬浮播放实况照片'}
-        >
-          {isConvertingVideo ? (
-            <div className="flex items-center gap-1 px-1">
-              <i className="i-mingcute-loading-line animate-spin" />
-              <span>实况视频转换中</span>
-            </div>
-          ) : (
-            <>
-              <img
-                className="size-4 invert-100"
-                src="data:image/webp;base64,UklGRjICAABXRUJQVlA4WAoAAAAQAAAAHwAAHwAAQUxQSOUBAAABkCPZtmo369zzZPtz1XPEzBAyM4ozMzNbNIoPUmhmdsQ4BDF9iKUBUHwMn6wRRMQEMMEF5D84Ja+68jgFfK9iKqCuDALrL5DZsHOQK2tASvI4OKv6CStDkeU827OgEi1B4O1Virz1DKQo5e5RYHrD197er7enAWfu4BUhcGoTJG3sc2vrl3GLw+bDIAUclS8gmrbjAiAnbSAKb/fj8inzbiCZoQhOQR2x4YxweQaax7FuP6QsTAAWLYIAYUtBzQbcP8rlJ0y34wSoypilKwlw3Kbz+Bz6T97GUZQqs85Os0qcjDZQUPAHlvPjA0razsMFS6N8+saqnI8AeFvD9CdgsbUjQoctglQfofUeeb1NIfpSRbTbYkj2E9mZR/AHl/PtE0razsF5S6N8+sbyfh+hYMOoOKrNOjvNqnEy1kBh5dITptsJAlSlzdJVBDhp03h+Df3Hse4ApCxCABYvhgAxS8DuNbh/UObcQLJDYVRBlfDwADQsRMnrOPgSYlk7Rt7jlonCk4O4fAic2IJrs5GPyeTHEWt1bDkHQmGPBxeAGS2/Bvp/Nk8HDt1BKVbgYQNFXnoPQvFK5aKdz1kWCa7gUf20/XiUKrD6Oj171mQ5swGE0p0CfoX6gDrK6pS86ii/gDDBAQBWUDggJgAAANACAJ0BKiAAIAA+kUSdSqWjoqGoCACwEglpAAA9o6AA/vjPGsAA"
-              />
-              <span className="mr-1">实况</span>
-              {conversionMethod && (
-                <span className="rounded bg-white/20 px-1 text-xs">
-                  {conversionMethod === 'webcodecs' ? 'WebCodecs' : 'FFmpeg'}
-                </span>
-              )}
-            </>
-          )}
+      {/* 操作提示 */}
+      {!isLivePhoto && (
+        <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded bg-black/50 px-2 py-1 text-xs text-white opacity-0 duration-200 group-hover:opacity-50">
+          双击或双指缩放
         </div>
       )}
-
-      {/* 操作提示 */}
-      <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded bg-black/50 px-2 py-1 text-xs text-white opacity-0 duration-200 group-hover:opacity-50">
-        {isLivePhoto
-          ? isConvertingVideo
-            ? `正在使用 ${isWebCodecsSupported() ? 'WebCodecs' : 'FFmpeg'} 转换视频格式...`
-            : isMobileDevice
-              ? '长按播放实况照片 / 双击缩放'
-              : '悬浮实况标识播放 / 双击缩放'
-          : '双击或双指缩放'}
-      </div>
     </div>
   )
 }

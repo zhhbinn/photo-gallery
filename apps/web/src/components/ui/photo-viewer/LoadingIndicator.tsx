@@ -71,15 +71,15 @@ export const LoadingIndicator = ({
             <div className="flex min-w-0 flex-col gap-0.5">
               {loadingState.isConverting ? (
                 <>
-                  <p className="text-xs font-medium text-white">
+                  <p className="text-xs font-medium text-white tabular-nums">
                     {loadingState.conversionMessage || '转换中...'}
                   </p>
                   {loadingState.codecInfo && (
-                    <p className="text-xs text-white/70">
+                    <p className="text-xs text-white/70 tabular-nums">
                       {loadingState.codecInfo}
                     </p>
                   )}
-                  <span className="text-xs text-white/60">
+                  <span className="text-xs text-white/60 tabular-nums">
                     {Math.round(loadingState.loadingProgress)}%
                   </span>
                 </>
@@ -89,7 +89,7 @@ export const LoadingIndicator = ({
                     <p className="text-xs font-medium text-white">
                       {loadingState.isHeicFormat ? 'HEIC' : '加载中'}
                     </p>
-                    <span className="text-xs text-white/60">
+                    <span className="text-xs text-white/60 tabular-nums">
                       {Math.round(loadingState.loadingProgress)}%
                     </span>
                   </div>
