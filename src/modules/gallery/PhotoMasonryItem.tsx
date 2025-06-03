@@ -9,12 +9,11 @@ import {
   StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens,
   TablerAperture,
 } from '~/icons'
-import { isMobileDevice, isSafari } from '~/lib/device-viewport'
+import { isMobileDevice } from '~/lib/device-viewport'
 import { ImageLoaderManager } from '~/lib/image-loader-manager'
 import { getImageFormat } from '~/lib/image-utils'
 import type { PhotoManifest } from '~/types/photo'
 
-import styles from './photo.module.css'
 
 export const PhotoMasonryItem = ({
   data,
@@ -263,7 +262,6 @@ export const PhotoMasonryItem = ({
           alt={data.title}
           className={clsx(
             'absolute inset-0 h-full w-full object-cover duration-300 group-hover:scale-105',
-            !isSafari ? (imageLoaded ? styles.loaded : 'opacity-0') : '',
           )}
           onLoad={handleImageLoad}
           onError={handleImageError}
