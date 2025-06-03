@@ -14,8 +14,8 @@ import { ImageLoaderManager } from '~/lib/image-loader-manager'
 import { Spring } from '~/lib/spring'
 import { isWebCodecsSupported } from '~/lib/video-converter'
 
-import type { WebGLImageViewerRef } from '../WebGLImageViewer'
-import { WebGLImageViewer } from '../WebGLImageViewer'
+import type { WebGLImageViewerRef } from '@photo-gallery/webgl-viewer'
+import { WebGLImageViewer } from '@photo-gallery/webgl-viewer'
 import type { LoadingIndicatorRef } from './LoadingIndicator'
 import { LoadingIndicator } from './LoadingIndicator'
 

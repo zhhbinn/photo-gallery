@@ -2,7 +2,7 @@ import path from 'node:path'
 
 import type { Exif } from 'exif-reader'
 
-import { env } from '../../../env.js'
+import { env } from '@env'
 import type { Logger } from '../logger/index.js'
 import type { PhotoInfo } from '../types/photo.js'
 

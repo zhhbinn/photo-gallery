@@ -31,7 +31,7 @@ async function runAsWorker() {
     const [{ StorageManager }, { builderConfig }, { loadExistingManifest }] =
       await Promise.all([
         import('./storage/index.js'),
-        import('../../builder.config.js'),
+        import('@builder'),
         import('./manifest/manager.js'),
       ])
 

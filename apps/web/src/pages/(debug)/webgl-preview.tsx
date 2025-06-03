@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { Button } from '~/components/ui/button'
-import { WebGLImageViewer } from '~/components/ui/WebGLImageViewer'
+import { WebGLImageViewer } from '@photo-gallery/webgl-viewer'
 import { useBlobUrl } from '~/lib/blob-url-manager'
 
 export const Component = () => {

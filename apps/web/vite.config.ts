@@ -9,10 +9,10 @@ import { analyzer } from 'vite-bundle-analyzer'
 import { checker } from 'vite-plugin-checker'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
-import { siteConfig } from './config/site.config'
-import PKG from './package.json'
-import { ogImagePlugin } from './plugins/og-image-plugin'
-import { createDependencyChunksPlugin } from './plugins/vite/deps'
+import { siteConfig } from '../../config/site.config'
+import PKG from '../../package.json'
+import { ogImagePlugin } from '../../plugins/og-image-plugin'
+import { createDependencyChunksPlugin } from '../../plugins/vite/deps'
 
 if (process.env.CI) {
   rmSync(path.join(process.cwd(), 'src/pages/(debug)'), {
