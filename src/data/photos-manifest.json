@@ -372,7 +372,7 @@
     ],
     "originalUrl": "https://s3-private.innei.in/images/人像/DSCF3443.HIF",
     "thumbnailUrl": "/thumbnails/DSCF3443.webp",
-    "blurhash": "T5Fiul%c9H00~X_400xws,9P009X",
+    "blurhash": "T5Fiuk%c9H00~X_400xws,9Q009X",
     "width": 4195,
     "height": 6292,
     "aspectRatio": 0.6667196439923713,
@@ -503,7 +503,7 @@
     ],
     "originalUrl": "https://s3-private.innei.in/images/人像/DSCF3439.jpg",
     "thumbnailUrl": "/thumbnails/DSCF3439.webp",
-    "blurhash": "TWE{OutS~q^*jEk9%MflWWIpt7M{",
+    "blurhash": "TWE{OutS~q^*jEf$%MflWXIpt7M{",
     "width": 1981,
     "height": 2971,
     "aspectRatio": 0.6667788623359139,
@@ -625,7 +625,7 @@
     ],
     "originalUrl": "https://s3-private.innei.in/images/人像/DSCF3425.HIF",
     "thumbnailUrl": "/thumbnails/DSCF3425.webp",
-    "blurhash": "TJKcU%rXDj~VIVIUR-jYax-;ayM|",
+    "blurhash": "TJKS;FrXDj~VIVIUR-jYax-;ayM|",
     "width": 5152,
     "height": 7728,
     "aspectRatio": 0.6666666666666666,
@@ -1165,7 +1165,7 @@
     ],
     "originalUrl": "https://s3-private.innei.in/images/人像/DSCF3366.HIF",
     "thumbnailUrl": "/thumbnails/DSCF3366.webp",
-    "blurhash": "TjKoG?%MNG_Ns:x^IpRPt5jsWXV@",
+    "blurhash": "TjKoG=%MNG_Ns:x^IpRPt5jsWXV@",
     "width": 5152,
     "height": 7728,
     "aspectRatio": 0.6666666666666666,
@@ -1493,7 +1493,7 @@
     ],
     "originalUrl": "https://s3-private.innei.in/images/人像/DSCF3355.HIF",
     "thumbnailUrl": "/thumbnails/DSCF3355.webp",
-    "blurhash": "TFF$eE_2~U0~9ZE300xUETxsni-O",
+    "blurhash": "TFF$eE_2~U0~9ZE300xUETxsjF-O",
     "width": 5152,
     "height": 7728,
     "aspectRatio": 0.6666666666666666,
@@ -1744,7 +1744,8 @@
         "GPSDateStamp": "2025:05:31",
         "GPSHPositioningError": 13.796606146908745
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3334",
@@ -1757,7 +1758,7 @@
     ],
     "originalUrl": "https://s3-private.innei.in/images/人像/DSCF3334.heic",
     "thumbnailUrl": "/thumbnails/DSCF3334.webp",
-    "blurhash": "TLHn+]EMxYMIoJbI~qxZNGw{fmt6",
+    "blurhash": "TLHn+[EMxYMIoJbI~qxZNGw{fmt6",
     "width": 5152,
     "height": 7728,
     "aspectRatio": 0.6666666666666666,
@@ -1923,7 +1924,8 @@
         "NoiseReduction": "0",
         "Clarity": "0"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3333",
@@ -2102,7 +2104,8 @@
         "NoiseReduction": "0",
         "Clarity": "0"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3330",
@@ -2115,7 +2118,7 @@
     ],
     "originalUrl": "https://s3-private.innei.in/images/人像/DSCF3330.heic",
     "thumbnailUrl": "/thumbnails/DSCF3330.webp",
-    "blurhash": "T4D,G??w00#j?c00W.D*Mx004T?a",
+    "blurhash": "T4D,G??w00#j?c00W-D*Mx004T?a",
     "width": 5152,
     "height": 7728,
     "aspectRatio": 0.6666666666666666,
@@ -2281,7 +2284,8 @@
         "NoiseReduction": "0",
         "Clarity": "0"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3328",
@@ -2608,7 +2612,8 @@
         "NoiseReduction": "-1",
         "Clarity": "0"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3303",
@@ -2909,7 +2914,8 @@
         "GPSMapDatum": "WGS-84",
         "GPSDateStamp": "2025:05:30"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3264",
@@ -2922,7 +2928,7 @@
     ],
     "originalUrl": "https://s3-private.innei.in/images/人像/DSCF3264.jpg",
     "thumbnailUrl": "/thumbnails/DSCF3264.webp",
-    "blurhash": "TFDb$n=s~V~WxCtR-UsoRjM_NeRP",
+    "blurhash": "TFDb$n=s~V~WxCtR-UsoRjM_NdRP",
     "width": 5152,
     "height": 7728,
     "aspectRatio": 0.6666666666666666,
@@ -3030,7 +3036,8 @@
         "GPSMapDatum": "WGS-84",
         "GPSDateStamp": "2025:05:30"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3260",
@@ -3120,7 +3127,8 @@
         "LensModel": "BS-Optics FX 50mm F1.4",
         "LensSerialNumber": "30400849"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3223",
@@ -3263,7 +3271,8 @@
         "NoiseReduction": "0",
         "Clarity": "0"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3174",
@@ -3353,7 +3362,8 @@
         "LensModel": "Fujifilm Fujinon XF70-300mmF4-5.6 R LM OIS WR",
         "LensSerialNumber": "5AC03773"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3167",
@@ -3443,7 +3453,8 @@
         "LensModel": "Fujifilm Fujinon XF70-300mmF4-5.6 R LM OIS WR",
         "LensSerialNumber": "5AC03773"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3154",
@@ -3589,7 +3600,8 @@
         "NoiseReduction": "0",
         "Clarity": "0"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3138",
@@ -3602,7 +3614,7 @@
     ],
     "originalUrl": "https://s3-private.innei.in/images/风光/DSCF3138.jpg",
     "thumbnailUrl": "/thumbnails/DSCF3138.webp",
-    "blurhash": "TmC*Rka#R*%jkCayN0ays:NEazju",
+    "blurhash": "TmC*Rja#R*%jkCayN0ays:NEazju",
     "width": 4809,
     "height": 7214,
     "aspectRatio": 0.6666204602162462,
@@ -3679,7 +3691,8 @@
         "LensModel": "BS-Optics FX 50mm F1.4",
         "LensSerialNumber": "30400849"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3119",
@@ -3692,7 +3705,7 @@
     ],
     "originalUrl": "https://s3-private.innei.in/images/风光/DSCF3119.jpg",
     "thumbnailUrl": "/thumbnails/DSCF3119.webp",
-    "blurhash": "TCCj|GIU00EJozVs~XtkEdI:-;oL",
+    "blurhash": "TCCj|GIU00EJoza0~XtkEdI:-;oL",
     "width": 3435,
     "height": 5152,
     "aspectRatio": 0.6667313664596274,
@@ -3769,7 +3782,8 @@
         "LensModel": "BS-Optics FX 50mm F1.4",
         "LensSerialNumber": "30400849"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3117",
@@ -3859,7 +3873,8 @@
         "LensModel": "BS-Optics FX 50mm F1.4",
         "LensSerialNumber": "30400849"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3116",
@@ -3949,7 +3964,8 @@
         "LensModel": "BS-Optics FX 50mm F1.4",
         "LensSerialNumber": "30400849"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3091",
@@ -4071,7 +4087,8 @@
         "GPSMapDatum": "WGS-84",
         "GPSDateStamp": "2025:05:19"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3029",
@@ -4084,7 +4101,7 @@
     ],
     "originalUrl": "https://s3-private.innei.in/images/人文/DSCF3029.jpg",
     "thumbnailUrl": "/thumbnails/DSCF3029.webp",
-    "blurhash": "T1Bp-20C0h{H9apd00${;J008^v}",
+    "blurhash": "T1Bp-20C0h{H9apd00${;J008^v|",
     "width": 4801,
     "height": 7202,
     "aspectRatio": 0.6666203832268814,
@@ -4193,7 +4210,8 @@
         "GPSMapDatum": "WGS-84",
         "GPSDateStamp": "2025:05:16"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3007",
@@ -4206,7 +4224,7 @@
     ],
     "originalUrl": "https://s3-private.innei.in/images/风光/DSCF3007.jpg",
     "thumbnailUrl": "/thumbnails/DSCF3007.webp",
-    "blurhash": "T4AdTGb^_4Om_300V?4n^,00-;%3",
+    "blurhash": "T4AdTGb^_4Om_300V?4n^,00-;xv",
     "width": 4914,
     "height": 7371,
     "aspectRatio": 0.6666666666666666,
@@ -4315,7 +4333,8 @@
         "GPSMapDatum": "WGS-84",
         "GPSDateStamp": "2025:05:16"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF3002",
@@ -4437,7 +4456,8 @@
         "GPSMapDatum": "WGS-84",
         "GPSDateStamp": "2025:05:16"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF2873",
@@ -4559,7 +4579,8 @@
         "GPSMapDatum": "WGS-84",
         "GPSDateStamp": "2025:05:11"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF2853",
@@ -4649,7 +4670,8 @@
         "LensModel": "Fujifilm Fujinon XF70-300mmF4-5.6 R LM OIS WR",
         "LensSerialNumber": "5AC03773"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF2851",
@@ -4739,7 +4761,8 @@
         "LensModel": "Fujifilm Fujinon XF70-300mmF4-5.6 R LM OIS WR",
         "LensSerialNumber": "5AC03773"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF2850",
@@ -4829,7 +4852,8 @@
         "LensModel": "Fujifilm Fujinon XF70-300mmF4-5.6 R LM OIS WR",
         "LensSerialNumber": "5AC03773"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF2848",
@@ -4919,7 +4943,8 @@
         "LensModel": "Fujifilm Fujinon XF70-300mmF4-5.6 R LM OIS WR",
         "LensSerialNumber": "5AC03773"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF0420",
@@ -4932,7 +4957,7 @@
     ],
     "originalUrl": "https://s3-private.innei.in/images/花/DSCF0420.jpg",
     "thumbnailUrl": "/thumbnails/DSCF0420.webp",
-    "blurhash": "T9HBxnM{0000.80L00-U~C~VNG-p",
+    "blurhash": "T9HBufM{0000.80L00-U~C~VNG-p",
     "width": 5152,
     "height": 7728,
     "aspectRatio": 0.6666666666666666,
@@ -5041,7 +5066,8 @@
         "GPSMapDatum": "WGS-84",
         "GPSDateStamp": "2025:05:05"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF0419",
@@ -5163,7 +5189,8 @@
         "GPSMapDatum": "WGS-84",
         "GPSDateStamp": "2025:05:05"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF0414",
@@ -5285,7 +5312,8 @@
         "GPSMapDatum": "WGS-84",
         "GPSDateStamp": "2025:05:05"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF0378",
@@ -5407,7 +5435,8 @@
         "GPSMapDatum": "WGS-84",
         "GPSDateStamp": "2025:05:03"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF0324",
@@ -5563,7 +5592,7 @@
     ],
     "originalUrl": "https://s3-private.innei.in/images/花/DSCF0074.jpg",
     "thumbnailUrl": "/thumbnails/DSCF0074.webp",
-    "blurhash": "T6L1:,}B0y0qV@$y00NHs=O%I@#Y",
+    "blurhash": "T6K[SH}B0y0qV@$y00NHs=O%I@#Y",
     "width": 5152,
     "height": 7728,
     "aspectRatio": 0.6666666666666666,
@@ -5672,7 +5701,8 @@
         "GPSMapDatum": "WGS-84",
         "GPSDateStamp": "2025:04:21"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "DSCF0071",
@@ -5794,7 +5824,8 @@
         "GPSMapDatum": "WGS-84",
         "GPSDateStamp": "2025:04:21"
       }
-    }
+    },
+    "isLivePhoto": false
   },
   {
     "id": "IMG_5469",
