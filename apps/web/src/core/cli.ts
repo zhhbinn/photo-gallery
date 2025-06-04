@@ -99,13 +99,6 @@ async function runAsWorker() {
         isForceThumbnails: process.env.FORCE_THUMBNAILS === 'true',
       }
 
-      // 获取 S3 配置
-      const { builderConfig } = await import('@builder')
-      const s3Config =
-        builderConfig.storage.provider === 's3'
-          ? builderConfig.storage
-          : undefined
-
       // 处理照片
       const result = await processPhoto(
         legacyObj,
@@ -116,7 +109,6 @@ async function runAsWorker() {
         legacyLivePhotoMap,
         processorOptions,
         workerLogger,
-        s3Config,
       )
 
       // 发送结果回主进程
@@ -177,13 +169,6 @@ async function runAsWorker() {
               })
             }
 
-            // 获取 S3 配置
-            const { builderConfig } = await import('@builder')
-            const s3Config =
-              builderConfig.storage.provider === 's3'
-                ? builderConfig.storage
-                : undefined
-
             // 处理照片
             const { processPhoto } = await import('./photo/processor.js')
             const result = await processPhoto(
@@ -199,7 +184,6 @@ async function runAsWorker() {
                 isForceThumbnails: process.env.FORCE_THUMBNAILS === 'true',
               },
               logger,
-              s3Config,
             )
 
             // 添加成功结果
