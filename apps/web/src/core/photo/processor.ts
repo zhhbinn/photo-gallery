@@ -10,13 +10,11 @@ import {
   getImageMetadataWithSharp,
   preprocessImageBuffer,
 } from '../image/processor.js'
-import {
-  generateThumbnailAndBlurhash,
-  thumbnailExists,
-} from '../image/thumbnail.js'
+import { generateThumbnail, thumbnailExists } from '../image/thumbnail.js'
 import type { Logger } from '../logger/index.js'
 import { needsUpdate } from '../manifest/manager.js'
 import { generateS3Url, getImageFromS3 } from '../s3/operations.js'
+import type { S3Config } from '../storage/interfaces.js'
 import type { PhotoManifestItem, ProcessPhotoResult } from '../types/photo.js'
 import { extractPhotoInfo } from './info-extractor.js'
 
@@ -44,6 +42,7 @@ export async function processPhoto(
   livePhotoMap: Map<string, _Object>,
   options: PhotoProcessorOptions,
   logger: Logger,
+  s3Config?: S3Config,
 ): Promise<ProcessPhotoResult> {
   const key = obj.Key
   if (!key) {
@@ -126,7 +125,6 @@ export async function processPhoto(
 
     // 如果是增量更新且已有 blurhash，可以复用
     let thumbnailUrl: string | null = null
-    let thumbnailBuffer: Buffer | null = null
     let blurhash: string | null = null
 
     if (
@@ -138,44 +136,18 @@ export async function processPhoto(
       // 复用现有的缩略图和 blurhash
       blurhash = existingItem.blurhash
       workerLoggers.blurhash.info(`复用现有 blurhash: ${photoId}`)
-
-      try {
-        const fs = await import('node:fs/promises')
-        const thumbnailPath = path.join(
-          process.cwd(),
-          'public/thumbnails',
-          `${photoId}.webp`,
-        )
-        thumbnailBuffer = await fs.readFile(thumbnailPath)
-        thumbnailUrl = `/thumbnails/${photoId}.webp`
-        workerLoggers.thumbnail.info(`复用现有缩略图：${photoId}`)
-      } catch (error) {
-        workerLoggers.thumbnail.warn(
-          `读取现有缩略图失败，重新生成：${photoId}`,
-          error,
-        )
-        // 继续执行生成逻辑
-      }
     }
 
-    // 如果没有复用成功，则生成缩略图和 blurhash
-    if (!thumbnailUrl || !thumbnailBuffer || !blurhash) {
-      const result = await generateThumbnailAndBlurhash(
-        imageBuffer,
-        photoId,
-        metadata.width,
-        metadata.height,
-        options.isForceMode || options.isForceThumbnails,
-        {
-          thumbnail: workerLoggers.thumbnail,
-          blurhash: workerLoggers.blurhash,
-        },
-      )
+    const result = await generateThumbnail(
+      photoId,
+      {
+        thumbnail: workerLoggers.thumbnail,
+      },
+      s3Config,
+      key,
+    )
 
-      thumbnailUrl = result.thumbnailUrl
-      thumbnailBuffer = result.thumbnailBuffer
-      blurhash = result.blurhash
-    }
+    thumbnailUrl = result.thumbnailUrl
 
     // 如果是增量更新且已有 EXIF 数据，可以复用
     let exifData: Exif | null = null

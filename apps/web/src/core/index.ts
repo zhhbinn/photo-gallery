@@ -32,10 +32,7 @@ export {
   getImageMetadataWithSharp,
   preprocessImageBuffer,
 } from './image/processor.js'
-export {
-  generateThumbnailAndBlurhash,
-  thumbnailExists,
-} from './image/thumbnail.js'
+export { thumbnailExists } from './image/thumbnail.js'
 
 // 照片处理
 export { extractPhotoInfo } from './photo/info-extractor.js'

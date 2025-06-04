@@ -43,6 +43,4 @@ export interface ProcessPhotoResult {
 
 export interface ThumbnailResult {
   thumbnailUrl: string | null
-  thumbnailBuffer: Buffer | null
-  blurhash: string | null
 }

@@ -182,6 +182,12 @@ export class PhotoGalleryBuilder {
               })
             }
 
+            // 获取 S3 配置
+            const s3Config =
+              this.config.storage.provider === 's3'
+                ? this.config.storage
+                : undefined
+
             return await processPhoto(
               legacyObj,
               taskIndex,
@@ -191,6 +197,7 @@ export class PhotoGalleryBuilder {
               legacyLivePhotoMap,
               processorOptions,
               logger,
+              s3Config,
             )
           })
         }
