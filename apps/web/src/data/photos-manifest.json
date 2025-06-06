@@ -1,5 +1,3492 @@
 [
   {
+    "id": "IMG20250517131113",
+    "title": "IMG20250517131113",
+    "description": "",
+    "dateTaken": "2025-05-17T13:11:13.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250517131113.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250517131113.jpg?width=316",
+    "blurhash": "T:IrQ$%3of_4ayWBRkM{RjRjt7of",
+    "width": 2304,
+    "height": 4096,
+    "aspectRatio": 0.5625,
+    "s3Key": "IMG20250517131113.jpg",
+    "lastModified": "2025-06-06T04:21:03.060Z",
+    "size": 9761287,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 2304,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-17T13:11:13.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1144
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.0006045949214026602,
+        "FNumber": 2.6,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 64,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-17T13:11:13.000Z",
+        "DateTimeDigitized": "2025-05-17T13:11:13.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 10.691,
+        "ApertureValue": 2.75,
+        "BrightnessValue": 11.52,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 2.75,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 15.38,
+        "SubSecTime": "088",
+        "SubSecTimeOriginal": "088",
+        "SubSecTimeDigitized": "088",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 2304,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1114,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1.1067,
+        "FocalLengthIn35mmFilm": 72,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 15.38mm f/2.6"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          41,
+          9.29
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          31,
+          34.92
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 54.535,
+        "GPSTimeStamp": [
+          4,
+          11,
+          8
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:17"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250517130957",
+    "title": "IMG20250517130957",
+    "description": "",
+    "dateTaken": "2025-05-17T13:09:57.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250517130957.heic",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250517130957.heic?width=316",
+    "blurhash": "THHL3git~qRQD%-p?GWEM{IuxC%L",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG20250517130957.heic",
+    "lastModified": "2025-06-06T04:20:55.496Z",
+    "size": 3150669,
+    "exif": {
+      "bigEndian": false,
+      "Image": {
+        "ImageWidth": 3072,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-17T13:09:57.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1088
+      },
+      "Thumbnail": {
+        "Compression": 6,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "JPEGInterchangeFormat": 1377,
+        "JPEGInterchangeFormatLength": 20131
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.008333333333333333,
+        "FNumber": 2.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 1600,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-17T13:09:57.000Z",
+        "DateTimeDigitized": "2025-05-17T13:09:57.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 6.906,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 1.21,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "773",
+        "SubSecTimeOriginal": "773",
+        "SubSecTimeDigitized": "773",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 0,
+        "PixelYDimension": 0,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          41,
+          10.32
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          31,
+          35.81
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 71.5,
+        "GPSTimeStamp": [
+          4,
+          9,
+          19
+        ],
+        "GPSDateStamp": "2025:05:17"
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250517130949",
+    "title": "IMG20250517130949",
+    "description": "",
+    "dateTaken": "2025-05-17T13:09:49.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250517130949.heic",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250517130949.heic?width=316",
+    "blurhash": "TDG8WJvw5E00cGxB~qrotRM_tSWA",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG20250517130949.heic",
+    "lastModified": "2025-06-06T04:20:54.427Z",
+    "size": 3156388,
+    "exif": {
+      "bigEndian": false,
+      "Image": {
+        "ImageWidth": 3072,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-17T13:09:49.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1088
+      },
+      "Thumbnail": {
+        "Compression": 6,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "JPEGInterchangeFormat": 1377,
+        "JPEGInterchangeFormatLength": 15182
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.008333333333333333,
+        "FNumber": 2.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 1000,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-17T13:09:49.000Z",
+        "DateTimeDigitized": "2025-05-17T13:09:49.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 6.906,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 1.6,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "181",
+        "SubSecTimeOriginal": "181",
+        "SubSecTimeDigitized": "181",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 0,
+        "PixelYDimension": 0,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          41,
+          10.32
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          31,
+          35.81
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 71.5,
+        "GPSTimeStamp": [
+          4,
+          9,
+          19
+        ],
+        "GPSDateStamp": "2025:05:17"
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250517130921",
+    "title": "IMG20250517130921",
+    "description": "",
+    "dateTaken": "2025-05-17T13:09:21.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250517130921.heic",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250517130921.heic?width=316",
+    "blurhash": "TGHUOV~pIo^*9aIVOUIVnksoV[R%",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG20250517130921.heic",
+    "lastModified": "2025-06-06T04:20:54.754Z",
+    "size": 3283710,
+    "exif": {
+      "bigEndian": false,
+      "Image": {
+        "ImageWidth": 3072,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-17T13:09:21.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1104
+      },
+      "Thumbnail": {
+        "Compression": 6,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "JPEGInterchangeFormat": 1393,
+        "JPEGInterchangeFormatLength": 22794
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.008333333333333333,
+        "FNumber": 2.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 800,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-17T13:09:21.000Z",
+        "DateTimeDigitized": "2025-05-17T13:09:21.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 6.906,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 2.2,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "477",
+        "SubSecTimeOriginal": "477",
+        "SubSecTimeDigitized": "477",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 0,
+        "PixelYDimension": 0,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          41,
+          10.7
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          31,
+          35.67
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 71.5,
+        "GPSTimeStamp": [
+          4,
+          8,
+          17
+        ],
+        "GPSDateStamp": "2025:05:17"
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250517130831",
+    "title": "IMG20250517130831",
+    "description": "",
+    "dateTaken": "2025-05-17T13:08:31.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250517130831.heic",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250517130831.heic?width=316",
+    "blurhash": "TAIOOh0g.9?^02JC^H%N9F4TDi$y",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG20250517130831.heic",
+    "lastModified": "2025-06-06T04:20:50.011Z",
+    "size": 2771636,
+    "exif": {
+      "bigEndian": false,
+      "Image": {
+        "ImageWidth": 3072,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-17T13:08:31.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1102
+      },
+      "Thumbnail": {
+        "Compression": 6,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "JPEGInterchangeFormat": 1391,
+        "JPEGInterchangeFormatLength": 19051
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.008333333333333333,
+        "FNumber": 2.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 800,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-17T13:08:31.000Z",
+        "DateTimeDigitized": "2025-05-17T13:08:31.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 6.906,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 2.85,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "176",
+        "SubSecTimeOriginal": "176",
+        "SubSecTimeDigitized": "176",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 0,
+        "PixelYDimension": 0,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          41,
+          10.7
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          31,
+          35.67
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 71.5,
+        "GPSTimeStamp": [
+          4,
+          8,
+          17
+        ],
+        "GPSDateStamp": "2025:05:17"
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250517130129_01",
+    "title": "IMG20250517130129 01",
+    "description": "",
+    "dateTaken": "2025-05-17T13:01:29.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250517130129_01.heic",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250517130129_01.heic?width=316",
+    "blurhash": "LBH1;^~BD%%2?c%L9aae%#~VtQ%L",
+    "width": 4096,
+    "height": 3072,
+    "aspectRatio": 1.3333333333333333,
+    "s3Key": "IMG20250517130129_01.heic",
+    "lastModified": "2025-06-06T04:20:48.798Z",
+    "size": 3366809,
+    "exif": {
+      "bigEndian": false,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 3072,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-17T13:01:29.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1090
+      },
+      "Thumbnail": {
+        "Compression": 6,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "JPEGInterchangeFormat": 1379,
+        "JPEGInterchangeFormatLength": 13863
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.008333333333333333,
+        "FNumber": 2.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 800,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-17T13:01:29.000Z",
+        "DateTimeDigitized": "2025-05-17T13:01:29.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 6.906,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 2.07,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "876",
+        "SubSecTimeOriginal": "876",
+        "SubSecTimeDigitized": "876",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 0,
+        "PixelYDimension": 0,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          41,
+          10.01
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          31,
+          31.64
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 78.765,
+        "GPSTimeStamp": [
+          3,
+          57,
+          45
+        ],
+        "GPSDateStamp": "2025:05:17"
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250517125944",
+    "title": "IMG20250517125944",
+    "description": "",
+    "dateTaken": "2025-05-17T12:59:44.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250517125944.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250517125944.jpg?width=316",
+    "blurhash": "TGK0~L~UxU?w^*og^*-o-p9INHxV",
+    "width": 2304,
+    "height": 4096,
+    "aspectRatio": 0.5625,
+    "s3Key": "IMG20250517125944.jpg",
+    "lastModified": "2025-06-06T04:20:48.686Z",
+    "size": 8953941,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 2304,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-17T12:59:44.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1136
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.008333333333333333,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 1600,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-17T12:59:44.000Z",
+        "DateTimeDigitized": "2025-05-17T12:59:44.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 6.906,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 1.68,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "667",
+        "SubSecTimeOriginal": "667",
+        "SubSecTimeDigitized": "667",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 2304,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1106,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          41,
+          10.01
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          31,
+          31.64
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 78.765,
+        "GPSTimeStamp": [
+          3,
+          57,
+          45
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:17"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250517124206",
+    "title": "IMG20250517124206",
+    "description": "",
+    "dateTaken": "2025-05-17T12:42:06.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250517124206.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250517124206.jpg?width=316",
+    "blurhash": "TKHVVfD$_3x_-;D$9ERjj[_Nof%M",
+    "width": 2304,
+    "height": 4096,
+    "aspectRatio": 0.5625,
+    "s3Key": "IMG20250517124206.jpg",
+    "lastModified": "2025-06-06T04:20:42.444Z",
+    "size": 7628951,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 2304,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-17T12:42:06.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1144
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.0013869625520110957,
+        "FNumber": 2.6,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-17T12:42:06.000Z",
+        "DateTimeDigitized": "2025-05-17T12:42:06.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 9.493,
+        "ApertureValue": 2.75,
+        "BrightnessValue": 10.34,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 2.75,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 15.38,
+        "SubSecTime": "475",
+        "SubSecTimeOriginal": "475",
+        "SubSecTimeDigitized": "475",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 2304,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1114,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1.1067,
+        "FocalLengthIn35mmFilm": 72,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 15.38mm f/2.6"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          41,
+          7.89
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          31,
+          33.56
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 70.342,
+        "GPSTimeStamp": [
+          3,
+          42,
+          2
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:17"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250516160838",
+    "title": "IMG20250516160838",
+    "description": "",
+    "dateTaken": "2025-05-16T16:08:38.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250516160838.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250516160838.jpg?width=316",
+    "blurhash": "T7BzaR0_5$00^k-pH{RBa4~nEdNG",
+    "width": 2304,
+    "height": 4096,
+    "aspectRatio": 0.5625,
+    "s3Key": "IMG20250516160838.jpg",
+    "lastModified": "2025-06-06T04:20:44.416Z",
+    "size": 18218236,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 2304,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-16T16:08:38.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1140
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.0064516129032258064,
+        "FNumber": 4.3,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 400,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-16T16:08:38.000Z",
+        "DateTimeDigitized": "2025-05-16T16:08:38.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 7.278,
+        "ApertureValue": 4.2,
+        "BrightnessValue": 5.54,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 4.2,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 22.36,
+        "SubSecTime": "300",
+        "SubSecTimeOriginal": "300",
+        "SubSecTimeDigitized": "300",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 2304,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1110,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 135,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 22.36mm f/4.3"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          22.63
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          46,
+          16.18
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 78.614,
+        "GPSTimeStamp": [
+          7,
+          8,
+          20
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:16"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250516160811",
+    "title": "IMG20250516160811",
+    "description": "",
+    "dateTaken": "2025-05-16T16:08:11.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250516160811.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250516160811.jpg?width=316",
+    "blurhash": "L7C@Mv|*_K%Mt0E2Tnk~4;O*%YVa",
+    "width": 4096,
+    "height": 2304,
+    "aspectRatio": 1.7777777777777777,
+    "s3Key": "IMG20250516160811.jpg",
+    "lastModified": "2025-06-06T04:20:41.189Z",
+    "size": 18514051,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 2304,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-16T16:08:11.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1142
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.01,
+        "FNumber": 4.3,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 500,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-16T16:08:11.000Z",
+        "DateTimeDigitized": "2025-05-16T16:08:11.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 6.644,
+        "ApertureValue": 4.2,
+        "BrightnessValue": 4.47,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 4.2,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 22.36,
+        "SubSecTime": "839",
+        "SubSecTimeOriginal": "839",
+        "SubSecTimeDigitized": "839",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 4096,
+        "PixelYDimension": 2304,
+        "InteroperabilityTag": 1112,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 135,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 22.36mm f/4.3"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          22.84
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          46,
+          15.77
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 69.221,
+        "GPSTimeStamp": [
+          7,
+          7,
+          18
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:16"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250516151414",
+    "title": "IMG20250516151414",
+    "description": "",
+    "dateTaken": "2025-05-16T15:14:14.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250516151414.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250516151414.jpg?width=316",
+    "blurhash": "TBEe[Gxt8^00WWt89DRj?wkYofMw",
+    "width": 2304,
+    "height": 4096,
+    "aspectRatio": 0.5625,
+    "s3Key": "IMG20250516151414.jpg",
+    "lastModified": "2025-06-06T04:20:32.674Z",
+    "size": 18114008,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 2304,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-16T15:14:14.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1144
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.01,
+        "FNumber": 4.3,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 125,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-16T15:14:14.000Z",
+        "DateTimeDigitized": "2025-05-16T15:14:14.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 6.644,
+        "ApertureValue": 4.2,
+        "BrightnessValue": 5.4,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 4.2,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 22.36,
+        "SubSecTime": "692",
+        "SubSecTimeOriginal": "692",
+        "SubSecTimeDigitized": "692",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 2304,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1114,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 135,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 22.36mm f/4.3"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          14.95
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          46,
+          16.55
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 76.303,
+        "GPSTimeStamp": [
+          6,
+          13,
+          41
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:16"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250516145054",
+    "title": "IMG20250516145054",
+    "description": "",
+    "dateTaken": "2025-05-16T14:50:54.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250516145054.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250516145054.jpg?width=316",
+    "blurhash": "LvHe?|V?M{WB_4ofoIoL-;t7WWWB",
+    "width": 4096,
+    "height": 2304,
+    "aspectRatio": 1.7777777777777777,
+    "s3Key": "IMG20250516145054.jpg",
+    "lastModified": "2025-06-06T04:20:32.935Z",
+    "size": 14493231,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 2304,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-16T14:50:54.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1138
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.0008976660682226212,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-16T14:50:54.000Z",
+        "DateTimeDigitized": "2025-05-16T14:50:54.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 10.121,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 9.93,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "606",
+        "SubSecTimeOriginal": "606",
+        "SubSecTimeDigitized": "606",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 4096,
+        "PixelYDimension": 2304,
+        "InteroperabilityTag": 1108,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          32.96
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          46,
+          17.4
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 83.26,
+        "GPSTimeStamp": [
+          5,
+          50,
+          41
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:16"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250516134346",
+    "title": "IMG20250516134346",
+    "description": "",
+    "dateTaken": "2025-05-16T13:43:46.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250516134346.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250516134346.jpg?width=316",
+    "blurhash": "TLHLSXt74T~qozD$?vM{Mxt7RkjE",
+    "width": 2304,
+    "height": 4096,
+    "aspectRatio": 0.5625,
+    "s3Key": "IMG20250516134346.jpg",
+    "lastModified": "2025-06-06T04:20:27.280Z",
+    "size": 12038081,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 2304,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-16T13:43:46.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1144
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.00423728813559322,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-16T13:43:46.000Z",
+        "DateTimeDigitized": "2025-05-16T13:43:46.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 7.882,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 6.04,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "317",
+        "SubSecTimeOriginal": "317",
+        "SubSecTimeDigitized": "317",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 2304,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1114,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          25.65
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          46,
+          15.11
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 92.111,
+        "GPSTimeStamp": [
+          4,
+          43,
+          40
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:16"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250516115758",
+    "title": "IMG20250516115758",
+    "description": "",
+    "dateTaken": "2025-05-16T11:57:58.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250516115758.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250516115758.jpg?width=316",
+    "blurhash": "TiHL#jRPIU_4jZWVo0axt7ITazof",
+    "width": 2304,
+    "height": 4096,
+    "aspectRatio": 0.5625,
+    "s3Key": "IMG20250516115758.jpg",
+    "lastModified": "2025-06-06T04:22:50.937Z",
+    "size": 13820564,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 2304,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-16T11:57:58.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1142
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.0008896797153024911,
+        "FNumber": 2.6,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-16T11:57:58.000Z",
+        "DateTimeDigitized": "2025-05-16T11:57:58.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 10.134,
+        "ApertureValue": 2.75,
+        "BrightnessValue": 10.93,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 2.75,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 15.38,
+        "SubSecTime": "801",
+        "SubSecTimeOriginal": "801",
+        "SubSecTimeDigitized": "801",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 2304,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1112,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1.1067,
+        "FocalLengthIn35mmFilm": 72,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 15.38mm f/2.6"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          52.7
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          47,
+          37.75
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 103.295,
+        "GPSTimeStamp": [
+          2,
+          57,
+          26
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:16"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250516114939",
+    "title": "IMG20250516114939",
+    "description": "",
+    "dateTaken": "2025-05-16T11:49:39.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250516114939.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250516114939.jpg?width=316",
+    "blurhash": "LkHL#Y%gMxkB_4WYWAoz?dxbWToM",
+    "width": 4096,
+    "height": 2304,
+    "aspectRatio": 1.7777777777777777,
+    "s3Key": "IMG20250516114939.jpg",
+    "lastModified": "2025-06-06T04:20:20.085Z",
+    "size": 10876262,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 2304,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-16T11:49:39.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1140
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.00117096018735363,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-16T11:49:39.000Z",
+        "DateTimeDigitized": "2025-05-16T11:49:39.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 9.738,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 9.76,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "239",
+        "SubSecTimeOriginal": "239",
+        "SubSecTimeDigitized": "239",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 4096,
+        "PixelYDimension": 2304,
+        "InteroperabilityTag": 1110,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          50.1
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          47,
+          41.7
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 103.373,
+        "GPSTimeStamp": [
+          2,
+          48,
+          58
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:16"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250516114223",
+    "title": "IMG20250516114223",
+    "description": "",
+    "dateTaken": "2025-05-16T11:42:23.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250516114223.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250516114223.jpg?width=316",
+    "blurhash": "TUHn+;.7%M~WxakCM{RjM|t7ofj[",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG20250516114223.jpg",
+    "lastModified": "2025-06-06T04:20:16.070Z",
+    "size": 10180755,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 3072,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-16T11:42:23.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1140
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.01,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 800,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-16T11:42:23.000Z",
+        "DateTimeDigitized": "2025-05-16T11:42:23.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 6.644,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 2.1,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "559",
+        "SubSecTimeOriginal": "559",
+        "SubSecTimeDigitized": "559",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 3072,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1110,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 2.068,
+        "FocalLengthIn35mmFilm": 47,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          51.54
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          47,
+          43.75
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 77.808,
+        "GPSTimeStamp": [
+          2,
+          42,
+          15
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:16"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250516113244",
+    "title": "IMG20250516113244",
+    "description": "",
+    "dateTaken": "2025-05-16T11:32:44.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250516113244.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250516113244.jpg?width=316",
+    "blurhash": "T8B:sgDQ%y00XjR6RC-:oz?[a1Io",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG20250516113244.jpg",
+    "lastModified": "2025-06-06T04:20:17.690Z",
+    "size": 18177111,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 3072,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-16T11:32:44.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1138
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.014705882352941176,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 1250,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-16T11:32:44.000Z",
+        "DateTimeDigitized": "2025-05-16T11:32:44.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 6.094,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 0.33,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "951",
+        "SubSecTimeOriginal": "951",
+        "SubSecTimeDigitized": "951",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 3072,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1108,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          49.82
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          47,
+          44.93
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 92.395,
+        "GPSTimeStamp": [
+          2,
+          31,
+          52
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:16"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG_20250517_231846",
+    "title": "IMG 20250517 231846",
+    "description": "",
+    "dateTaken": "2025-05-16T11:16:55.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG_20250517_231846.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG_20250517_231846.jpg?width=316",
+    "blurhash": "T7DJdqD+$U*9-~M,05c6H~rtx0My",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG_20250517_231846.jpg",
+    "lastModified": "2025-06-06T04:21:16.407Z",
+    "size": 21528183,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "Model": "OPPO Find X7 Ultra",
+        "ImageLength": 3072,
+        "Make": "OPPO",
+        "ExifTag": 154,
+        "Orientation": 1,
+        "DateTime": "2025-05-16T11:16:55.000Z",
+        "GPSTag": 446
+      },
+      "Photo": {
+        "ISOSpeedRatings": 80,
+        "FocalLengthIn35mmFilm": 23,
+        "SubSecTimeDigitized": "330",
+        "DateTimeOriginal": "2025-05-16T11:16:55.000Z",
+        "DigitalZoomRatio": 1,
+        "SubSecTimeOriginal": "330",
+        "WhiteBalance": 0,
+        "DateTimeDigitized": "2025-05-16T11:16:55.000Z",
+        "FocalLength": 8.67,
+        "ExposureTime": 0.005,
+        "OffsetTimeOriginal": "+09:00",
+        "Flash": 16,
+        "SubSecTime": "330",
+        "LightSource": 0,
+        "FNumber": 1.8
+      },
+      "GPSInfo": {
+        "GPSLatitude": [
+          35,
+          0,
+          51.02
+        ],
+        "GPSAltitude": 118.682,
+        "GPSLatitudeRef": "N",
+        "GPSAltitudeRef": 0,
+        "GPSProcessingMethod": "GPS",
+        "GPSLongitudeRef": "E",
+        "GPSTimeStamp": [
+          2,
+          15,
+          15
+        ],
+        "GPSLongitude": [
+          135,
+          47,
+          42.56
+        ],
+        "GPSDateStamp": "2025:05:16"
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250516110411",
+    "title": "IMG20250516110411",
+    "description": "",
+    "dateTaken": "2025-05-16T11:04:11.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250516110411.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250516110411.jpg?width=316",
+    "blurhash": "LXEV+v?ItRkCxs%Nx]of_4xvogj[",
+    "width": 4096,
+    "height": 3072,
+    "aspectRatio": 1.3333333333333333,
+    "s3Key": "IMG20250516110411.jpg",
+    "lastModified": "2025-06-06T04:20:11.883Z",
+    "size": 13378383,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 3072,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-16T11:04:11.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1144
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.002352941176470588,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-16T11:04:11.000Z",
+        "DateTimeDigitized": "2025-05-16T11:04:11.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 8.732,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 7.61,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "597",
+        "SubSecTimeOriginal": "597",
+        "SubSecTimeDigitized": "597",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 4096,
+        "PixelYDimension": 3072,
+        "InteroperabilityTag": 1114,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 2.068,
+        "FocalLengthIn35mmFilm": 47,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          52.92
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          47,
+          37.65
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 104.895,
+        "GPSTimeStamp": [
+          2,
+          3,
+          33
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:16"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250516105839",
+    "title": "IMG20250516105839",
+    "description": "",
+    "dateTaken": "2025-05-16T10:58:39.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250516105839.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250516105839.jpg?width=316",
+    "blurhash": "TEDviox?4n0dt3M{_4ocV?-qj[IT",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG20250516105839.jpg",
+    "lastModified": "2025-06-06T04:20:07.234Z",
+    "size": 21234104,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 3072,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-16T10:58:39.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1142
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.004329004329004329,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-16T10:58:39.000Z",
+        "DateTimeDigitized": "2025-05-16T10:58:39.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 7.85,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 6.81,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "868",
+        "SubSecTimeOriginal": "868",
+        "SubSecTimeDigitized": "868",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 3072,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1112,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 2.068,
+        "FocalLengthIn35mmFilm": 47,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          43.11
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          47,
+          33.83
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 101.909,
+        "GPSTimeStamp": [
+          1,
+          58,
+          28
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:16"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250516105807",
+    "title": "IMG20250516105807",
+    "description": "",
+    "dateTaken": "2025-05-16T10:58:07.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250516105807.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250516105807.jpg?width=316",
+    "blurhash": "L7ECs{~oD*s;00D*t6of%d9bxuxt",
+    "width": 4096,
+    "height": 3072,
+    "aspectRatio": 1.3333333333333333,
+    "s3Key": "IMG20250516105807.jpg",
+    "lastModified": "2025-06-06T04:20:13.828Z",
+    "size": 21063313,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 3072,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-16T10:58:07.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1144
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.003952569169960474,
+        "FNumber": 4.3,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 125,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-16T10:58:07.000Z",
+        "DateTimeDigitized": "2025-05-16T10:58:07.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 7.985,
+        "ApertureValue": 4.2,
+        "BrightnessValue": 7.8,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 4.2,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 22.36,
+        "SubSecTime": "236",
+        "SubSecTimeOriginal": "236",
+        "SubSecTimeDigitized": "236",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 4096,
+        "PixelYDimension": 3072,
+        "InteroperabilityTag": 1114,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 135,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 22.36mm f/4.3"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          42.41
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          47,
+          33.72
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 102.426,
+        "GPSTimeStamp": [
+          1,
+          57,
+          48
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:16"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250516105434",
+    "title": "IMG20250516105434",
+    "description": "",
+    "dateTaken": "2025-05-16T10:54:34.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250516105434.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250516105434.jpg?width=316",
+    "blurhash": "LgG[[^-;xuj?_4xvoyRj^,%MRkj[",
+    "width": 4096,
+    "height": 3072,
+    "aspectRatio": 1.3333333333333333,
+    "s3Key": "IMG20250516105434.jpg",
+    "lastModified": "2025-06-06T04:19:59.236Z",
+    "size": 14072294,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 3072,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-16T10:54:34.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1144
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.0029850746268656717,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-16T10:54:34.000Z",
+        "DateTimeDigitized": "2025-05-16T10:54:34.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 8.387,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 8.09,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "871",
+        "SubSecTimeOriginal": "871",
+        "SubSecTimeDigitized": "871",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 4096,
+        "PixelYDimension": 3072,
+        "InteroperabilityTag": 1114,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          39.84
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          47,
+          29.87
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 94.209,
+        "GPSTimeStamp": [
+          1,
+          53,
+          56
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:16"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG_20250517_214207",
+    "title": "IMG 20250517 214207",
+    "description": "",
+    "dateTaken": "2025-05-16T10:09:18.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG_20250517_214207.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG_20250517_214207.jpg?width=316",
+    "blurhash": "TvPjZ4og-;~qofRP9Fayay%gjtae",
+    "width": 3051,
+    "height": 4068,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG_20250517_214207.jpg",
+    "lastModified": "2025-06-06T04:21:05.590Z",
+    "size": 8478759,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 3072,
+        "Model": "OPPO Find X7 Ultra",
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "ExifTag": 154,
+        "Orientation": 1,
+        "DateTime": "2025-05-16T10:09:18.000Z",
+        "GPSTag": 446
+      },
+      "Photo": {
+        "ISOSpeedRatings": 50,
+        "FocalLengthIn35mmFilm": 47,
+        "SubSecTimeDigitized": "276",
+        "DateTimeOriginal": "2025-05-16T10:09:18.000Z",
+        "DigitalZoomRatio": 2.068,
+        "SubSecTimeOriginal": "276",
+        "WhiteBalance": 0,
+        "DateTimeDigitized": "2025-05-16T10:09:18.000Z",
+        "FocalLength": 8.67,
+        "ExposureTime": 0.0006377551020408163,
+        "OffsetTimeOriginal": "+09:00",
+        "Flash": 16,
+        "SubSecTime": "276",
+        "LightSource": 0,
+        "FNumber": 1.8
+      },
+      "GPSInfo": {
+        "GPSLatitude": [
+          34,
+          59,
+          10.5
+        ],
+        "GPSAltitude": 98.965,
+        "GPSLatitudeRef": "N",
+        "GPSAltitudeRef": 0,
+        "GPSProcessingMethod": "GPS",
+        "GPSLongitudeRef": "E",
+        "GPSTimeStamp": [
+          1,
+          8,
+          28
+        ],
+        "GPSLongitude": [
+          135,
+          45,
+          33.25
+        ],
+        "GPSDateStamp": "2025:05:16"
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250516100805",
+    "title": "IMG20250516100805",
+    "description": "",
+    "dateTaken": "2025-05-16T10:08:05.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250516100805.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250516100805.jpg?width=316",
+    "blurhash": "LHE39tof~qt8x]M|-;WBWBt7t7Rj",
+    "width": 4096,
+    "height": 3072,
+    "aspectRatio": 1.3333333333333333,
+    "s3Key": "IMG20250516100805.jpg",
+    "lastModified": "2025-06-06T04:19:56.603Z",
+    "size": 17886914,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 3072,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-16T10:08:05.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1142
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.0033222591362126247,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-16T10:08:05.000Z",
+        "DateTimeDigitized": "2025-05-16T10:08:05.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 8.234,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 6.89,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "941",
+        "SubSecTimeOriginal": "941",
+        "SubSecTimeDigitized": "941",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 4096,
+        "PixelYDimension": 3072,
+        "InteroperabilityTag": 1112,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          59,
+          10.57
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          45,
+          32.11
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 73.861,
+        "GPSTimeStamp": [
+          1,
+          7,
+          26
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:16"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250516093322",
+    "title": "IMG20250516093322",
+    "description": "",
+    "dateTaken": "2025-05-16T09:33:22.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250516093322.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250516093322.jpg?width=316",
+    "blurhash": "LrKKyf%gWrRj.Toga}kCxut7j[ax",
+    "width": 4096,
+    "height": 3072,
+    "aspectRatio": 1.3333333333333333,
+    "s3Key": "IMG20250516093322.jpg",
+    "lastModified": "2025-06-06T04:19:50.315Z",
+    "size": 12987048,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 3072,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-16T09:33:22.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1144
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.001639344262295082,
+        "FNumber": 2,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 80,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-16T09:33:22.000Z",
+        "DateTimeDigitized": "2025-05-16T09:33:22.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 9.251,
+        "ApertureValue": 2,
+        "BrightnessValue": 8.11,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 2,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 2.59,
+        "SubSecTime": "678",
+        "SubSecTimeOriginal": "678",
+        "SubSecTimeDigitized": "678",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 4096,
+        "PixelYDimension": 3072,
+        "InteroperabilityTag": 1114,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1.6819,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 2.59mm f/2.0"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          42,
+          52.81
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          30,
+          10.93
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 45.64,
+        "GPSTimeStamp": [
+          0,
+          33,
+          0
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:16"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250515163558",
+    "title": "IMG20250515163558",
+    "description": "",
+    "dateTaken": "2025-05-15T16:35:58.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250515163558.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250515163558.jpg?width=316",
+    "blurhash": "L2Fi0h01Id_K0000I;@_00p*.j]o",
+    "width": 4096,
+    "height": 1864,
+    "aspectRatio": 2.1974248927038627,
+    "s3Key": "IMG20250515163558.jpg",
+    "lastModified": "2025-06-06T04:19:43.635Z",
+    "size": 10877520,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 1864,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-15T16:35:58.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1140
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.004975124378109453,
+        "FNumber": 2.6,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 64,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-15T16:35:58.000Z",
+        "DateTimeDigitized": "2025-05-15T16:35:58.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 7.649,
+        "ApertureValue": 2.75,
+        "BrightnessValue": 7.44,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 2.75,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 15.38,
+        "SubSecTime": "589",
+        "SubSecTimeOriginal": "589",
+        "SubSecTimeDigitized": "589",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 4096,
+        "PixelYDimension": 1864,
+        "InteroperabilityTag": 1110,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1.1067,
+        "FocalLengthIn35mmFilm": 72,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 15.38mm f/2.6"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          41,
+          10.67
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          50,
+          45.05
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 191.839,
+        "GPSTimeStamp": [
+          7,
+          35,
+          48
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:15"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG_20250520_123313",
+    "title": "IMG 20250520 123313",
+    "description": "",
+    "dateTaken": "2025-05-15T15:29:04.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG_20250520_123313.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG_20250520_123313.jpg?width=316",
+    "blurhash": "U7IqW3Ts00^l004.0d^l0d9Z-;~CE2xt$*xG",
+    "width": 3072,
+    "height": 3072,
+    "aspectRatio": 1,
+    "s3Key": "IMG_20250520_123313.jpg",
+    "lastModified": "2025-06-06T04:21:15.763Z",
+    "size": 8587589,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "Model": "OPPO Find X7 Ultra",
+        "ImageLength": 3072,
+        "Make": "OPPO",
+        "ExifTag": 154,
+        "Orientation": 1,
+        "DateTime": "2025-05-15T15:29:04.000Z",
+        "GPSTag": 446
+      },
+      "Photo": {
+        "ISOSpeedRatings": 200,
+        "FocalLengthIn35mmFilm": 72,
+        "SubSecTimeDigitized": "114",
+        "DateTimeOriginal": "2025-05-15T15:29:04.000Z",
+        "DigitalZoomRatio": 1.1067,
+        "SubSecTimeOriginal": "114",
+        "WhiteBalance": 0,
+        "DateTimeDigitized": "2025-05-15T15:29:04.000Z",
+        "FocalLength": 15.38,
+        "ExposureTime": 0.004975124378109453,
+        "OffsetTimeOriginal": "+09:00",
+        "Flash": 16,
+        "SubSecTime": "114",
+        "LightSource": 0,
+        "FNumber": 2.6
+      },
+      "GPSInfo": {
+        "GPSLatitude": [
+          34,
+          40,
+          55.24
+        ],
+        "GPSAltitude": 198.412,
+        "GPSLatitudeRef": "N",
+        "GPSAltitudeRef": 0,
+        "GPSProcessingMethod": "GPS",
+        "GPSLongitudeRef": "E",
+        "GPSTimeStamp": [
+          6,
+          28,
+          43
+        ],
+        "GPSLongitude": [
+          135,
+          50,
+          49.91
+        ],
+        "GPSDateStamp": "2025:05:15"
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG_20250515_174604",
+    "title": "IMG 20250515 174604",
+    "description": "",
+    "dateTaken": "2025-05-15T15:17:57.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG_20250515_174604.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG_20250515_174604.jpg?width=316",
+    "blurhash": "TNEMK#?abJ9qoHjI~pxut7D*V[W:",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG_20250515_174604.jpg",
+    "lastModified": "2025-06-06T04:21:04.811Z",
+    "size": 10629924,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 3072,
+        "Model": "OPPO Find X7 Ultra",
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "ExifTag": 154,
+        "Orientation": 1,
+        "DateTime": "2025-05-15T15:17:57.000Z",
+        "GPSTag": 446
+      },
+      "Photo": {
+        "ISOSpeedRatings": 80,
+        "FocalLengthIn35mmFilm": 47,
+        "SubSecTimeDigitized": "620",
+        "DateTimeOriginal": "2025-05-15T15:17:57.000Z",
+        "DigitalZoomRatio": 2.068,
+        "SubSecTimeOriginal": "620",
+        "WhiteBalance": 0,
+        "DateTimeDigitized": "2025-05-15T15:17:57.000Z",
+        "FocalLength": 8.67,
+        "ExposureTime": 0.005,
+        "OffsetTimeOriginal": "+09:00",
+        "Flash": 16,
+        "SubSecTime": "620",
+        "LightSource": 0,
+        "FNumber": 1.8
+      },
+      "GPSInfo": {
+        "GPSLatitude": [
+          34,
+          40,
+          52.1
+        ],
+        "GPSAltitude": 195.447,
+        "GPSLatitudeRef": "N",
+        "GPSAltitudeRef": 0,
+        "GPSProcessingMethod": "GPS",
+        "GPSLongitudeRef": "E",
+        "GPSTimeStamp": [
+          6,
+          17,
+          58
+        ],
+        "GPSLongitude": [
+          135,
+          50,
+          52.66
+        ],
+        "GPSDateStamp": "2025:05:15"
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
     "id": "IMG20250515151724",
     "title": "IMG20250515151724",
     "description": "",
@@ -137,6 +3624,625 @@
     "isLivePhoto": false
   },
   {
+    "id": "IMG20250515150554",
+    "title": "IMG20250515150554",
+    "description": "",
+    "dateTaken": "2025-05-15T15:05:54.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250515150554.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250515150554.jpg?width=316",
+    "blurhash": "LLHBoAadt6%L~qRQofW;x]t7RjR*",
+    "width": 4096,
+    "height": 3072,
+    "aspectRatio": 1.3333333333333333,
+    "s3Key": "IMG20250515150554.jpg",
+    "lastModified": "2025-06-06T04:19:44.641Z",
+    "size": 20307173,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 3072,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-15T15:05:54.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1140
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.005,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 64,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-15T15:05:54.000Z",
+        "DateTimeDigitized": "2025-05-15T15:05:54.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 7.646,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 6.65,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "562",
+        "SubSecTimeOriginal": "562",
+        "SubSecTimeDigitized": "562",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 4096,
+        "PixelYDimension": 3072,
+        "InteroperabilityTag": 1110,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 2.2073,
+        "FocalLengthIn35mmFilm": 51,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          40,
+          51.12
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          50,
+          47.42
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 175.964,
+        "GPSTimeStamp": [
+          6,
+          4,
+          50
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:15"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250515150445",
+    "title": "IMG20250515150445",
+    "description": "",
+    "dateTaken": "2025-05-15T15:04:45.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250515150445.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250515150445.jpg?width=316",
+    "blurhash": "TAEMH=9Z$w00ad%M_MM{xv~VIV%1",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG20250515150445.jpg",
+    "lastModified": "2025-06-06T04:19:40.686Z",
+    "size": 18732036,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 3072,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-15T15:04:45.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1140
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.0034965034965034965,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-15T15:04:45.000Z",
+        "DateTimeDigitized": "2025-05-15T15:04:45.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 8.162,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 7.17,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "548",
+        "SubSecTimeOriginal": "548",
+        "SubSecTimeDigitized": "548",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 3072,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1110,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          40,
+          51.18
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          50,
+          47.6
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 186.486,
+        "GPSTimeStamp": [
+          6,
+          3,
+          52
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:15"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250515145311",
+    "title": "IMG20250515145311",
+    "description": "",
+    "dateTaken": "2025-05-15T14:53:11.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250515145311.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250515145311.jpg?width=316",
+    "blurhash": "TDFX|s$_%L01ItR%KdoZs.~Bs;s:",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG20250515145311.jpg",
+    "lastModified": "2025-06-06T04:19:31.526Z",
+    "size": 20440686,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 3072,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-15T14:53:11.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1140
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.006493506493506494,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 200,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-15T14:53:11.000Z",
+        "DateTimeDigitized": "2025-05-15T14:53:11.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 7.265,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 4.46,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "454",
+        "SubSecTimeOriginal": "454",
+        "SubSecTimeDigitized": "454",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 3072,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1110,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 2.068,
+        "FocalLengthIn35mmFilm": 47,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          40,
+          58.62
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          50,
+          45.54
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 187.081,
+        "GPSTimeStamp": [
+          5,
+          52,
+          53
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:15"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG_20250527_160959",
+    "title": "IMG 20250527 160959",
+    "description": "",
+    "dateTaken": "2025-05-15T11:34:02.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG_20250527_160959.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG_20250527_160959.jpg?width=316",
+    "blurhash": "TXG959t74T_4t6D$-;WBRkj]t7WW",
+    "width": 3030,
+    "height": 4040,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG_20250527_160959.jpg",
+    "lastModified": "2025-06-06T04:22:29.266Z",
+    "size": 14672939,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 3072,
+        "Model": "OPPO Find X7 Ultra",
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "ExifTag": 154,
+        "Orientation": 1,
+        "DateTime": "2025-05-15T11:34:02.000Z",
+        "GPSTag": 446
+      },
+      "Photo": {
+        "ISOSpeedRatings": 50,
+        "FocalLengthIn35mmFilm": 31,
+        "SubSecTimeDigitized": "019",
+        "DateTimeOriginal": "2025-05-15T11:34:02.000Z",
+        "DigitalZoomRatio": 1.3641,
+        "SubSecTimeOriginal": "019",
+        "WhiteBalance": 0,
+        "DateTimeDigitized": "2025-05-15T11:34:02.000Z",
+        "FocalLength": 8.67,
+        "ExposureTime": 0.001402524544179523,
+        "OffsetTimeOriginal": "+09:00",
+        "Flash": 16,
+        "SubSecTime": "019",
+        "LightSource": 0,
+        "FNumber": 1.8
+      },
+      "GPSInfo": {
+        "GPSLatitude": [
+          35,
+          0,
+          54.38
+        ],
+        "GPSAltitude": 54.674,
+        "GPSLatitudeRef": "N",
+        "GPSAltitudeRef": 0,
+        "GPSProcessingMethod": "GPS",
+        "GPSLongitudeRef": "E",
+        "GPSTimeStamp": [
+          2,
+          33,
+          24
+        ],
+        "GPSLongitude": [
+          135,
+          46,
+          54.65
+        ],
+        "GPSDateStamp": "2025:05:15"
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250515112338",
+    "title": "IMG20250515112338",
+    "description": "",
+    "dateTaken": "2025-05-15T11:23:38.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250515112338.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250515112338.jpg?width=316",
+    "blurhash": "LUFP82kBIUIn?woyM{WA%$slRiWB",
+    "width": 4096,
+    "height": 3072,
+    "aspectRatio": 1.3333333333333333,
+    "s3Key": "IMG20250515112338.jpg",
+    "lastModified": "2025-06-06T04:22:28.107Z",
+    "size": 14971683,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 3072,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-15T11:23:38.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1142
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.000782472613458529,
+        "FNumber": 2.6,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-15T11:23:38.000Z",
+        "DateTimeDigitized": "2025-05-15T11:23:38.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 10.319,
+        "ApertureValue": 2.75,
+        "BrightnessValue": 10.57,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 2.75,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 15.38,
+        "SubSecTime": "430",
+        "SubSecTimeOriginal": "430",
+        "SubSecTimeDigitized": "430",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 4096,
+        "PixelYDimension": 3072,
+        "InteroperabilityTag": 1112,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1.1067,
+        "FocalLengthIn35mmFilm": 72,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 15.38mm f/2.6"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          49.83
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          46,
+          57.32
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 77.367,
+        "GPSTimeStamp": [
+          2,
+          23,
+          36
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:15"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
     "id": "IMG20250515111119",
     "title": "IMG20250515111119",
     "description": "",
@@ -244,6 +4350,143 @@
           2,
           10,
           36
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:15"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250515101523",
+    "title": "IMG20250515101523",
+    "description": "",
+    "dateTaken": "2025-05-15T10:15:23.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250515101523.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250515101523.jpg?width=316",
+    "blurhash": "LLGuL5^N9FWVTcJQD%V@.mXmM_kC",
+    "width": 4096,
+    "height": 3072,
+    "aspectRatio": 1.3333333333333333,
+    "s3Key": "IMG20250515101523.jpg",
+    "lastModified": "2025-06-06T04:19:20.898Z",
+    "size": 16378402,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 3072,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-15T10:15:23.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1144
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.0031645569620253164,
+        "FNumber": 2.6,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-15T10:15:23.000Z",
+        "DateTimeDigitized": "2025-05-15T10:15:23.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 8.303,
+        "ApertureValue": 2.75,
+        "BrightnessValue": 9.09,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 2.75,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 15.38,
+        "SubSecTime": "821",
+        "SubSecTimeOriginal": "821",
+        "SubSecTimeDigitized": "821",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 4096,
+        "PixelYDimension": 3072,
+        "InteroperabilityTag": 1114,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1.1067,
+        "FocalLengthIn35mmFilm": 72,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 15.38mm f/2.6"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          58,
+          1.61
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          46,
+          19.64
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 70.611,
+        "GPSTimeStamp": [
+          1,
+          14,
+          35
         ],
         "GPSProcessingMethod": {
           "0": 65,
@@ -1079,6 +5322,660 @@
     "isLivePhoto": false
   },
   {
+    "id": "IMG20250515081500",
+    "title": "IMG20250515081500",
+    "description": "",
+    "dateTaken": "2025-05-15T08:15:00.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250515081500.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250515081500.jpg?width=316",
+    "blurhash": "T7G8AfL0Ezdp$*I;Q6zqIBL0sorY",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG20250515081500.jpg",
+    "lastModified": "2025-06-06T04:19:26.613Z",
+    "size": 22396908,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 3072,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-15T08:15:00.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1144
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.005,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 100,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-15T08:15:00.000Z",
+        "DateTimeDigitized": "2025-05-15T08:15:00.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 7.646,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 5.68,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "258",
+        "SubSecTimeOriginal": "258",
+        "SubSecTimeDigitized": "258",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 3072,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1114,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 2.068,
+        "FocalLengthIn35mmFilm": 47,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          1,
+          1.57
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          47,
+          19.45
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 115.22,
+        "GPSTimeStamp": [
+          23,
+          14,
+          16
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:14"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250515081103",
+    "title": "IMG20250515081103",
+    "description": "",
+    "dateTaken": "2025-05-15T08:11:03.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250515081103.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250515081103.jpg?width=316",
+    "blurhash": "L9Hc~6}vmk,[_O9sTJax3CspxZkW",
+    "width": 4096,
+    "height": 3072,
+    "aspectRatio": 1.3333333333333333,
+    "s3Key": "IMG20250515081103.jpg",
+    "lastModified": "2025-06-06T04:19:13.398Z",
+    "size": 14180360,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 3072,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-15T08:11:03.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1142
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.004784688995215311,
+        "FNumber": 4.3,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 100,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-15T08:11:03.000Z",
+        "DateTimeDigitized": "2025-05-15T08:11:03.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 7.707,
+        "ApertureValue": 4.2,
+        "BrightnessValue": 7.54,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 4.2,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 22.36,
+        "SubSecTime": "156",
+        "SubSecTimeOriginal": "156",
+        "SubSecTimeDigitized": "156",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 4096,
+        "PixelYDimension": 3072,
+        "InteroperabilityTag": 1112,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 135,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 22.36mm f/4.3"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          1,
+          1.8
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          47,
+          19.35
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 75.143,
+        "GPSTimeStamp": [
+          23,
+          10,
+          32
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:14"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250515080836",
+    "title": "IMG20250515080836",
+    "description": "",
+    "dateTaken": "2025-05-15T08:08:36.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250515080836.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250515080836.jpg?width=316",
+    "blurhash": "TCF=]n_MM_00X2R*0JtOjY_MbE-;",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG20250515080836.jpg",
+    "lastModified": "2025-06-06T04:19:15.783Z",
+    "size": 13731186,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 3072,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-15T08:08:36.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1140
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.005,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 100,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-15T08:08:36.000Z",
+        "DateTimeDigitized": "2025-05-15T08:08:36.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 7.646,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 5.89,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "629",
+        "SubSecTimeOriginal": "629",
+        "SubSecTimeDigitized": "629",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 3072,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1110,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 2.068,
+        "FocalLengthIn35mmFilm": 47,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          1,
+          0.97
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          47,
+          19.59
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 81.649,
+        "GPSTimeStamp": [
+          23,
+          8,
+          33
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 67,
+          "9": 69,
+          "10": 76,
+          "11": 76,
+          "12": 73,
+          "13": 68,
+          "14": 0
+        },
+        "GPSDateStamp": "2025:05:14"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250514221219",
+    "title": "IMG20250514221219",
+    "description": "",
+    "dateTaken": "2025-05-14T22:12:19.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250514221219.heic",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250514221219.heic?width=316",
+    "blurhash": "TD96]o}=s90*9wR+ROoes:$ys,R+",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG20250514221219.heic",
+    "lastModified": "2025-06-06T04:19:05.157Z",
+    "size": 2438646,
+    "exif": {
+      "bigEndian": false,
+      "Image": {
+        "ImageWidth": 3072,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-14T22:12:19.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1086
+      },
+      "Thumbnail": {
+        "Compression": 6,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "JPEGInterchangeFormat": 1375,
+        "JPEGInterchangeFormatLength": 13499
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.08333333333333333,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 12800,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-14T22:12:19.000Z",
+        "DateTimeDigitized": "2025-05-14T22:12:19.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 3.529,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 42949666.64,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "664",
+        "SubSecTimeOriginal": "664",
+        "SubSecTimeDigitized": "664",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 0,
+        "PixelYDimension": 0,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          14.09
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          46,
+          17.19
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 81.245,
+        "GPSTimeStamp": [
+          13,
+          11,
+          55
+        ],
+        "GPSDateStamp": "2025:05:14"
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250514213058",
+    "title": "IMG20250514213058",
+    "description": "",
+    "dateTaken": "2025-05-14T21:30:58.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250514213058.heic",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250514213058.heic?width=316",
+    "blurhash": "L4CPR:~A01ae^j~B$%Rj00?G~VoL",
+    "width": 4096,
+    "height": 3072,
+    "aspectRatio": 1.3333333333333333,
+    "s3Key": "IMG20250514213058.heic",
+    "lastModified": "2025-06-06T04:19:05.238Z",
+    "size": 3860134,
+    "exif": {
+      "bigEndian": false,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 3072,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-14T21:30:58.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1092
+      },
+      "Thumbnail": {
+        "Compression": 6,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "JPEGInterchangeFormat": 1381,
+        "JPEGInterchangeFormatLength": 15011
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.008333333333333333,
+        "FNumber": 2.6,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 250,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-14T21:30:58.000Z",
+        "DateTimeDigitized": "2025-05-14T21:30:58.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 6.908,
+        "ApertureValue": 2.75,
+        "BrightnessValue": 4.14,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 2.75,
+        "MeteringMode": 2,
+        "Flash": 16,
+        "FocalLength": 15.38,
+        "SubSecTime": "774",
+        "SubSecTimeOriginal": "774",
+        "SubSecTimeDigitized": "774",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 0,
+        "PixelYDimension": 0,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 65,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 15.38mm f/2.6"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          12.14
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          46,
+          43.12
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 87.877,
+        "GPSTimeStamp": [
+          12,
+          30,
+          26
+        ],
+        "GPSDateStamp": "2025:05:14"
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
     "id": "IMG20250514213030",
     "title": "IMG20250514213030",
     "description": "",
@@ -1186,6 +6083,280 @@
           12,
           30,
           26
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:14"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250514210842",
+    "title": "IMG20250514210842",
+    "description": "",
+    "dateTaken": "2025-05-14T21:08:42.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250514210842.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250514210842.jpg?width=316",
+    "blurhash": "T36@sF}[xuD+NKNx63kpxFJ7I;s:",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG20250514210842.jpg",
+    "lastModified": "2025-06-06T04:19:42.391Z",
+    "size": 9224772,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 3072,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-14T21:08:42.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1140
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.025,
+        "FNumber": 2.6,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 640,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-14T21:08:42.000Z",
+        "DateTimeDigitized": "2025-05-14T21:08:42.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 5.323,
+        "ApertureValue": 2.75,
+        "BrightnessValue": 42949672.82,
+        "ExposureBiasValue": -0.8333333333333334,
+        "MaxApertureValue": 2.75,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 15.38,
+        "SubSecTime": "616",
+        "SubSecTimeOriginal": "616",
+        "SubSecTimeDigitized": "616",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 3072,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1110,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 2.0751,
+        "FocalLengthIn35mmFilm": 135,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 15.38mm f/2.6"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          14.02
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          46,
+          31.17
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 82.076,
+        "GPSTimeStamp": [
+          12,
+          8,
+          29
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:14"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250514194431",
+    "title": "IMG20250514194431",
+    "description": "",
+    "dateTaken": "2025-05-14T19:44:31.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250514194431.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250514194431.jpg?width=316",
+    "blurhash": "TDCijv~q^*-qr=R%-PxEjHNWWqfA",
+    "width": 2304,
+    "height": 4096,
+    "aspectRatio": 0.5625,
+    "s3Key": "IMG20250514194431.jpg",
+    "lastModified": "2025-06-06T04:19:00.449Z",
+    "size": 10094961,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 2304,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-14T19:44:31.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1140
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.030303030303030304,
+        "FNumber": 4.3,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 1000,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-14T19:44:31.000Z",
+        "DateTimeDigitized": "2025-05-14T19:44:31.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 5.058,
+        "ApertureValue": 4.2,
+        "BrightnessValue": 1.18,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 4.2,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 22.36,
+        "SubSecTime": "315",
+        "SubSecTimeOriginal": "315",
+        "SubSecTimeDigitized": "315",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 2304,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1110,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 135,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 22.36mm f/4.3"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          23.54
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          46,
+          39.91
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 95.326,
+        "GPSTimeStamp": [
+          10,
+          44,
+          22
         ],
         "GPSProcessingMethod": {
           "0": 65,
@@ -1394,6 +6565,417 @@
           8,
           33,
           33
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:14"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250514171905",
+    "title": "IMG20250514171905",
+    "description": "",
+    "dateTaken": "2025-05-14T17:19:05.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250514171905.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250514171905.jpg?width=316",
+    "blurhash": "TQIz3qnoOu0PpKO[LgT0o~%OaKR:",
+    "width": 2304,
+    "height": 4096,
+    "aspectRatio": 0.5625,
+    "s3Key": "IMG20250514171905.jpg",
+    "lastModified": "2025-06-06T04:18:57.643Z",
+    "size": 10526112,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 2304,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-14T17:19:05.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1140
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.00234192037470726,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-14T17:19:05.000Z",
+        "DateTimeDigitized": "2025-05-14T17:19:05.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 8.738,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 8.35,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "111",
+        "SubSecTimeOriginal": "111",
+        "SubSecTimeDigitized": "111",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 2304,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1110,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 2.068,
+        "FocalLengthIn35mmFilm": 47,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          59,
+          43.74
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          46,
+          59.52
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 126.983,
+        "GPSTimeStamp": [
+          8,
+          19,
+          0
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:14"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250514171614",
+    "title": "IMG20250514171614",
+    "description": "",
+    "dateTaken": "2025-05-14T17:16:14.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250514171614.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250514171614.jpg?width=316",
+    "blurhash": "T~F7D2oJbG%%ofoeWCozjbVraga}",
+    "width": 2304,
+    "height": 4096,
+    "aspectRatio": 0.5625,
+    "s3Key": "IMG20250514171614.jpg",
+    "lastModified": "2025-06-06T04:18:55.097Z",
+    "size": 11930146,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 2304,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-14T17:16:14.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1142
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.002331002331002331,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-14T17:16:14.000Z",
+        "DateTimeDigitized": "2025-05-14T17:16:14.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 8.745,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 8.25,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "935",
+        "SubSecTimeOriginal": "935",
+        "SubSecTimeDigitized": "935",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 2304,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1112,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          59,
+          41.29
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          47,
+          0.82
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 144.01,
+        "GPSTimeStamp": [
+          8,
+          16,
+          9
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:14"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250514170455",
+    "title": "IMG20250514170455",
+    "description": "",
+    "dateTaken": "2025-05-14T17:04:55.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250514170455.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250514170455.jpg?width=316",
+    "blurhash": "TtFF$}t7of_NoeayozV@RjIUWBWB",
+    "width": 2304,
+    "height": 4096,
+    "aspectRatio": 0.5625,
+    "s3Key": "IMG20250514170455.jpg",
+    "lastModified": "2025-06-06T04:18:55.333Z",
+    "size": 8359035,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 2304,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-14T17:04:55.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1140
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.0002845759817871372,
+        "FNumber": 2.6,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-14T17:04:55.000Z",
+        "DateTimeDigitized": "2025-05-14T17:04:55.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 11.778,
+        "ApertureValue": 2.75,
+        "BrightnessValue": 11.61,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 2.75,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 15.38,
+        "SubSecTime": "048",
+        "SubSecTimeOriginal": "048",
+        "SubSecTimeDigitized": "048",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 2304,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1110,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1.1067,
+        "FocalLengthIn35mmFilm": 72,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 15.38mm f/2.6"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          59,
+          38.69
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          47,
+          7.52
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 158.831,
+        "GPSTimeStamp": [
+          8,
+          4,
+          30
         ],
         "GPSProcessingMethod": {
           "0": 65,
@@ -1722,6 +7304,143 @@
           5,
           10,
           52
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:14"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250514140952",
+    "title": "IMG20250514140952",
+    "description": "",
+    "dateTaken": "2025-05-14T14:09:52.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250514140952.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250514140952.jpg?width=316",
+    "blurhash": "LDDcl}03o#${?=DlWGj=H_S1g2oc",
+    "width": 4096,
+    "height": 2304,
+    "aspectRatio": 1.7777777777777777,
+    "s3Key": "IMG20250514140952.jpg",
+    "lastModified": "2025-06-06T04:18:58.072Z",
+    "size": 14551010,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 4096,
+        "ImageLength": 2304,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-14T14:09:52.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1140
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.005,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 200,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-14T14:09:52.000Z",
+        "DateTimeDigitized": "2025-05-14T14:09:52.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 7.646,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 4.85,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "067",
+        "SubSecTimeOriginal": "067",
+        "SubSecTimeDigitized": "067",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 4096,
+        "PixelYDimension": 2304,
+        "InteroperabilityTag": 1110,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 2.068,
+        "FocalLengthIn35mmFilm": 47,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          0,
+          51.53
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          40,
+          14.52
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 76.476,
+        "GPSTimeStamp": [
+          5,
+          9,
+          41
         ],
         "GPSProcessingMethod": {
           "0": 65,
@@ -2133,6 +7852,143 @@
           4,
           24,
           29
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:14"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250514111309",
+    "title": "IMG20250514111309",
+    "description": "",
+    "dateTaken": "2025-05-14T11:13:09.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250514111309.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250514111309.jpg?width=316",
+    "blurhash": "TWF$*BtnM_pfx^jY.AM{oI%NROM_",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG20250514111309.jpg",
+    "lastModified": "2025-06-06T04:19:00.123Z",
+    "size": 18989679,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 3072,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-14T11:13:09.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1140
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.0017667844522968198,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 50,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-14T11:13:09.000Z",
+        "DateTimeDigitized": "2025-05-14T11:13:09.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 9.145,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 9.05,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "286",
+        "SubSecTimeOriginal": "286",
+        "SubSecTimeDigitized": "286",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 3072,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1110,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          35,
+          2,
+          12.1
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          43,
+          55.49
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 122.767,
+        "GPSTimeStamp": [
+          2,
+          12,
+          57
         ],
         "GPSProcessingMethod": {
           "0": 65,
@@ -2587,7 +8443,7 @@
     "height": 2304,
     "aspectRatio": 1.7777777777777777,
     "s3Key": "IMG20250513192500.jpg",
-    "lastModified": "2025-06-05T13:07:47.941Z",
+    "lastModified": "2025-06-06T04:18:41.667Z",
     "size": 9292773,
     "exif": {
       "bigEndian": true,
@@ -2681,6 +8537,143 @@
           10,
           24,
           50
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 71,
+          "9": 80,
+          "10": 83,
+          "11": 0
+        },
+        "GPSDateStamp": "2025:05:13"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250513190500",
+    "title": "IMG20250513190500",
+    "description": "",
+    "dateTaken": "2025-05-13T19:05:00.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250513190500.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250513190500.jpg?width=316",
+    "blurhash": "THEL?1~Ba[8|E1NM0eRjt7x[%LxV",
+    "width": 2304,
+    "height": 4096,
+    "aspectRatio": 0.5625,
+    "s3Key": "IMG20250513190500.jpg",
+    "lastModified": "2025-06-06T04:18:43.281Z",
+    "size": 12706679,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 2304,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-05-13T19:05:00.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1138
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.025,
+        "FNumber": 1.8,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 1000,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-05-13T19:05:00.000Z",
+        "DateTimeDigitized": "2025-05-13T19:05:00.000Z",
+        "OffsetTimeOriginal": "+09:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 5.321,
+        "ApertureValue": 1.69,
+        "BrightnessValue": 42949672.69,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 1.69,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 8.67,
+        "SubSecTime": "379",
+        "SubSecTimeOriginal": "379",
+        "SubSecTimeDigitized": "379",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 2304,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1108,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 1,
+        "FocalLengthIn35mmFilm": 23,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 8.67mm f/1.8"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          34,
+          40,
+          0.04
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          135,
+          30,
+          15.27
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 54.108,
+        "GPSTimeStamp": [
+          10,
+          4,
+          14
         ],
         "GPSProcessingMethod": {
           "0": 65,
@@ -2971,6 +8964,146 @@
           "11": 0
         },
         "GPSDateStamp": "2025:05:13"
+      },
+      "Iop": {
+        "InteroperabilityIndex": "R98",
+        "InteroperabilityVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        }
+      }
+    },
+    "isLivePhoto": false
+  },
+  {
+    "id": "IMG20250104190146",
+    "title": "IMG20250104190146",
+    "description": "",
+    "dateTaken": "2025-01-04T19:01:46.000Z",
+    "views": 0,
+    "tags": [],
+    "originalUrl": "https://e0eb88f.webp.li/IMG20250104190146.jpg",
+    "thumbnailUrl": "https://e0eb88f.webp.li/IMG20250104190146.jpg?width=316",
+    "blurhash": "TAD[,]%|00~CKN$j019H%LV?D*Ip",
+    "width": 3072,
+    "height": 4096,
+    "aspectRatio": 0.75,
+    "s3Key": "IMG20250104190146.jpg",
+    "lastModified": "2025-06-06T04:18:41.041Z",
+    "size": 9413924,
+    "exif": {
+      "bigEndian": true,
+      "Image": {
+        "ImageWidth": 3072,
+        "ImageLength": 4096,
+        "Make": "OPPO",
+        "Model": "OPPO Find X7 Ultra",
+        "Orientation": 1,
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "DateTime": "2025-01-04T19:01:46.000Z",
+        "YCbCrPositioning": 1,
+        "ExifTag": 220,
+        "GPSTag": 1138
+      },
+      "Photo": {
+        "1": "R98",
+        "2": {
+          "0": 49,
+          "1": 46,
+          "2": 48
+        },
+        "ExposureTime": 0.02,
+        "FNumber": 2.6,
+        "ExposureProgram": 2,
+        "ISOSpeedRatings": 1000,
+        "ExifVersion": {
+          "0": 48,
+          "1": 50,
+          "2": 50,
+          "3": 48
+        },
+        "DateTimeOriginal": "2025-01-04T19:01:46.000Z",
+        "DateTimeDigitized": "2025-01-04T19:01:46.000Z",
+        "OffsetTimeOriginal": "+08:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 5.644,
+        "ApertureValue": 2.75,
+        "BrightnessValue": 0.3,
+        "ExposureBiasValue": 0,
+        "MaxApertureValue": 2.75,
+        "MeteringMode": 2,
+        "LightSource": 21,
+        "Flash": 16,
+        "FocalLength": 15.38,
+        "SubSecTime": "484",
+        "SubSecTimeOriginal": "484",
+        "SubSecTimeDigitized": "484",
+        "FlashpixVersion": {
+          "0": 48,
+          "1": 49,
+          "2": 48,
+          "3": 48
+        },
+        "ColorSpace": 1,
+        "PixelXDimension": 3072,
+        "PixelYDimension": 4096,
+        "InteroperabilityTag": 1108,
+        "SensingMethod": 1,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "DigitalZoomRatio": 2.0751,
+        "FocalLengthIn35mmFilm": 135,
+        "SceneCaptureType": 0,
+        "LensModel": "OPPO Find X7 Ultra back camera 15.38mm f/2.6"
+      },
+      "GPSInfo": {
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          23,
+          6,
+          12.96
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          113,
+          20,
+          9.14
+        ],
+        "GPSAltitudeRef": 0,
+        "GPSAltitude": 0,
+        "GPSTimeStamp": [
+          11,
+          1,
+          40
+        ],
+        "GPSProcessingMethod": {
+          "0": 65,
+          "1": 83,
+          "2": 67,
+          "3": 73,
+          "4": 73,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 67,
+          "9": 69,
+          "10": 76,
+          "11": 76,
+          "12": 73,
+          "13": 68,
+          "14": 0
+        },
+        "GPSDateStamp": "2025:01:04"
       },
       "Iop": {
         "InteroperabilityIndex": "R98",
