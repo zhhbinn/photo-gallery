@@ -1,3 +1,5 @@
+cd apps/web && tsx ./src/core/cli.ts
+
 # Photo Gallery Site
 
 ⚠️警告：此项目多数代码都由 Claude 4 生成，请谨慎使用。
@@ -46,27 +48,27 @@ export const builderConfig: BuilderConfig = {
     region: 'us-east-1',
     // ... 其他存储配置
   },
-  
+
   options: {
-    defaultConcurrency: 8,        // 默认并发数
-    maxPhotos: 5000,             // 最大照片数量限制
+    defaultConcurrency: 8, // 默认并发数
+    maxPhotos: 5000, // 最大照片数量限制
     enableLivePhotoDetection: true, // 启用 Live Photo 检测
-    showProgress: true,          // 显示进度
-    showDetailedStats: true,     // 显示详细统计
+    showProgress: true, // 显示进度
+    showDetailedStats: true, // 显示详细统计
   },
-  
+
   logging: {
-    verbose: true,               // 详细日志
-    level: 'debug',             // 日志级别
-    outputToFile: false,        // 是否输出到文件
+    verbose: true, // 详细日志
+    level: 'debug', // 日志级别
+    outputToFile: false, // 是否输出到文件
   },
-  
+
   performance: {
     worker: {
-      timeout: 30000,           // Worker 超时时间
+      timeout: 30000, // Worker 超时时间
     },
-    memoryLimit: 512,           // 内存限制（MB）
-    enableCache: true,          // 启用缓存
+    memoryLimit: 512, // 内存限制（MB）
+    enableCache: true, // 启用缓存
   },
 }
 ```
